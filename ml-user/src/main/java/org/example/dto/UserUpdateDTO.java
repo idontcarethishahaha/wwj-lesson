@@ -19,7 +19,6 @@ import org.hibernate.validator.constraints.Range;
 import java.io.Serializable;
 import java.util.List;
 
-/** @author 周航宇 */
 @Schema(name = "用户修改DTO")
 @Data
 public class UserUpdateDTO implements Serializable {

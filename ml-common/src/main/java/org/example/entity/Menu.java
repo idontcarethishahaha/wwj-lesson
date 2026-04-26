@@ -26,6 +26,7 @@ import java.util.List;
 @Table(value = "menu", schema = "ml_ums")
 public class Menu implements Serializable {
 
+
     @Serial
     private static final long serialVersionUID = 1L;
 

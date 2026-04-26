@@ -1,19 +1,15 @@
 package org.example.entity;
 
-import com.mybatisflex.annotation.Column;
-import com.mybatisflex.annotation.Id;
-import com.mybatisflex.annotation.KeyType;
-import com.mybatisflex.annotation.Table;
-import java.io.Serializable;
-import java.time.LocalDateTime;
-
-import java.io.Serial;
-
+import com.mybatisflex.annotation.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.io.Serial;
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * 评论表 实体类。
@@ -106,5 +102,9 @@ public class Comment implements Serializable {
      */
     @Schema(description = "修改时间")
     private LocalDateTime updated;
+
+    // 添加集次属性 一个集次下可有多个评论
+    @RelationManyToOne(selfField = "fkEpisodeId", targetField = "id")
+    private Episode episode;
 
 }

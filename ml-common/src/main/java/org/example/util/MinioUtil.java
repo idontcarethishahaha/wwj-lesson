@@ -74,7 +74,7 @@ public class MinioUtil {
      * @param file 文件对象
      * @return 随机文件名称，格式为 "UUID-时间戳.原始文件后缀"
      */
-    private static String randomFilename(MultipartFile file) {
+    public static String randomFilename(MultipartFile file) {
         // 获取原始文件名
         String fileName = file.getOriginalFilename();
         checkFileName(fileName);

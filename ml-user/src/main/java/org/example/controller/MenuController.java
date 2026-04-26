@@ -1,17 +1,10 @@
 package org.example.controller;
 
 import com.mybatisflex.core.paginate.Page;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.example.entity.Menu;
 import org.example.service.MenuService;
-import org.springframework.web.bind.annotation.RestController;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -37,7 +30,7 @@ public class MenuController {
      * @param menu 菜单表
      * @return {@code true} 添加成功，{@code false} 添加失败
      */
-    @PostMapping("save")
+    @PostMapping("insert")
     @Operation(description="保存菜单表")
     public boolean save(@RequestBody @Parameter(description="菜单表")Menu menu) {
         return menuService.save(menu);
@@ -49,7 +42,7 @@ public class MenuController {
      * @param id 主键
      * @return {@code true} 删除成功，{@code false} 删除失败
      */
-    @DeleteMapping("remove/{id}")
+    @DeleteMapping("delete/{id}")
     @Operation(description="根据主键菜单表")
     public boolean remove(@PathVariable @Parameter(description="菜单表主键")Long id) {
         return menuService.removeById(id);
@@ -84,7 +77,7 @@ public class MenuController {
      * @param id 菜单表主键
      * @return 菜单表详情
      */
-    @GetMapping("getInfo/{id}")
+    @GetMapping("select/{id}")
     @Operation(description="根据主键获取菜单表")
     public Menu getInfo(@PathVariable Long id) {
         return menuService.getById(id);
@@ -102,4 +95,16 @@ public class MenuController {
         return menuService.page(page);
     }
 
+    @GetMapping("listMenusByRoleId/{roleId}")
+    @Operation(description="查询角色菜单ID列表")
+    public List<Long> listMenuidsByRoleId(@PathVariable("roleId") Long roleId) {
+        return menuService.listMenuIdsByRoleId(roleId);
+    }
+
+    @PutMapping("updateMenusByRoleId")
+    @Operation(description="修改角色菜单列表")
+    public boolean updateMenusByRoleId(@RequestParam("roleId") Long roleId
+                             ,@RequestParam("menuIds") List<Long> menuIds) {
+        return menuService.updateMenuIdsRoleId(roleId, menuIds);
+    }
 }
