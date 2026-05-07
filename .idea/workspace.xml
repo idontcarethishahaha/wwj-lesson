@@ -5,37 +5,37 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2bfe111d-2371-478a-b9d7-87f6c93e6ee4" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/ml-course/src/main/java/org/example/feign/UserFeign.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ml-course/src/main/resources/bootstrap.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ml-user/src/main/java/org/example/dto/LoginByAccountDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ml-user/src/main/java/org/example/dto/MenuInsertDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ml-user/src/main/java/org/example/dto/MenuPageDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ml-user/src/main/java/org/example/dto/MenuUpdateDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ml-user/src/main/java/org/example/dto/RoleInsertDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ml-user/src/main/java/org/example/dto/RolePageDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ml-user/src/main/java/org/example/dto/RoleUpdateDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ml-user/src/main/java/org/example/dto/UserUpdatePasswordDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ml-user/src/main/java/org/example/vo/LoginVO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ml-user/src/main/java/org/example/vo/MenuSimpleListVO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ml-user/src/main/java/org/example/vo/RoleSimpleListVO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ml-common/src/main/java/org/example/entity/Comment.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-common/src/main/java/org/example/entity/Comment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ml-common/src/main/java/org/example/entity/Course.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-common/src/main/java/org/example/entity/Course.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ml-common/src/main/java/org/example/entity/Episode.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-common/src/main/java/org/example/entity/Episode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ml-common/src/main/java/org/example/entity/Menu.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-common/src/main/java/org/example/entity/Menu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ml-common/src/main/java/org/example/entity/Report.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-common/src/main/java/org/example/entity/Report.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ml-common/src/main/java/org/example/entity/Season.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-common/src/main/java/org/example/entity/Season.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ml-common/src/main/java/org/example/util/MinioUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-common/src/main/java/org/example/util/MinioUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ml-course/src/main/java/org/example/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-course/src/main/java/org/example/CourseApp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ml-user/src/main/java/org/example/controller/MenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-user/src/main/java/org/example/controller/MenuController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ml-user/src/main/java/org/example/controller/RoleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-user/src/main/java/org/example/controller/RoleController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ml-user/src/main/java/org/example/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-user/src/main/java/org/example/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ml-user/src/main/java/org/example/dto/UserUpdateDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-user/src/main/java/org/example/dto/UserUpdateDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ml-user/src/main/java/org/example/service/MenuService.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-user/src/main/java/org/example/service/MenuService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ml-user/src/main/java/org/example/service/RoleService.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-user/src/main/java/org/example/service/RoleService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ml-user/src/main/java/org/example/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-user/src/main/java/org/example/service/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ml-user/src/main/java/org/example/service/impl/MenuServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-user/src/main/java/org/example/service/impl/MenuServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ml-user/src/main/java/org/example/service/impl/RoleServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-user/src/main/java/org/example/service/impl/RoleServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ml-user/src/main/java/org/example/service/impl/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-user/src/main/java/org/example/service/impl/UserServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ml-course/src/main/java/org/example/dto/CategoryInsertDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ml-course/src/main/java/org/example/dto/CategoryPageDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ml-course/src/main/java/org/example/dto/CategoryUpdateDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ml-course/src/main/java/org/example/dto/CommentInsertDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ml-course/src/main/java/org/example/dto/CommentPageDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ml-course/src/main/java/org/example/dto/CourseInsertDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ml-course/src/main/java/org/example/dto/CoursePageDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ml-course/src/main/java/org/example/dto/CourseUpdateDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ml-course/src/main/java/org/example/dto/EpisodeInsertDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ml-course/src/main/java/org/example/dto/EpisodePageDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ml-course/src/main/java/org/example/dto/SeasonInsertDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ml-course/src/main/java/org/example/dto/SeasonPageDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ml-course/src/main/java/org/example/vo/CategorySimpleListVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ml-course/src/main/java/org/example/vo/CommentSimpleListVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ml-course/src/main/java/org/example/vo/CourseSimpleListVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ml-course/src/main/java/org/example/vo/EpisodeSimpleListVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ml-course/src/main/java/org/example/vo/SeasonSimpleListVO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml-course/src/main/java/org/example/controller/CategoryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-course/src/main/java/org/example/controller/CategoryController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml-course/src/main/java/org/example/controller/CourseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-course/src/main/java/org/example/controller/CourseController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml-course/src/main/java/org/example/controller/EpisodeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-course/src/main/java/org/example/controller/EpisodeController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml-course/src/main/java/org/example/controller/SeasonController.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-course/src/main/java/org/example/controller/SeasonController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml-course/src/main/java/org/example/service/CategoryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-course/src/main/java/org/example/service/CategoryService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml-course/src/main/java/org/example/service/CommentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-course/src/main/java/org/example/service/CommentService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml-course/src/main/java/org/example/service/CourseService.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-course/src/main/java/org/example/service/CourseService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml-course/src/main/java/org/example/service/EpisodeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-course/src/main/java/org/example/service/EpisodeService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml-course/src/main/java/org/example/service/SeasonService.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-course/src/main/java/org/example/service/SeasonService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml-course/src/main/java/org/example/service/impl/CategoryServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-course/src/main/java/org/example/service/impl/CategoryServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml-course/src/main/java/org/example/service/impl/CommentServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-course/src/main/java/org/example/service/impl/CommentServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml-course/src/main/java/org/example/service/impl/CourseServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-course/src/main/java/org/example/service/impl/CourseServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml-course/src/main/java/org/example/service/impl/EpisodeServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-course/src/main/java/org/example/service/impl/EpisodeServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml-course/src/main/java/org/example/service/impl/SeasonServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-course/src/main/java/org/example/service/impl/SeasonServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,8 +49,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="package-info" />
-        <option value="Class" />
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -171,7 +171,9 @@
       <workItem from="1776909475987" duration="8436000" />
       <workItem from="1777029633289" duration="2982000" />
       <workItem from="1777165693156" duration="21869000" />
-      <workItem from="1777213781641" duration="214000" />
+      <workItem from="1777213781641" duration="1241000" />
+      <workItem from="1777293067988" duration="2797000" />
+      <workItem from="1778147994938" duration="10954000" />
     </task>
     <servers />
   </component>

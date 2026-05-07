@@ -1,20 +1,18 @@
 package org.example.controller;
 
-import com.mybatisflex.core.paginate.Page;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.example.entity.Episode;
-import org.example.service.EpisodeService;
-import org.springframework.web.bind.annotation.RestController;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.example.dto.EpisodeInsertDTO;
+import org.example.dto.EpisodePageDTO;
+import org.example.entity.Episode;
+import org.example.result.Result;
+import org.example.service.EpisodeService;
+import org.example.vo.PageVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.util.List;
 
 /**
@@ -37,10 +35,10 @@ public class EpisodeController {
      * @param episode 集次表
      * @return {@code true} 添加成功，{@code false} 添加失败
      */
-    @PostMapping("save")
+    @PostMapping("insert")
     @Operation(description="保存集次表")
-    public boolean save(@RequestBody @Parameter(description="集次表")Episode episode) {
-        return episodeService.save(episode);
+    public boolean save(@RequestBody @Parameter(description="集次表") EpisodeInsertDTO episode) {
+        return episodeService.insert(episode);
     }
 
     /**
@@ -49,7 +47,7 @@ public class EpisodeController {
      * @param id 主键
      * @return {@code true} 删除成功，{@code false} 删除失败
      */
-    @DeleteMapping("remove/{id}")
+    @DeleteMapping("delete/{id}")
     @Operation(description="根据主键集次表")
     public boolean remove(@PathVariable @Parameter(description="集次表主键")Long id) {
         return episodeService.removeById(id);
@@ -84,7 +82,7 @@ public class EpisodeController {
      * @param id 集次表主键
      * @return 集次表详情
      */
-    @GetMapping("getInfo/{id}")
+    @GetMapping("select/{id}")
     @Operation(description="根据主键获取集次表")
     public Episode getInfo(@PathVariable Long id) {
         return episodeService.getById(id);
@@ -98,8 +96,22 @@ public class EpisodeController {
      */
     @GetMapping("page")
     @Operation(description="分页查询集次表")
-    public Page<Episode> page(@Parameter(description="分页信息")Page<Episode> page) {
+    public PageVO<Episode> page(@Parameter(description="分页信息") EpisodePageDTO page) {
         return episodeService.page(page);
     }
+
+    @PostMapping("uploadVideoCover/{id}")
+    @Operation(description="上传集次表封面")
+    public Result<String> uploadCover(@PathVariable("id") Long episodeId,@RequestParam("coverFile") MultipartFile coverFile) {
+        return new Result<>(episodeService.uploadCover(episodeId,coverFile));
+    }
+
+
+    @PostMapping("uploadVideo/{id}")
+    @Operation(description="上传集次表视频")
+    public Result<String> uploadVideo(@PathVariable("id") Long episodeId,@RequestParam("videoFile") MultipartFile videoFile) {
+        return new Result<>(episodeService.uploadVideo(episodeId,videoFile));
+    }
+
 
 }

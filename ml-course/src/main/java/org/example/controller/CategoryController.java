@@ -1,20 +1,17 @@
 package org.example.controller;
 
-import com.mybatisflex.core.paginate.Page;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.example.entity.Category;
-import org.example.service.CategoryService;
-import org.springframework.web.bind.annotation.RestController;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.example.dto.CategoryInsertDTO;
+import org.example.dto.CategoryPageDTO;
+import org.example.entity.Category;
+import org.example.service.CategoryService;
+import org.example.vo.CategorySimpleListVO;
+import org.example.vo.PageVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 /**
@@ -34,13 +31,13 @@ public class CategoryController {
     /**
      * 添加课程类别表。
      *
-     * @param category 课程类别表
+     * @param dto 课程类别表
      * @return {@code true} 添加成功，{@code false} 添加失败
      */
-    @PostMapping("save")
+    @PostMapping("insert")
     @Operation(description="保存课程类别表")
-    public boolean save(@RequestBody @Parameter(description="课程类别表")Category category) {
-        return categoryService.save(category);
+    public boolean save(@RequestBody @Parameter(description="课程类别表") CategoryInsertDTO dto) {
+        return categoryService.insert(dto);
     }
 
     /**
@@ -49,7 +46,7 @@ public class CategoryController {
      * @param id 主键
      * @return {@code true} 删除成功，{@code false} 删除失败
      */
-    @DeleteMapping("remove/{id}")
+    @DeleteMapping("delete/{id}")
     @Operation(description="根据主键课程类别表")
     public boolean remove(@PathVariable @Parameter(description="课程类别表主键")Long id) {
         return categoryService.removeById(id);
@@ -72,10 +69,10 @@ public class CategoryController {
      *
      * @return 所有数据
      */
-    @GetMapping("list")
+    @GetMapping("simpleList")
     @Operation(description="查询所有课程类别表")
-    public List<Category> list() {
-        return categoryService.list();
+    public List<CategorySimpleListVO> list() {
+        return categoryService.listSimple();
     }
 
     /**
@@ -84,7 +81,7 @@ public class CategoryController {
      * @param id 课程类别表主键
      * @return 课程类别表详情
      */
-    @GetMapping("getInfo/{id}")
+    @GetMapping("select/{id}")
     @Operation(description="根据主键获取课程类别表")
     public Category getInfo(@PathVariable Long id) {
         return categoryService.getById(id);
@@ -93,13 +90,13 @@ public class CategoryController {
     /**
      * 分页查询课程类别表。
      *
-     * @param page 分页对象
+     * @param dto 分页对象
      * @return 分页对象
      */
     @GetMapping("page")
     @Operation(description="分页查询课程类别表")
-    public Page<Category> page(@Parameter(description="分页信息")Page<Category> page) {
-        return categoryService.page(page);
+    public PageVO<Category> page(@Parameter(description="分页信息") CategoryPageDTO dto) {
+        return categoryService.page(dto);
     }
 
 }

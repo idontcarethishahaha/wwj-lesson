@@ -1,20 +1,16 @@
 package org.example.controller;
 
-import com.mybatisflex.core.paginate.Page;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.example.entity.Season;
-import org.example.service.SeasonService;
-import org.springframework.web.bind.annotation.RestController;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.example.dto.SeasonInsertDTO;
+import org.example.dto.SeasonPageDTO;
+import org.example.entity.Season;
+import org.example.service.SeasonService;
+import org.example.vo.PageVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 /**
@@ -37,10 +33,10 @@ public class SeasonController {
      * @param season 季次表
      * @return {@code true} 添加成功，{@code false} 添加失败
      */
-    @PostMapping("save")
+    @PostMapping("insert")
     @Operation(description="保存季次表")
-    public boolean save(@RequestBody @Parameter(description="季次表")Season season) {
-        return seasonService.save(season);
+    public boolean save(@RequestBody @Parameter(description="季次表") SeasonInsertDTO season) {
+        return seasonService.insert(season);
     }
 
     /**
@@ -49,7 +45,7 @@ public class SeasonController {
      * @param id 主键
      * @return {@code true} 删除成功，{@code false} 删除失败
      */
-    @DeleteMapping("remove/{id}")
+    @DeleteMapping("delete/{id}")
     @Operation(description="根据主键季次表")
     public boolean remove(@PathVariable @Parameter(description="季次表主键")Long id) {
         return seasonService.removeById(id);
@@ -84,13 +80,13 @@ public class SeasonController {
      * @param id 季次表主键
      * @return 季次表详情
      */
-    @GetMapping("getInfo/{id}")
+    @GetMapping("select/{id}")
     @Operation(description="根据主键获取季次表")
     public Season getInfo(@PathVariable Long id) {
         return seasonService.getById(id);
     }
 
-    /**
+    /*
      * 分页查询季次表。
      *
      * @param page 分页对象
@@ -98,7 +94,7 @@ public class SeasonController {
      */
     @GetMapping("page")
     @Operation(description="分页查询季次表")
-    public Page<Season> page(@Parameter(description="分页信息")Page<Season> page) {
+    public PageVO<Season> page(@Parameter(description="分页信息") SeasonPageDTO page) {
         return seasonService.page(page);
     }
 
