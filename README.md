@@ -36,18 +36,3 @@ MyLesson 是一套面向教育场景的**微服务架构云课堂系统**，采�
 
 ---
 
-## 🚀 快速启动
-
-### 1. 环境要求
-
-- JDK 11+
-- MySQL 8.x
-- Redis 6.x
-- Nacos 2.x
-- Maven 3.6+
-
-### 2. 克隆项目
-
-```bash
-git clone https://github.com/idontcarethishahaha/wwj-lesson.git
-cd wwj-lesson
