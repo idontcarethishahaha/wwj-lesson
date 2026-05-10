@@ -21,7 +21,7 @@ import org.springframework.stereotype.Service;
 import static org.example.entity.table.CommentTableDef.COMMENT;
 
 /**
- * 评论表 服务层实现。
+ * 评论表 服务层实现
  *
  * @author WuWenJin
  * @since v1.0.0

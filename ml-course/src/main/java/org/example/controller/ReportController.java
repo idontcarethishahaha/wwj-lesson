@@ -1,20 +1,16 @@
 package org.example.controller;
 
-import com.mybatisflex.core.paginate.Page;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.example.entity.Report;
-import org.example.service.ReportService;
-import org.springframework.web.bind.annotation.RestController;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.example.dto.ReportInsertDTO;
+import org.example.dto.ReportPageDTO;
+import org.example.entity.Report;
+import org.example.service.ReportService;
+import org.example.vo.PageVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 /**
@@ -37,10 +33,10 @@ public class ReportController {
      * @param report 举报表
      * @return {@code true} 添加成功，{@code false} 添加失败
      */
-    @PostMapping("save")
+    @PostMapping("insert")
     @Operation(description="保存举报表")
-    public boolean save(@RequestBody @Parameter(description="举报表")Report report) {
-        return reportService.save(report);
+    public boolean save(@RequestBody @Parameter(description="举报表") ReportInsertDTO report) {
+        return reportService.insert(report);
     }
 
     /**
@@ -49,7 +45,7 @@ public class ReportController {
      * @param id 主键
      * @return {@code true} 删除成功，{@code false} 删除失败
      */
-    @DeleteMapping("remove/{id}")
+    @DeleteMapping("delete/{id}")
     @Operation(description="根据主键举报表")
     public boolean remove(@PathVariable @Parameter(description="举报表主键")Long id) {
         return reportService.removeById(id);
@@ -84,7 +80,7 @@ public class ReportController {
      * @param id 举报表主键
      * @return 举报表详情
      */
-    @GetMapping("getInfo/{id}")
+    @GetMapping("select/{id}")
     @Operation(description="根据主键获取举报表")
     public Report getInfo(@PathVariable Long id) {
         return reportService.getById(id);
@@ -98,7 +94,7 @@ public class ReportController {
      */
     @GetMapping("page")
     @Operation(description="分页查询举报表")
-    public Page<Report> page(@Parameter(description="分页信息")Page<Report> page) {
+    public PageVO<Report> page(@Parameter(description="分页信息") ReportPageDTO page) {
         return reportService.page(page);
     }
 

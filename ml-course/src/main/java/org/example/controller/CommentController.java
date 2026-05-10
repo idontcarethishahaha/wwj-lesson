@@ -1,20 +1,16 @@
 package org.example.controller;
 
-import com.mybatisflex.core.paginate.Page;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.example.entity.Comment;
-import org.example.service.CommentService;
-import org.springframework.web.bind.annotation.RestController;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.example.dto.CommentInsertDTO;
+import org.example.dto.CommentPageDTO;
+import org.example.entity.Comment;
+import org.example.service.CommentService;
+import org.example.vo.PageVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 /**
@@ -37,10 +33,10 @@ public class CommentController {
      * @param comment 评论表
      * @return {@code true} 添加成功，{@code false} 添加失败
      */
-    @PostMapping("save")
+    @PostMapping("insert")
     @Operation(description="保存评论表")
-    public boolean save(@RequestBody @Parameter(description="评论表")Comment comment) {
-        return commentService.save(comment);
+    public boolean save(@RequestBody @Parameter(description="评论表") CommentInsertDTO comment) {
+        return commentService.insert(comment);
     }
 
     /**
@@ -49,7 +45,7 @@ public class CommentController {
      * @param id 主键
      * @return {@code true} 删除成功，{@code false} 删除失败
      */
-    @DeleteMapping("remove/{id}")
+    @DeleteMapping("delete/{id}")
     @Operation(description="根据主键评论表")
     public boolean remove(@PathVariable @Parameter(description="评论表主键")Long id) {
         return commentService.removeById(id);
@@ -84,7 +80,7 @@ public class CommentController {
      * @param id 评论表主键
      * @return 评论表详情
      */
-    @GetMapping("getInfo/{id}")
+    @GetMapping("select/{id}")
     @Operation(description="根据主键获取评论表")
     public Comment getInfo(@PathVariable Long id) {
         return commentService.getById(id);
@@ -98,7 +94,7 @@ public class CommentController {
      */
     @GetMapping("page")
     @Operation(description="分页查询评论表")
-    public Page<Comment> page(@Parameter(description="分页信息")Page<Comment> page) {
+    public PageVO<Comment> page(@Parameter(description="分页信息") CommentPageDTO page) {
         return commentService.page(page);
     }
 
