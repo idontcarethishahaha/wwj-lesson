@@ -1,20 +1,18 @@
 package org.example.controller;
 
-import com.mybatisflex.core.paginate.Page;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.example.entity.Banner;
-import org.example.service.BannerService;
-import org.springframework.web.bind.annotation.RestController;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.example.dto.BannerInsertDTO;
+import org.example.dto.BannerPageDTO;
+import org.example.entity.Banner;
+import org.example.result.Result;
+import org.example.service.BannerService;
+import org.example.vo.PageVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.util.List;
 
 /**
@@ -37,10 +35,10 @@ public class BannerController {
      * @param banner 横幅表
      * @return {@code true} 添加成功，{@code false} 添加失败
      */
-    @PostMapping("save")
+    @PostMapping("insert")
     @Operation(description="保存横幅表")
-    public boolean save(@RequestBody @Parameter(description="横幅表")Banner banner) {
-        return bannerService.save(banner);
+    public boolean save(@RequestBody @Parameter(description="横幅表") BannerInsertDTO banner) {
+        return bannerService.insert(banner);
     }
 
     /**
@@ -49,7 +47,7 @@ public class BannerController {
      * @param id 主键
      * @return {@code true} 删除成功，{@code false} 删除失败
      */
-    @DeleteMapping("remove/{id}")
+    @DeleteMapping("delete/{id}")
     @Operation(description="根据主键横幅表")
     public boolean remove(@PathVariable @Parameter(description="横幅表主键")Long id) {
         return bannerService.removeById(id);
@@ -84,7 +82,7 @@ public class BannerController {
      * @param id 横幅表主键
      * @return 横幅表详情
      */
-    @GetMapping("getInfo/{id}")
+    @GetMapping("select/{id}")
     @Operation(description="根据主键获取横幅表")
     public Banner getInfo(@PathVariable Long id) {
         return bannerService.getById(id);
@@ -98,8 +96,22 @@ public class BannerController {
      */
     @GetMapping("page")
     @Operation(description="分页查询横幅表")
-    public Page<Banner> page(@Parameter(description="分页信息")Page<Banner> page) {
+    public PageVO<Banner> page(@Parameter(description="分页信息") BannerPageDTO page) {
         return bannerService.page(page);
+    }
+
+    /**
+     * 上传横幅图片
+     *
+     * @param newFile 新文件
+     * @param id 横幅表id
+     * @return 文件路径
+     */
+    @PostMapping("upload/{id}")
+    @Operation(description="上传横幅图片")
+    public Result<String> uploadBanner(@RequestParam("bannerFile") @Parameter(description="新文件") MultipartFile newFile,
+                               @PathVariable("id") @Parameter(description="横幅表id")Long id) {
+        return new Result<>(bannerService.uploadBanner(newFile, id));
     }
 
 }

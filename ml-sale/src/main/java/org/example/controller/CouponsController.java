@@ -1,20 +1,16 @@
 package org.example.controller;
 
-import com.mybatisflex.core.paginate.Page;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.example.entity.Coupons;
-import org.example.service.CouponsService;
-import org.springframework.web.bind.annotation.RestController;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.example.dto.CouponsInsertDTO;
+import org.example.dto.CouponsPageDTO;
+import org.example.entity.Coupons;
+import org.example.service.CouponsService;
+import org.example.vo.PageVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 /**
@@ -37,10 +33,10 @@ public class CouponsController {
      * @param coupons 优惠卷表
      * @return {@code true} 添加成功，{@code false} 添加失败
      */
-    @PostMapping("save")
+    @PostMapping("insert")
     @Operation(description="保存优惠卷表")
-    public boolean save(@RequestBody @Parameter(description="优惠卷表")Coupons coupons) {
-        return couponsService.save(coupons);
+    public boolean save(@RequestBody @Parameter(description="优惠卷表") CouponsInsertDTO coupons) {
+        return couponsService.insert(coupons);
     }
 
     /**
@@ -49,7 +45,7 @@ public class CouponsController {
      * @param id 主键
      * @return {@code true} 删除成功，{@code false} 删除失败
      */
-    @DeleteMapping("remove/{id}")
+    @DeleteMapping("delete/{id}")
     @Operation(description="根据主键优惠卷表")
     public boolean remove(@PathVariable @Parameter(description="优惠卷表主键")Long id) {
         return couponsService.removeById(id);
@@ -84,7 +80,7 @@ public class CouponsController {
      * @param id 优惠卷表主键
      * @return 优惠卷表详情
      */
-    @GetMapping("getInfo/{id}")
+    @GetMapping("select/{id}")
     @Operation(description="根据主键获取优惠卷表")
     public Coupons getInfo(@PathVariable Long id) {
         return couponsService.getById(id);
@@ -98,8 +94,19 @@ public class CouponsController {
      */
     @GetMapping("page")
     @Operation(description="分页查询优惠卷表")
-    public Page<Coupons> page(@Parameter(description="分页信息")Page<Coupons> page) {
+    public PageVO<Coupons> page(@Parameter(description="分页信息") CouponsPageDTO page) {
         return couponsService.page(page);
     }
 
+    /**
+     * 根据优惠卷表口令获取详细信息。
+     *
+     * @param code 优惠卷表口令
+     * @return 优惠卷表详情
+     */
+     @GetMapping("selectByCode/{code}")
+     @Operation(description="根据优惠卷表口令获取优惠卷表详情")
+     public Coupons getInfoByCode(@PathVariable("code") @Parameter(description = "优惠券口令") String code) {
+         return couponsService.selectByCode(code);
+     }
 }

@@ -1,20 +1,16 @@
 package org.example.controller;
 
-import com.mybatisflex.core.paginate.Page;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.example.entity.Notice;
-import org.example.service.NoticeService;
-import org.springframework.web.bind.annotation.RestController;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.example.dto.NoticeInsertDTO;
+import org.example.dto.NoticePageDTO;
+import org.example.entity.Notice;
+import org.example.service.NoticeService;
+import org.example.vo.PageVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 /**
@@ -37,10 +33,10 @@ public class NoticeController {
      * @param notice 通知表
      * @return {@code true} 添加成功，{@code false} 添加失败
      */
-    @PostMapping("save")
+    @PostMapping("insert")
     @Operation(description="保存通知表")
-    public boolean save(@RequestBody @Parameter(description="通知表")Notice notice) {
-        return noticeService.save(notice);
+    public boolean save(@RequestBody @Parameter(description="通知表") NoticeInsertDTO notice) {
+        return noticeService.insert(notice);
     }
 
     /**
@@ -49,7 +45,7 @@ public class NoticeController {
      * @param id 主键
      * @return {@code true} 删除成功，{@code false} 删除失败
      */
-    @DeleteMapping("remove/{id}")
+    @DeleteMapping("delete/{id}")
     @Operation(description="根据主键通知表")
     public boolean remove(@PathVariable @Parameter(description="通知表主键")Long id) {
         return noticeService.removeById(id);
@@ -84,7 +80,7 @@ public class NoticeController {
      * @param id 通知表主键
      * @return 通知表详情
      */
-    @GetMapping("getInfo/{id}")
+    @GetMapping("select/{id}")
     @Operation(description="根据主键获取通知表")
     public Notice getInfo(@PathVariable Long id) {
         return noticeService.getById(id);
@@ -98,8 +94,18 @@ public class NoticeController {
      */
     @GetMapping("page")
     @Operation(description="分页查询通知表")
-    public Page<Notice> page(@Parameter(description="分页信息")Page<Notice> page) {
+    public PageVO<Notice> page(@Parameter(description="分页信息") NoticePageDTO page) {
         return noticeService.page(page);
     }
 
+    /**
+     * 获取获取最新通知
+     *
+     * @return 最新通知
+     */
+    @GetMapping("top/{n}")
+    @Operation(description="获取最新n个通知")
+    public List<Notice> top(@PathVariable("n") @Parameter(description="获取最新n个通知") Long n) {
+        return noticeService.top(n);
+    }
 }
