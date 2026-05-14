@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: ml-order
+  cloud:
+    nacos:
+      config:
+        server-addr: 192.168.227.128:8848
+        file-extension: yaml
+        group: ml-group
+        shared-configs:
+          - group: ml-group
+            data-id: common-config.yaml
+            refresh: true
+  profiles:
+    active: dev

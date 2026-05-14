@@ -1,20 +1,16 @@
 package org.example.controller;
 
-import com.mybatisflex.core.paginate.Page;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.example.entity.Cart;
-import org.example.service.CartService;
-import org.springframework.web.bind.annotation.RestController;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.example.dto.CartInsertDTO;
+import org.example.dto.CartPageDTO;
+import org.example.entity.Cart;
+import org.example.service.CartService;
+import org.example.vo.PageVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 /**
@@ -37,9 +33,9 @@ public class CartController {
      * @param cart 购物车表
      * @return {@code true} 添加成功，{@code false} 添加失败
      */
-    @PostMapping("save")
+    @PostMapping("insert")
     @Operation(description="保存购物车表")
-    public boolean save(@RequestBody @Parameter(description="购物车表")Cart cart) {
+    public boolean save(@RequestBody @Parameter(description="购物车表") CartInsertDTO cart) {
         return cartService.save(cart);
     }
 
@@ -49,10 +45,22 @@ public class CartController {
      * @param id 主键
      * @return {@code true} 删除成功，{@code false} 删除失败
      */
-    @DeleteMapping("remove/{id}")
+    @DeleteMapping("delete/{id}")
     @Operation(description="根据主键购物车表")
     public boolean remove(@PathVariable @Parameter(description="购物车表主键")Long id) {
         return cartService.removeById(id);
+    }
+
+    /**
+     * 根据主键批量删除购物车表。
+     *
+     * @param ids 主键列表
+     * @return {@code true} 删除成功，{@code false} 删除失败
+     */
+    @DeleteMapping("deleteBatch")
+    @Operation(description="根据主键批量删除购物车表")
+    public boolean removeBatch(@RequestParam("ids") @Parameter(description="购物车表主键列表")List<Long> ids) {
+        return cartService.removeByIds(ids);
     }
 
     /**
@@ -84,7 +92,7 @@ public class CartController {
      * @param id 购物车表主键
      * @return 购物车表详情
      */
-    @GetMapping("getInfo/{id}")
+    @GetMapping("select/{id}")
     @Operation(description="根据主键获取购物车表")
     public Cart getInfo(@PathVariable Long id) {
         return cartService.getById(id);
@@ -98,8 +106,20 @@ public class CartController {
      */
     @GetMapping("page")
     @Operation(description="分页查询购物车表")
-    public Page<Cart> page(@Parameter(description="分页信息")Page<Cart> page) {
+    public PageVO<Cart> page(@Parameter(description="分页信息") CartPageDTO page) {
         return cartService.page(page);
+    }
+
+    /**
+     * 清空购物车表。
+     *
+     * @param userId 用户id
+     * @return {@code true} 删除成功，{@code false} 删除失败
+     */
+    @DeleteMapping("clear/{userId}")
+    @Operation(description="清空购物车表")
+    public boolean clear(@PathVariable("userId") @Parameter(description="用户id")Long userId) {
+        return cartService.clear(userId);
     }
 
 }

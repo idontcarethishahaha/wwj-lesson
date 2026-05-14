@@ -5,38 +5,33 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2bfe111d-2371-478a-b9d7-87f6c93e6ee4" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/ml-sale/src/main/java/org/example/config/XxlJobConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ml-sale/src/main/java/org/example/dto/ArticleInsertDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ml-sale/src/main/java/org/example/dto/ArticlePageDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ml-sale/src/main/java/org/example/dto/BannerInsertDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ml-sale/src/main/java/org/example/dto/BannerPageDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ml-sale/src/main/java/org/example/dto/CouponsInsertDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ml-sale/src/main/java/org/example/dto/CouponsPageDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ml-sale/src/main/java/org/example/dto/KillDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ml-sale/src/main/java/org/example/dto/NoticeInsertDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ml-sale/src/main/java/org/example/dto/NoticePageDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ml-sale/src/main/java/org/example/dto/SeckillInsertDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ml-sale/src/main/java/org/example/dto/SeckillPageDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ml-sale/src/main/java/org/example/feign/CourseFeign.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ml-sale/src/main/resources/META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ml-sale/src/main/resources/bootstrap.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ml-common/src/main/java/org/example/entity/Seckill.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-common/src/main/java/org/example/entity/Seckill.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ml-sale/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/ml-sale/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ml-sale/src/main/java/org/example/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-sale/src/main/java/org/example/SaleApp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ml-sale/src/main/java/org/example/controller/ArticleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-sale/src/main/java/org/example/controller/ArticleController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ml-sale/src/main/java/org/example/controller/BannerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-sale/src/main/java/org/example/controller/BannerController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ml-sale/src/main/java/org/example/controller/CouponsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-sale/src/main/java/org/example/controller/CouponsController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ml-sale/src/main/java/org/example/controller/NoticeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-sale/src/main/java/org/example/controller/NoticeController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ml-sale/src/main/java/org/example/service/ArticleService.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-sale/src/main/java/org/example/service/ArticleService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ml-sale/src/main/java/org/example/service/BannerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-sale/src/main/java/org/example/service/BannerService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ml-sale/src/main/java/org/example/service/CouponsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-sale/src/main/java/org/example/service/CouponsService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ml-sale/src/main/java/org/example/service/NoticeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-sale/src/main/java/org/example/service/NoticeService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ml-sale/src/main/java/org/example/service/SeckillService.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-sale/src/main/java/org/example/service/SeckillService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ml-sale/src/main/java/org/example/service/impl/ArticleServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-sale/src/main/java/org/example/service/impl/ArticleServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ml-sale/src/main/java/org/example/service/impl/BannerServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-sale/src/main/java/org/example/service/impl/BannerServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ml-sale/src/main/java/org/example/service/impl/CouponsServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-sale/src/main/java/org/example/service/impl/CouponsServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ml-sale/src/main/java/org/example/service/impl/NoticeServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-sale/src/main/java/org/example/service/impl/NoticeServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ml-sale/src/main/java/org/example/service/impl/SeckillServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-sale/src/main/java/org/example/service/impl/SeckillServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ml-order/src/main/java/org/example/OrderApp.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ml-order/src/main/java/org/example/dto/CartInsertDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ml-order/src/main/java/org/example/dto/CartPageDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ml-order/src/main/java/org/example/dto/OrderDetailInsertDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ml-order/src/main/java/org/example/dto/OrderDetailPageDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ml-order/src/main/java/org/example/dto/OrderInsertDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ml-order/src/main/java/org/example/dto/OrderPageDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ml-order/src/main/java/org/example/feign/CourseFeign.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ml-order/src/main/java/org/example/feign/UserFeign.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ml-order/src/main/resources/bootstrap.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ml-sale/src/main/java/org/example/dto/SeckillDetailInsertDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ml-sale/src/main/java/org/example/dto/SeckillDetailPageDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml-common/src/main/java/org/example/entity/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-common/src/main/java/org/example/entity/Order.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml-order/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/ml-order/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml-order/src/main/java/org/example/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml-order/src/main/java/org/example/controller/CartController.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-order/src/main/java/org/example/controller/CartController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml-order/src/main/java/org/example/controller/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-order/src/main/java/org/example/controller/OrderController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml-order/src/main/java/org/example/controller/OrderDetailController.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-order/src/main/java/org/example/controller/OrderDetailController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml-order/src/main/java/org/example/service/CartService.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-order/src/main/java/org/example/service/CartService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml-order/src/main/java/org/example/service/OrderDetailService.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-order/src/main/java/org/example/service/OrderDetailService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml-order/src/main/java/org/example/service/OrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-order/src/main/java/org/example/service/OrderService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml-order/src/main/java/org/example/service/impl/CartServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-order/src/main/java/org/example/service/impl/CartServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml-order/src/main/java/org/example/service/impl/OrderDetailServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-order/src/main/java/org/example/service/impl/OrderDetailServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml-order/src/main/java/org/example/service/impl/OrderServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-order/src/main/java/org/example/service/impl/OrderServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml-sale/src/main/java/org/example/controller/SeckillDetailController.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-sale/src/main/java/org/example/controller/SeckillDetailController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml-sale/src/main/java/org/example/service/SeckillDetailService.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-sale/src/main/java/org/example/service/SeckillDetailService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml-sale/src/main/java/org/example/service/impl/SeckillDetailServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-sale/src/main/java/org/example/service/impl/SeckillDetailServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -75,40 +70,43 @@
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.Main.executor": "Run",
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "Spring Boot.UserApp.executor": "Run",
-    "git-widget-placeholder": "main",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/workspace-java/my-lesson/ml-sale/src/main/resources",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "onboarding.tips.debug.path": "D:/workspace-java/my-lesson/ml-barrage/src/main/java/org/example/Main.java",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;Spring Boot.UserApp.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/workspace-java/my-lesson/ml-sale/src/main/resources&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;onboarding.tips.debug.path&quot;: &quot;D:/workspace-java/my-lesson/ml-barrage/src/main/java/org/example/Main.java&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "mysql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\workspace-java\my-lesson\ml-sale\src\main\resources" />
       <recent name="D:\workspace-java\my-lesson\ml-common\src\main\java\org\example\component" />
       <recent name="D:\workspace-java\my-lesson\ml-common\src\main\java\org\example\constant" />
       <recent name="D:\workspace-java\my-lesson\sql" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="org.example.feign" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -176,7 +174,8 @@
       <workItem from="1777213781641" duration="1241000" />
       <workItem from="1777293067988" duration="2797000" />
       <workItem from="1778147994938" duration="12179000" />
-      <workItem from="1778375012516" duration="20308000" />
+      <workItem from="1778375012516" duration="20590000" />
+      <workItem from="1778753085462" duration="10612000" />
     </task>
     <servers />
   </component>

@@ -1,20 +1,15 @@
 package org.example.controller;
 
-import com.mybatisflex.core.paginate.Page;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.example.entity.Order;
-import org.example.service.OrderService;
-import org.springframework.web.bind.annotation.RestController;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.example.dto.OrderPageDTO;
+import org.example.entity.Order;
+import org.example.service.OrderService;
+import org.example.vo.PageVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 /**
@@ -37,7 +32,7 @@ public class OrderController {
      * @param order 订单表
      * @return {@code true} 添加成功，{@code false} 添加失败
      */
-    @PostMapping("save")
+    @PostMapping("insert")
     @Operation(description="保存订单表")
     public boolean save(@RequestBody @Parameter(description="订单表")Order order) {
         return orderService.save(order);
@@ -49,7 +44,7 @@ public class OrderController {
      * @param id 主键
      * @return {@code true} 删除成功，{@code false} 删除失败
      */
-    @DeleteMapping("remove/{id}")
+    @DeleteMapping("delete/{id}")
     @Operation(description="根据主键订单表")
     public boolean remove(@PathVariable @Parameter(description="订单表主键")Long id) {
         return orderService.removeById(id);
@@ -84,7 +79,7 @@ public class OrderController {
      * @param id 订单表主键
      * @return 订单表详情
      */
-    @GetMapping("getInfo/{id}")
+    @GetMapping("select/{id}")
     @Operation(description="根据主键获取订单表")
     public Order getInfo(@PathVariable Long id) {
         return orderService.getById(id);
@@ -98,7 +93,7 @@ public class OrderController {
      */
     @GetMapping("page")
     @Operation(description="分页查询订单表")
-    public Page<Order> page(@Parameter(description="分页信息")Page<Order> page) {
+    public PageVO<Order> page(@Parameter(description="分页信息") OrderPageDTO page) {
         return orderService.page(page);
     }
 

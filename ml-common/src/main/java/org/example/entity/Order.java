@@ -1,19 +1,15 @@
 package org.example.entity;
 
-import com.mybatisflex.annotation.Column;
-import com.mybatisflex.annotation.Id;
-import com.mybatisflex.annotation.KeyType;
-import com.mybatisflex.annotation.Table;
-import java.io.Serializable;
-import java.time.LocalDateTime;
-
-import java.io.Serial;
-
+import com.mybatisflex.annotation.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.io.Serial;
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * 订单表 实体类。
@@ -118,5 +114,9 @@ public class Order implements Serializable {
      */
     @Schema(description = "修改时间")
     private LocalDateTime updated;
+
+    // 关联订单
+    @RelationOneToMany(selfField = "fkOrderId",targetField = "id")// 一个订单对应多个详情
+    private Order order;
 
 }
