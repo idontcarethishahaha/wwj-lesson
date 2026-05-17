@@ -1,15 +1,32 @@
 package org.example.controller;
 
+import cn.hutool.extra.qrcode.QrCodeUtil;
+import cn.hutool.extra.qrcode.QrConfig;
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
+import com.alipay.easysdk.factory.Factory;
+import com.alipay.easysdk.payment.facetoface.models.AlipayTradePrecreateResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.example.constant.ML;
 import org.example.dto.OrderPageDTO;
+import org.example.dto.PrePayDTO;
+import org.example.dto.QrCodeDTO;
 import org.example.entity.Order;
+import org.example.result.Result;
 import org.example.service.OrderService;
+import org.example.util.AlipayUtil;
 import org.example.vo.PageVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.util.List;
 
 /**
@@ -97,4 +114,58 @@ public class OrderController {
         return orderService.page(page);
     }
 
+    /**
+     * 预支付
+     *
+     * @param dto 预支付参数
+     * @return 预支付结果
+     */
+    @PostMapping("prePay")
+    @Operation(description="订单预支付")
+    public Object prePay(@RequestBody @Parameter(description="订单预支付参数") PrePayDTO dto) {
+        return new Result<>(orderService.prePay(dto));
+    }
+
+    // 获取支付二维码
+    @GetMapping("getQrCode")
+    @Operation(description="获取支付二维码")
+    public void getQrCode(HttpServletResponse resp,
+                            @RequestBody @Parameter(description="订单预支付参数") QrCodeDTO dto) throws Exception {
+        Factory.setOptions(AlipayUtil.getInstance());// 初始化支付宝配置（沙箱环境）
+        // 发起预支付请求
+        AlipayTradePrecreateResponse precreateResponse
+                = Factory.Payment.FaceToFace()
+                .preCreate("ML订单支付", dto.getSn(), dto.getPayAmount().toString());
+        // 解析预支付响应
+        JSONObject jsonObject
+                = JSONUtil.parseObj(precreateResponse.getHttpBody())
+                .getJSONObject("alipay_trade_precreate_response");
+        // 设置响应头
+        resp.setContentType(MediaType.IMAGE_JPEG_VALUE);// 设置响应类型
+        resp.setDateHeader("Expires", 0);// 设置过期时间
+        resp.setHeader("Cache-Control", "no-store,no-cache,must-revalidate");
+        resp.addHeader("Cache-Control", "post-check=0,pre-check=0");
+        // 生成二维码图片
+        BufferedImage qrCodeImage
+                = QrCodeUtil.generate(jsonObject.getStr("qr_code".toString()), new QrConfig(256, 256));
+        try (ServletOutputStream out = resp.getOutputStream()) {
+            ImageIO.write(qrCodeImage, "jpg", out);//将二维码图片写入响应流
+            out.flush();
+        }
+    }
+
+    // 订单支付成功回调接口
+    @PostMapping("payPayNotify")
+    @Operation(description="订单支付成功回调接口")
+    public boolean payPayNotify(HttpServletRequest request) {
+        String sn = request.getParameter("out_trade_no");// 从请求参数中获取订单编号
+        return orderService.updateStatus(sn, ML.Order.PAID);// 更新订单状态为已支付
+    }
+
+    // 查询订单状态（是否完成支付）
+    @GetMapping("checkPay/{sn}")
+    @Operation(description="查询订单状态（是否完成支付）")
+    public boolean checkPay(@PathVariable("sn") @Parameter(description="订单编号") String sn) {
+        return orderService.checkPay(sn);
+    }
 }
