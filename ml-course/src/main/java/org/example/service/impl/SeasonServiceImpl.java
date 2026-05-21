@@ -16,6 +16,8 @@ import org.example.service.SeasonService;
 import org.example.vo.PageVO;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 import static org.example.entity.table.SeasonTableDef.SEASON;
 
 /**
@@ -33,6 +35,9 @@ public class SeasonServiceImpl extends ServiceImpl<SeasonMapper, Season>  implem
         if(StrUtil.isBlank(season.getInfo())){
             season.setInfo("暂无描述");
         }
+        // 设置创建时间和修改时间
+        season.setCreated(LocalDateTime.now());
+        season.setUpdated(LocalDateTime.now());
         // 插入
         if (mapper.insert(season)==0){
             throw new ServiceException(ResultCode.MYSQL_ERROR,"添加数据失败");

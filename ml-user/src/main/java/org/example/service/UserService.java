@@ -2,6 +2,7 @@ package org.example.service;
 
 import com.mybatisflex.core.service.IService;
 import org.example.dto.LoginByAccountDTO;
+import org.example.dto.UserInsertDTO;
 import org.example.dto.UserPageDTO;
 import org.example.dto.UserUpdatePasswordDTO;
 import org.example.entity.User;
@@ -19,7 +20,7 @@ import java.util.List;
  * @since v1.0.0
  */
 public interface UserService extends IService<User> {
-     boolean save(User user);
+     boolean save(UserInsertDTO dto);
      List<UserSimpleListVO> simpleList();
      PageVO<User> page(UserPageDTO dto);
      boolean update(User user);

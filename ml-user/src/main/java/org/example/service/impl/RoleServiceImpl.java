@@ -24,6 +24,7 @@ import org.example.vo.RoleSimpleListVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,6 +59,9 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role>  implements R
         if(StrUtil.isBlank(dto.getInfo())){
             role.setInfo("暂无描述");
         }
+        // 设置创建时间和修改时间
+        role.setCreated(LocalDateTime.now());
+        role.setUpdated(LocalDateTime.now());
         if(mapper.insert(role)==0){
             throw new ServiceException(ResultCode.MYSQL_ERROR,"添加角色失败");
         }

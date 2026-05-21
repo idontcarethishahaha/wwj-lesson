@@ -5,6 +5,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.UUID;
 import cn.hutool.core.util.IdcardUtil;
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
 import com.mybatisflex.core.paginate.Page;
@@ -15,6 +16,7 @@ import com.mybatisflex.spring.service.impl.ServiceImpl;
 import org.example.component.MyRedis;
 import org.example.constant.ML;
 import org.example.dto.LoginByAccountDTO;
+import org.example.dto.UserInsertDTO;
 import org.example.dto.UserPageDTO;
 import org.example.dto.UserUpdatePasswordDTO;
 import org.example.entity.*;
@@ -34,6 +36,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -54,7 +57,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>  implements U
    //ctrl+i
 
     @Override
-    public boolean save(User user) {
+    public boolean save(UserInsertDTO dto) {
+        User user = BeanUtil.copyProperties(dto, User.class);
         String idcard=user.getIdcard();//获取用户的身份证号码
         if(!IdcardUtil.isValidCard(idcard)){
             throw new ServiceException(ResultCode.ID_CARD_ILLEGAL,"身份证号"+idcard+"有误");
@@ -76,16 +80,21 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>  implements U
         if(QueryChain.of(mapper).where(USER.EMAIL.eq(user.getEmail())).exists()){
             throw new ServiceException(ResultCode.EMAIL_REPEAT,"邮箱"+user.getEmail()+"已存在");
         }
+        user.setNickname(RandomUtil.randomString(10));
+        user.setProvince(UserUtil.defaultProvince(idcard));//添加省份
         user.setGender(UserUtil.defaultGender(idcard));
         user.setAge(UserUtil.defaultAge(idcard));
         user.setZodiac(UserUtil.defaultZodiac(idcard));
         user.setAvatar(UserUtil.defaultAvatar(idcard));
-        if(StrUtil.isNotBlank(user.getInfo())){
+        if(StrUtil.isBlank(user.getInfo())){
             user.setInfo("该用户很懒，没有留下任何描述");
         }
         // 对密码进行加密
         // Spring 自带的 BCrypt 加密算法,它是一个单向的hash算法，而且使用了自动生成的随机salt
         user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(10)));
+        // 设置创建时间和修改时间
+        user.setCreated(LocalDateTime.now());
+        user.setUpdated(LocalDateTime.now());
         if(mapper.insert(user)==0){
             throw new ServiceException(ResultCode.MYSQL_ERROR,"数据库添加失败");
         }

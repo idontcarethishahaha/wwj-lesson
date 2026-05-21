@@ -18,6 +18,8 @@ import org.example.service.CommentService;
 import org.example.vo.PageVO;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 import static org.example.entity.table.CommentTableDef.COMMENT;
 
 /**
@@ -48,6 +50,9 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment>  imp
         comment.setNickname(user.getNickname());
         comment.setAvatar(user.getAvatar());
         comment.setProvince(user.getProvince());
+        // 设置创建时间和修改时间
+        comment.setCreated(LocalDateTime.now());
+        comment.setUpdated(LocalDateTime.now());
         if (mapper.insert(comment) == 0){
             throw new ServiceException(ResultCode.SERVER_ERROR,"添加评论失败");
         }

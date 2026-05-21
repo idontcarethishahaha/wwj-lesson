@@ -19,6 +19,8 @@ import org.example.service.ReportService;
 import org.example.vo.PageVO;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 import static org.example.entity.table.ReportTableDef.REPORT;
 
 /**
@@ -51,6 +53,9 @@ public class ReportServiceImpl extends ServiceImpl<ReportMapper, Report>  implem
             throw new ServiceException(ResultCode.USER_NOT_FOUND,"该用户不存在");
         }
         report.setNickname(user.getNickname());//设置昵称
+        // 设置创建时间和修改时间
+        report.setCreated(LocalDateTime.now());
+        report.setUpdated(LocalDateTime.now());
         if(mapper.insert(report) == 0){
             throw new ServiceException(ResultCode.MYSQL_ERROR,"添加举报数据失败");
         }

@@ -18,6 +18,7 @@ import org.example.service.NoticeService;
 import org.example.vo.PageVO;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -37,6 +38,9 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice>  implem
     public boolean insert(NoticeInsertDTO dto) {
         // 拷贝属性
         Notice notice = BeanUtil.copyProperties(dto,Notice.class);
+        // 设置创建时间和修改时间
+        notice.setCreated(LocalDateTime.now());
+        notice.setUpdated(LocalDateTime.now());
         if(mapper.insert(notice)==0){
             throw new ServiceException(ResultCode.MYSQL_ERROR,"添加通知数据失败");
         }

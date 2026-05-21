@@ -15,6 +15,8 @@ import org.example.service.CouponsService;
 import org.example.vo.PageVO;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 import static org.example.entity.table.CouponsTableDef.COUPONS;
 
 /**
@@ -46,6 +48,9 @@ public class CouponsServiceImpl extends ServiceImpl<CouponsMapper, Coupons>  imp
         if (StrUtil.isBlank(dto.getInfo())){
             coupons.setInfo("暂无描述");
         }
+        // 设置创建时间和修改时间
+        coupons.setCreated(LocalDateTime.now());
+        coupons.setUpdated(LocalDateTime.now());
         return mapper.insert(coupons)>0;
     }
 

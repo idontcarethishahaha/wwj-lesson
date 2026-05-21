@@ -1,6 +1,7 @@
 package org.example.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.mybatisflex.core.paginate.Page;
 import com.mybatisflex.core.query.QueryChain;
@@ -14,6 +15,8 @@ import org.example.dto.CoursePageDTO;
 import org.example.entity.Course;
 import org.example.exception.ServiceException;
 import org.example.mapper.CourseMapper;
+import org.example.mapper.EpisodeMapper;
+import org.example.mapper.SeasonMapper;
 import org.example.result.ResultCode;
 import org.example.service.CourseService;
 import org.example.service.EpisodeService;
@@ -25,9 +28,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.example.entity.table.CourseTableDef.COURSE;
+import static org.example.entity.table.SeasonTableDef.SEASON;
+import static org.example.entity.table.EpisodeTableDef.EPISODE;
 
 /**
  * 课程表 服务层实现。
@@ -47,6 +53,12 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course>  implem
     @Resource
     private EpisodeService episodeService;// 集数
 
+    @Resource
+    private SeasonMapper seasonMapper;
+
+    @Resource
+    private EpisodeMapper episodeMapper;
+
     @Override
     public boolean insert(CourseInsertDTO dto) {
         // 判断标题是否重复
@@ -65,6 +77,9 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course>  implem
         // 设置默认的封面和摘要
         course.setSummary(ML.Course.DEFAULT_SUMMARY);
         course.setCover(ML.Course.DEFAULT_COVER);
+        // 设置创建时间和修改时间
+        course.setCreated(LocalDateTime.now());
+        course.setUpdated(LocalDateTime.now());
         if(mapper.insert(course)==0){
             throw new ServiceException(ResultCode.MYSQL_ERROR,"数据操作失败");
         }
@@ -96,7 +111,7 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course>  implem
             queryChain.where(COURSE.FK_CATEGORY_ID.eq(fkCategoryId));
         }
         // 分页查询
-        Page<Course> result = queryChain.page(new Page<>(dto.getPageNum(),dto.getPageSize()));
+        Page<Course> result = queryChain.withRelations().page(new Page<>(dto.getPageNum(),dto.getPageSize()));
         PageVO<Course> pageVO = new PageVO<>();
         BeanUtil.copyProperties(result,pageVO);
         pageVO.setPageNum(result.getPageNumber());
@@ -124,5 +139,134 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course>  implem
         MinioUtil.upload(coverFile,ML.MinIO.COURSE_COVER_DIR,ML.MinIO.BUCKET_NAME);
         // 返回新的文件名
         return newFileName;
+    }
+
+//    @Override
+//    public boolean update(CourseUpdateDTO dto) {
+//        String title = dto.getTitle();
+//        Long id = dto.getId();
+//
+//        // 检查课程是否存在
+//        this.existsById(id);
+//
+//        // 标题查重
+//        // select count(1) from course where title = ? and id <> ?
+//        if (QueryChain.of(mapper)
+//                .where(COURSE.TITLE.eq(dto.getTitle()))
+//                .and(COURSE.ID.ne(dto.getId()))
+//                .exists()) {
+//            throw new ServiceException(ResultCode.TITLE_REPEAT, "标题" + title + "重复");
+//        }
+//
+//        // 组装实体类
+//        Course course = BeanUtil.copyProperties(dto, Course.class);
+//        course.setUpdated(LocalDateTime.now());
+//        // update course set title = ?, author = ?, fk_category_id = ?, info = ?, summary = ?, cover = ?, price = ?, idx = ?, updated = ? where id = ?
+//        if (!UpdateChain.of(course)
+//                .where(COURSE.ID.eq(course.getId()))
+//                .update()) {
+//            throw new ServiceException(ResultCode.MYSQL_ERROR, "数据库修改失败");
+//        }
+//        return true;
+//    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public boolean delete(Long id) {
+
+        // 检查课程是否存在
+        this.existsById(id);
+
+        // 通过课程主键查询全部季次的ID列表
+        // select id from season where fk_course_id = ?
+        List<Long> seasonIds = QueryChain.of(seasonMapper)
+                .select(SEASON.ID)
+                .where(SEASON.FK_COURSE_ID.eq(id))
+                .objListAs(Long.class);
+
+        // 存在季记录时，批量删除季
+        this.clearSeasonAndEpisode(seasonIds);
+
+        // 删除课程
+        // delete from course where id = ?
+        if (mapper.deleteById(id) <= 0) {
+            throw new ServiceException(ResultCode.MYSQL_ERROR, "数据库删除失败");
+        }
+        return true;
+    }
+
+//    @Transactional(rollbackFor = Exception.class)
+//    @Override
+//    public boolean deleteBatch(List<Long> ids) {
+//
+//        // 检查课程是否存在
+//        // select count(*) from course where id in (?, ?, ?)
+//        if (QueryChain.of(mapper)
+//                .where(COURSE.ID.in(ids))
+//                .count() < ids.size()) {
+//            throw new ServiceException(ResultCode.COURSE_NOT_FOUND, "至少一个课程数据不存在");
+//        }
+//
+//        // 通过课程主键列表批量查询全部季次的ID列表
+//        // select id from season where fk_course_id in (?)
+//        List<Long> seasonIds = QueryChain.of(seasonMapper)
+//                .select(SEASON.ID)
+//                .where(SEASON.FK_COURSE_ID.in(ids))
+//                .objListAs(Long.class);
+//
+//        // 存在季记录时，批量删除季
+//        this.clearSeasonAndEpisode(seasonIds);
+//
+//        // 批量删除课程
+//        // delete from course where id in (?)
+//        if (mapper.deleteBatchByIds(ids) <= 0) {
+//            throw new ServiceException(ResultCode.MYSQL_ERROR, "数据库删除失败");
+//        }
+//        return true;
+//    }
+
+    /**
+     * 按主键检查课程是否存在，如果不存在则直接抛出异常
+     *
+     * @param id 课程主键
+     */
+    private void existsById(Long id) {
+        // select count(*) from course where id = ?
+        if (!QueryChain.of(mapper)
+                .where(COURSE.ID.eq(id))
+                .exists()) {
+            throw new ServiceException(ResultCode.COURSE_NOT_FOUND, id + "号课程数据不存在");
+        }
+    }
+
+    /**
+     * 根据季次ID列表，清空全部季次记录及每个季次中的集次记录
+     *
+     * @param seasonIds 季次主键列表
+     */
+    private void clearSeasonAndEpisode(List<Long> seasonIds) {
+
+        // 存在季次时，批量删除季次
+        if (ObjectUtil.isNotEmpty(seasonIds)) {
+
+            // 通过季次主键列表查询全部集次的ID列表
+            // select id from episode where fk_season_id in (?)
+            List<Long> episodeIds = QueryChain.of(episodeMapper)
+                    .select(EPISODE.ID)
+                    .where(EPISODE.FK_SEASON_ID.in(seasonIds))
+                    .objListAs(Long.class);
+
+            // 存在集次时，批量删除集次
+            if (ObjectUtil.isNotEmpty(episodeIds)) {
+                if (episodeMapper.deleteBatchByIds(episodeIds) <= 0) {
+                    throw new ServiceException(ResultCode.MYSQL_ERROR, "数据库删除集次数据失败");
+                }
+            }
+
+            // 批量删除季次
+            if (seasonMapper.deleteBatchByIds(seasonIds) <= 0) {
+                throw new ServiceException(ResultCode.MYSQL_ERROR, "数据库删除季次数据失败");
+            }
+        }
     }
 }

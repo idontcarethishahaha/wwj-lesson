@@ -3,11 +3,14 @@ package org.example.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.example.dto.LoginByAccountDTO;
+import org.example.dto.UserInsertDTO;
 import org.example.dto.UserPageDTO;
 import org.example.dto.UserUpdatePasswordDTO;
 import org.example.entity.User;
 import org.example.result.Result;
 import org.example.service.UserService;
+import org.example.vo.LoginVO;
 import org.example.vo.PageVO;
 import org.example.vo.UserSimpleListVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,13 +37,13 @@ public class UserController {
     /**
      * 添加用户表。
      *
-     * @param user 用户表
+     * @param dto 用户表
      * @return {@code true} 添加成功，{@code false} 添加失败
      */
     @PostMapping("insert")
     @Operation(description="保存用户表")
-    public boolean save(@RequestBody @Parameter(description="用户表")User user) {
-        return userService.save(user);
+    public boolean save(@RequestBody @Parameter(description="用户表") UserInsertDTO dto) {
+        return userService.save(dto);
     }
 
     /**
@@ -121,5 +124,11 @@ public class UserController {
     public Result<String> updateAvatar(@PathVariable("id") Long id,
                                        @RequestParam("avatarFile") MultipartFile avatar){
         return new Result<>(userService.updateAvatar(avatar,id));
+    }
+
+    @Operation(summary = "用户 - 登录", description = "用户登录")
+    @PostMapping("loginByAccount")
+    public LoginVO loginByAccount(@Validated @RequestBody LoginByAccountDTO dto){
+        return userService.loginByAccount(dto);
     }
 }

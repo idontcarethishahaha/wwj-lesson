@@ -16,6 +16,7 @@ import org.example.vo.CategorySimpleListVO;
 import org.example.vo.PageVO;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.example.entity.table.CategoryTableDef.CATEGORY;
@@ -43,6 +44,9 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category>  
         if(StrUtil.isBlank(dto.getInfo())){
             category.setInfo("暂无描述");
         }
+        // 设置创建时间和修改时间
+        category.setCreated(LocalDateTime.now());
+        category.setUpdated(LocalDateTime.now());
         if(mapper.insert(category)==0){
             throw new ServiceException(ResultCode.MYSQL_ERROR,"数据操作失败");
         }

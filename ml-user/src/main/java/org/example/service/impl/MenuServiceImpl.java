@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,6 +51,9 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu>  implements M
         if(StrUtil.isBlank(dto.getInfo())){
             menu.setInfo("暂无介绍");
         }
+        // 设置创建时间和修改时间
+        menu.setCreated(LocalDateTime.now());
+        menu.setUpdated(LocalDateTime.now());
         if(mapper.insert(menu) == 0) {
             throw new ServiceException(ResultCode.MYSQL_ERROR,"添加新菜单失败");
         }

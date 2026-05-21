@@ -164,6 +164,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order>  implement
         Order order = BeanUtil.copyProperties(dto,Order.class);
         order.setSn(RandomUtil.randomNumbers(19));// 随机生成一个19位的订单编号
         order.setUsername(user.getUsername());
+        // 设置创建时间和修改时间
+        order.setCreated(LocalDateTime.now());
+        order.setUpdated(LocalDateTime.now());
         return mapper.insert(order)>0;
     }
 

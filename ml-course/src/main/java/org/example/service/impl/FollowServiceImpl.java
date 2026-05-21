@@ -19,6 +19,8 @@ import org.example.service.FollowService;
 import org.example.vo.PageVO;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 import static org.example.entity.table.FollowTableDef.FOLLOW;
 
 /**
@@ -45,6 +47,9 @@ public class FollowServiceImpl extends ServiceImpl<FollowMapper, Follow>  implem
         }
         Follow follow = BeanUtil.copyProperties(dto, Follow.class);
         follow.setNickname(user.getNickname());
+        // 设置创建时间和修改时间
+        follow.setCreated(LocalDateTime.now());
+        follow.setUpdated(LocalDateTime.now());
         if(mapper.insert(follow)==0){
             throw new ServiceException(ResultCode.MYSQL_ERROR,"添加收藏数据失败");
         }

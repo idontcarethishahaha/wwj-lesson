@@ -20,6 +20,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
+
 import static org.example.entity.table.EpisodeTableDef.EPISODE;
 
 /**
@@ -36,6 +38,9 @@ public class EpisodeServiceImpl extends ServiceImpl<EpisodeMapper, Episode>  imp
         // 设置默认的封面和视频
         episode.setCover(ML.Episode.DEFAULT_VIDEO_COVER);
         episode.setVideo(ML.Episode.DEFAULT_VIDEO);
+        // 设置创建时间和修改时间
+        episode.setCreated(LocalDateTime.now());
+        episode.setUpdated(LocalDateTime.now());
         // 判断info是否为空
         if (StrUtil.isBlank(episode.getInfo())){
             episode.setInfo("暂无描述");

@@ -21,6 +21,7 @@ import org.example.vo.PageVO;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -47,6 +48,9 @@ public class BannerServiceImpl extends ServiceImpl<BannerMapper, Banner>  implem
         if (StrUtil.isBlank(banner.getInfo())){
             banner.setInfo("暂无描述");
         }
+        // 设置创建时间和修改时间
+        banner.setCreated(LocalDateTime.now());
+        banner.setUpdated(LocalDateTime.now());
         // 插入
         if (mapper.insert(banner)==0){
             throw new ServiceException(ResultCode.MYSQL_ERROR,"添加失败");

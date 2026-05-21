@@ -20,7 +20,13 @@ public interface CourseService extends IService<Course> {
     boolean insert(CourseInsertDTO dto);
     List<CourseSimpleListVO> simpleList();
     PageVO<Course> page(CoursePageDTO dto);
+    //boolean update(CourseUpdateDTO dto);
 
     // 上传课程封面
     String uploadCover(Long courseId, MultipartFile  coverFile);
+    // 上传课程摘要
+    //String uploadSummary(Long courseId, MultipartFile  summaryFile);
+
+    boolean delete(Long id);
+    //boolean deleteBatch(List<Long> ids);
 }

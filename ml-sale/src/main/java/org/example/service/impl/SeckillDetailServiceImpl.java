@@ -18,6 +18,8 @@ import org.example.service.SeckillDetailService;
 import org.example.vo.PageVO;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 import static org.example.entity.table.SeckillDetailTableDef.SECKILL_DETAIL;
 
 /**
@@ -59,6 +61,9 @@ public class SeckillDetailServiceImpl extends ServiceImpl<SeckillDetailMapper, S
         seckillDetail.setCourseCover(course.getCover());//课程封面
         seckillDetail.setCoursePrice(course.getPrice());//课程价格
         seckillDetail.setInfo(course.getInfo());//课程描述
+        // 设置创建时间和修改时间
+        seckillDetail.setCreated(LocalDateTime.now());
+        seckillDetail.setUpdated(LocalDateTime.now());
         // 保存数据
         return mapper.insert(seckillDetail) > 0;
     }

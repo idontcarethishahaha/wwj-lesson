@@ -5,12 +5,69 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2bfe111d-2371-478a-b9d7-87f6c93e6ee4" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/ml-order/src/main/java/org/example/dto/PrePayDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ml-order/src/main/java/org/example/dto/QrCodeDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ml-order/src/main/java/org/example/util/AlipayUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ml-order/src/main/java/org/example/controller/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-order/src/main/java/org/example/controller/OrderController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ml-order/src/main/java/org/example/service/OrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-order/src/main/java/org/example/service/OrderService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MyLesson项目介绍和常见问题汇总.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ml-order/src/main/java/org/example/mq/OrderMessageListener.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ml-web-admin/src/api/cms/course.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ml-web-admin/src/api/cms/episode.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ml-web-admin/src/api/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ml-web-admin/src/api/oms/order.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ml-web-admin/src/api/sms/banner.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ml-web-admin/src/api/ums/menu.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ml-web-admin/src/api/ums/role.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ml-web-admin/src/api/ums/user.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ml-web-admin/src/assets/image/loginBackground.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ml-web-admin/src/assets/my-lesson.ico" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ml-web-admin/src/components/MyForm.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ml-web-admin/src/components/MyHead.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ml-web-admin/src/components/MyIcon.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ml-web-admin/src/components/MyNav.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ml-web-admin/src/components/MyTable.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ml-web-admin/src/components/MyUpload.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ml-web-admin/src/const/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ml-web-admin/src/echarts/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ml-web-admin/src/request/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ml-web-admin/src/router/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ml-web-admin/src/util/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ml-web-admin/src/views/Dashboard.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ml-web-admin/src/views/Login.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ml-web-admin/src/views/Main.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ml-web-admin/src/views/Xxx.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ml-web-admin/src/views/XxxInsert.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ml-web-admin/src/views/cms/category/Category.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ml-web-admin/src/views/cms/category/CategoryInsert.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ml-web-admin/src/views/cms/category/CategoryUpdate.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ml-web-admin/src/views/cms/course/Course.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ml-web-admin/src/views/cms/course/CourseInsert.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ml-web-admin/src/views/cms/course/CourseUpdate.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ml-web-admin/src/views/personal/Personal.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ml-web-admin/src/views/personal/PersonalUpdate.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ml-web-admin/src/views/personal/PersonalUpdatePhone.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ml-web-admin/src/views/ums/user/User.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ml-web-admin/src/vuex/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml-common/src/main/java/org/example/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-common/src/main/java/org/example/entity/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml-course/src/main/java/org/example/controller/CourseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-course/src/main/java/org/example/controller/CourseController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml-course/src/main/java/org/example/service/CourseService.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-course/src/main/java/org/example/service/CourseService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml-course/src/main/java/org/example/service/impl/CategoryServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-course/src/main/java/org/example/service/impl/CategoryServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml-course/src/main/java/org/example/service/impl/CommentServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-course/src/main/java/org/example/service/impl/CommentServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml-course/src/main/java/org/example/service/impl/CourseServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-course/src/main/java/org/example/service/impl/CourseServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml-course/src/main/java/org/example/service/impl/EpisodeServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-course/src/main/java/org/example/service/impl/EpisodeServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml-course/src/main/java/org/example/service/impl/FollowServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-course/src/main/java/org/example/service/impl/FollowServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml-course/src/main/java/org/example/service/impl/ReportServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-course/src/main/java/org/example/service/impl/ReportServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml-course/src/main/java/org/example/service/impl/SeasonServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-course/src/main/java/org/example/service/impl/SeasonServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml-order/src/main/java/org/example/service/impl/CartServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-order/src/main/java/org/example/service/impl/CartServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml-order/src/main/java/org/example/service/impl/OrderDetailServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-order/src/main/java/org/example/service/impl/OrderDetailServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ml-order/src/main/java/org/example/service/impl/OrderServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-order/src/main/java/org/example/service/impl/OrderServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml-sale/src/main/java/org/example/service/impl/ArticleServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-sale/src/main/java/org/example/service/impl/ArticleServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml-sale/src/main/java/org/example/service/impl/BannerServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-sale/src/main/java/org/example/service/impl/BannerServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml-sale/src/main/java/org/example/service/impl/CouponsServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-sale/src/main/java/org/example/service/impl/CouponsServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml-sale/src/main/java/org/example/service/impl/NoticeServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-sale/src/main/java/org/example/service/impl/NoticeServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml-sale/src/main/java/org/example/service/impl/SeckillDetailServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-sale/src/main/java/org/example/service/impl/SeckillDetailServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml-sale/src/main/java/org/example/service/impl/SeckillServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-sale/src/main/java/org/example/service/impl/SeckillServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml-user/src/main/java/org/example/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-user/src/main/java/org/example/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml-user/src/main/java/org/example/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-user/src/main/java/org/example/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml-user/src/main/java/org/example/service/impl/MenuServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-user/src/main/java/org/example/service/impl/MenuServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml-user/src/main/java/org/example/service/impl/RoleServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-user/src/main/java/org/example/service/impl/RoleServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml-user/src/main/java/org/example/service/impl/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-user/src/main/java/org/example/service/impl/UserServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,6 +83,7 @@
         <option value="package-info" />
         <option value="Interface" />
         <option value="Class" />
+        <option value="Vue Composition API Component" />
       </list>
     </option>
   </component>
@@ -49,40 +107,48 @@
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;Spring Boot.UserApp.executor&quot;: &quot;Run&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/workspace-java/my-lesson/ml-sale/src/main/resources&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;onboarding.tips.debug.path&quot;: &quot;D:/workspace-java/my-lesson/ml-barrage/src/main/java/org/example/Main.java&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Main.executor": "Run",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "Spring Boot.CourseApp.executor": "Run",
+    "Spring Boot.GatewayApp.executor": "Run",
+    "Spring Boot.UserApp.executor": "Run",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/workspace-java/my-lesson/ml-web-admin/src/views/cms/course",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "onboarding.tips.debug.path": "D:/workspace-java/my-lesson/mc-web/src/main/java/org/example/Main.java",
+    "run.configurations.included.in.services": "true",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "ts.external.directory.path": "D:\\idea\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;mysql&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql"
+    ],
+    "vue.recent.templates": [
+      "Vue Composition API Component"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\workspace-java\my-lesson\ml-sale\src\main\resources" />
-      <recent name="D:\workspace-java\my-lesson\ml-common\src\main\java\org\example\component" />
-      <recent name="D:\workspace-java\my-lesson\ml-common\src\main\java\org\example\constant" />
-      <recent name="D:\workspace-java\my-lesson\sql" />
+      <recent name="D:\workspace-java\my-lesson\ml-web-admin\src\views\cms\course" />
+      <recent name="D:\workspace-java\my-lesson\ml-web-admin\src\views\cms\category" />
+      <recent name="D:\workspace-java\my-lesson\ml-web-admin\src\views" />
+      <recent name="D:\workspace-java\my-lesson\ml-web-admin\src\assets\image" />
+      <recent name="D:\workspace-java\my-lesson\ml-web-admin\src" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="org.example.feign" />
@@ -91,14 +157,43 @@
   <component name="RunDashboard">
     <option name="configurationTypes">
       <set>
+        <option value="KtorApplicationConfigurationType" />
+        <option value="MicronautRunConfigurationType" />
+        <option value="QuarkusRunConfigurationType" />
         <option value="SpringBootApplicationConfigurationType" />
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.UserApp">
+  <component name="RunManager" selected="Spring Boot.CourseApp">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="org.example.Main" />
       <module name="ml-generator" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.example.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CourseApp" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="ml-course" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="org.example.CourseApp" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.example.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GatewayApp" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="ml-gateway" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="org.example.GatewayApp" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="org.example.*" />
@@ -122,9 +217,17 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="Application.Main" />
+      <item itemvalue="Spring Boot.CourseApp" />
+      <item itemvalue="Spring Boot.GatewayApp" />
+      <item itemvalue="Spring Boot.UserApp" />
+    </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Spring Boot.CourseApp" />
         <item itemvalue="Spring Boot.UserApp" />
+        <item itemvalue="Spring Boot.GatewayApp" />
         <item itemvalue="Application.Main" />
       </list>
     </recent_temporary>
@@ -156,7 +259,15 @@
       <workItem from="1778375012516" duration="20590000" />
       <workItem from="1778753085462" duration="10721000" />
       <workItem from="1778897535200" duration="48000" />
-      <workItem from="1778983561367" duration="6754000" />
+      <workItem from="1778983561367" duration="18342000" />
+      <workItem from="1779021777265" duration="170000" />
+      <workItem from="1779110356253" duration="1190000" />
+      <workItem from="1779178763686" duration="602000" />
+      <workItem from="1779199658770" duration="484000" />
+      <workItem from="1779254213660" duration="653000" />
+      <workItem from="1779274408226" duration="186000" />
+      <workItem from="1779357242844" duration="1381000" />
+      <workItem from="1779358661246" duration="9568000" />
     </task>
     <servers />
   </component>
@@ -173,5 +284,9 @@
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

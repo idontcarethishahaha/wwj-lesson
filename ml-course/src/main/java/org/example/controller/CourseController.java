@@ -48,11 +48,18 @@ public class CourseController {
      * @param id 主键
      * @return {@code true} 删除成功，{@code false} 删除失败
      */
+    @Operation(summary = "删除 - 单条删除", description = "按主键删除一条课程记录")
     @DeleteMapping("delete/{id}")
-    @Operation(description="根据主键课程表")
-    public boolean remove(@PathVariable @Parameter(description="课程表主键")Long id) {
-        return courseService.removeById(id);
+    public boolean delete(@PathVariable("id") Long id) {
+        return courseService.delete(id);
     }
+//    @DeleteMapping("delete/{id}")
+//    @Operation(description="根据主键课程表")
+//    public boolean remove(@PathVariable @Parameter(description="课程表主键")Long id) {
+//        return courseService.removeById(id);
+//    }
+
+
 
     /**
      * 根据主键更新课程表。
@@ -108,5 +115,28 @@ public class CourseController {
     }
 
     // 仿照上传课程封面，创建一个上传课程摘要的方法
+//    @Operation(description="上传课程摘要")
+//    @PostMapping("uploadSummary/{id}")
+//    public Result<String> uploadSummary(@PathVariable Long id, @RequestParam("summaryFile") MultipartFile summaryFile) {
+//        return new Result<>(courseService.uploadSummary(id, summaryFile));
+//    }
+
+
+
+
+
+//    @Operation(summary = "修改 - 单条修改", description = "按主键修改一条课程记录")
+//    @PutMapping("update")
+//    public boolean update(@Validated @RequestBody CourseUpdateDTO dto) {
+//        return courseService.update(dto);
+//    }
+
+//
+//    @Operation(summary = "删除 - 批量删除", description = "按主键批量删除课程记录")
+//    @DeleteMapping("deleteBatch")
+//    public boolean deleteBatch(@RequestParam("ids") List<Long> ids) {
+//        return courseService.deleteBatch(ids);
+//    }
+
 
 }

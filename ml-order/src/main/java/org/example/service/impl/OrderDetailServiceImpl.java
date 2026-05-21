@@ -18,6 +18,8 @@ import org.example.service.OrderDetailService;
 import org.example.vo.PageVO;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 import static org.example.entity.table.OrderDetailTableDef.ORDER_DETAIL;
 
 /**
@@ -55,6 +57,9 @@ public class OrderDetailServiceImpl extends ServiceImpl<OrderDetailMapper, Order
         orderDetail.setCourseTitle(course.getTitle());//课程标题
         orderDetail.setCourseCover(course.getCover());//课程封面
         orderDetail.setCoursePrice(course.getPrice());//课程价格
+        // 设置创建时间和修改时间
+        orderDetail.setCreated(LocalDateTime.now());
+        orderDetail.setUpdated(LocalDateTime.now());
         return mapper.insert(orderDetail)>0;
     }
 

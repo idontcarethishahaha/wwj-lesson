@@ -21,6 +21,8 @@ import org.example.service.CartService;
 import org.example.vo.PageVO;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 import static org.example.entity.table.CartTableDef.CART;
 
 /**
@@ -72,6 +74,9 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart>  implements C
         cart.setCourseTitle(course.getTitle());
         cart.setCourseCover(course.getCover());
         cart.setCoursePrice(course.getPrice());
+        // 设置创建时间和修改时间
+        cart.setCreated(LocalDateTime.now());
+        cart.setUpdated(LocalDateTime.now());
         // 保存购物车
         return mapper.insert(cart)>0;
     }

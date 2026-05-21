@@ -57,6 +57,9 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill>  imp
         if (StrUtil.isBlank(seckill.getInfo())){
             seckill.setInfo("暂无描述");
         }
+        // 设置创建时间和修改时间
+        seckill.setCreated(LocalDateTime.now());
+        seckill.setUpdated(LocalDateTime.now());
         return mapper.insert(seckill)>0;
     }
 

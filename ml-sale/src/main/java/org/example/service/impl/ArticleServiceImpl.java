@@ -19,6 +19,7 @@ import org.example.service.ArticleService;
 import org.example.vo.PageVO;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -46,6 +47,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article>  imp
         }
         // 复制属性
         Article article = BeanUtil.copyProperties(dto, Article.class);
+        // 设置创建时间和修改时间
+        article.setCreated(LocalDateTime.now());
+        article.setUpdated(LocalDateTime.now());
         if (mapper.insert(article) == 0){
             throw new ServiceException(ResultCode.MYSQL_ERROR,"添加数据库失败");
         }
