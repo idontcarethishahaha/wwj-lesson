@@ -47,7 +47,7 @@ public class RoleController {
      */
     @DeleteMapping("delete/{id}")
     @Operation(description="根据主键角色表")
-    public boolean remove(@PathVariable @Parameter(description="角色表主键")Long id) {
+    public boolean remove(@PathVariable("id") @Parameter(description="角色表主键")Long id) {
         return roleService.removeById(id);
     }
 
@@ -82,7 +82,7 @@ public class RoleController {
      */
     @GetMapping("select/{id}")
     @Operation(description="根据主键获取角色表")
-    public Role getInfo(@PathVariable Long id) {
+    public Role getInfo(@PathVariable("id") Long id) {
         return roleService.getById(id);
     }
 
@@ -106,7 +106,7 @@ public class RoleController {
 
     @GetMapping("listRoleIdsByUserId/{userId}")
     @Operation(description = "根据用户ID查询角色ID列表")
-    public List<Long> listRoleIdsByUserId(@PathVariable Long userId) {
+    public List<Long> listRoleIdsByUserId(@PathVariable("userId") Long userId) {
         return roleService.listRoleIdsByUserId(userId);
     }
 

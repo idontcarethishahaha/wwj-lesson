@@ -47,7 +47,7 @@ public class CommentController {
      */
     @DeleteMapping("delete/{id}")
     @Operation(description="根据主键评论表")
-    public boolean remove(@PathVariable @Parameter(description="评论表主键")Long id) {
+    public boolean remove(@PathVariable("id") @Parameter(description="评论表主键")Long id) {
         return commentService.removeById(id);
     }
 
@@ -82,7 +82,7 @@ public class CommentController {
      */
     @GetMapping("select/{id}")
     @Operation(description="根据主键获取评论表")
-    public Comment getInfo(@PathVariable Long id) {
+    public Comment getInfo(@PathVariable("id") Long id) {
         return commentService.getById(id);
     }
 

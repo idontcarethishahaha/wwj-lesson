@@ -3,6 +3,7 @@ package org.example.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.example.dto.OrderDetailInsertDTO;
 import org.example.dto.OrderDetailPageDTO;
 import org.example.entity.OrderDetail;
 import org.example.service.OrderDetailService;
@@ -34,7 +35,7 @@ public class OrderDetailController {
      */
     @PostMapping("insert")
     @Operation(description="保存订单明细表")
-    public boolean save(@RequestBody @Parameter(description="订单明细表")OrderDetail orderDetail) {
+    public boolean save(@RequestBody @Parameter(description="订单明细表") OrderDetailInsertDTO orderDetail) {
         return orderDetailService.save(orderDetail);
     }
 
@@ -46,7 +47,7 @@ public class OrderDetailController {
      */
     @DeleteMapping("delete/{id}")
     @Operation(description="根据主键订单明细表")
-    public boolean remove(@PathVariable @Parameter(description="订单明细表主键")Long id) {
+    public boolean remove(@PathVariable("id") @Parameter(description="订单明细表主键")Long id) {
         return orderDetailService.removeById(id);
     }
 
@@ -81,7 +82,7 @@ public class OrderDetailController {
      */
     @GetMapping("select/{id}")
     @Operation(description="根据主键获取订单明细表")
-    public OrderDetail getInfo(@PathVariable Long id) {
+    public OrderDetail getInfo(@PathVariable("id") Long id) {
         return orderDetailService.getById(id);
     }
 

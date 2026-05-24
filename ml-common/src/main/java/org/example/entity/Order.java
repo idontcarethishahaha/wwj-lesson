@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * 订单表 实体类。
@@ -116,7 +117,7 @@ public class Order implements Serializable {
     private LocalDateTime updated;
 
     // 关联订单
-    @RelationOneToMany(selfField = "fkOrderId",targetField = "id")// 一个订单对应多个详情
-    private Order order;
+    @RelationOneToMany(selfField = "id",targetField = "fkOrderId")// 一个订单对应多个详情
+    private List<OrderDetail> orderDetails;
 
 }

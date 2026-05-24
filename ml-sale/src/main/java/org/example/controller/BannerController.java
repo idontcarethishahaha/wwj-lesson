@@ -49,7 +49,7 @@ public class BannerController {
      */
     @DeleteMapping("delete/{id}")
     @Operation(description="根据主键横幅表")
-    public boolean remove(@PathVariable @Parameter(description="横幅表主键")Long id) {
+    public boolean remove(@PathVariable("id") Long id) {
         return bannerService.removeById(id);
     }
 
@@ -84,7 +84,7 @@ public class BannerController {
      */
     @GetMapping("select/{id}")
     @Operation(description="根据主键获取横幅表")
-    public Banner getInfo(@PathVariable Long id) {
+    public Banner getInfo(@PathVariable("id") Long id) {
         return bannerService.getById(id);
     }
 
@@ -107,10 +107,10 @@ public class BannerController {
      * @param id 横幅表id
      * @return 文件路径
      */
-    @PostMapping("upload/{id}")
+    @PostMapping("uploadBanner/{id}")
     @Operation(description="上传横幅图片")
     public Result<String> uploadBanner(@RequestParam("bannerFile") @Parameter(description="新文件") MultipartFile newFile,
-                               @PathVariable("id") @Parameter(description="横幅表id")Long id) {
+                               @PathVariable("id") Long id) {
         return new Result<>(bannerService.uploadBanner(newFile, id));
     }
 

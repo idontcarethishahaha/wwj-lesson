@@ -88,14 +88,13 @@ public class EpisodeServiceImpl extends ServiceImpl<EpisodeMapper, Episode>  imp
         if (episode == null){
             throw new ServiceException(ResultCode.EPISODE_NOT_FOUND,"数据不存在");
         }
-        // 得到新的文件名
-        String  newFileName = MinioUtil.randomFilename(coverFile);
+        // 上传文件,得到新的文件名
+        String  newFileName
+                = MinioUtil.upload(coverFile, ML.MinIO.EPISODE_VIDEO_COVER_DIR, ML.MinIO.BUCKET_NAME);
         episode.setCover(newFileName);
         if (mapper.update(episode)<=0){
             throw new ServiceException(ResultCode.MYSQL_ERROR,"数据操作失败");
         }
-        // 上传文件
-        MinioUtil.upload(coverFile, ML.MinIO.EPISODE_VIDEO_DIR, ML.MinIO.BUCKET_NAME);
         // 返回新的文件名
         return newFileName;
     }
@@ -107,13 +106,13 @@ public class EpisodeServiceImpl extends ServiceImpl<EpisodeMapper, Episode>  imp
         if (episode == null){
             throw new ServiceException(ResultCode.EPISODE_NOT_FOUND,"数据不存在");
         }
-        String newFileName = MinioUtil.randomFilename(videoFile);
+        //上传文件
+        String newFileName
+                = MinioUtil.upload(videoFile, ML.MinIO.EPISODE_VIDEO_DIR, ML.MinIO.BUCKET_NAME);
         episode.setVideo(newFileName);
         if (mapper.update(episode)<=0){
             throw new ServiceException(ResultCode.MYSQL_ERROR,"数据操作失败");
         }
-        // 上传文件
-        MinioUtil.upload(videoFile, ML.MinIO.EPISODE_VIDEO_DIR, ML.MinIO.BUCKET_NAME);
         return newFileName;
     }
 }

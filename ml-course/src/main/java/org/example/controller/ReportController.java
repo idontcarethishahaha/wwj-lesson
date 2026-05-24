@@ -47,7 +47,7 @@ public class ReportController {
      */
     @DeleteMapping("delete/{id}")
     @Operation(description="根据主键举报表")
-    public boolean remove(@PathVariable @Parameter(description="举报表主键")Long id) {
+    public boolean remove(@PathVariable("id") @Parameter(description="举报表主键")Long id) {
         return reportService.removeById(id);
     }
 
@@ -82,7 +82,7 @@ public class ReportController {
      */
     @GetMapping("select/{id}")
     @Operation(description="根据主键获取举报表")
-    public Report getInfo(@PathVariable Long id) {
+    public Report getInfo(@PathVariable("id") Long id) {
         return reportService.getById(id);
     }
 

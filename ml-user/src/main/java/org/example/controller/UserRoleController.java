@@ -51,7 +51,7 @@ public class UserRoleController {
      */
     @DeleteMapping("remove/{id}")
     @Operation(description="根据主键用户角色关系表")
-    public boolean remove(@PathVariable @Parameter(description="用户角色关系表主键")Long id) {
+    public boolean remove(@PathVariable("id") @Parameter(description="用户角色关系表主键")Long id) {
         return userRoleService.removeById(id);
     }
 
@@ -86,7 +86,7 @@ public class UserRoleController {
      */
     @GetMapping("getInfo/{id}")
     @Operation(description="根据主键获取用户角色关系表")
-    public UserRole getInfo(@PathVariable Long id) {
+    public UserRole getInfo(@PathVariable("id") Long id) {
         return userRoleService.getById(id);
     }
 

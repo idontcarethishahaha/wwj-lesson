@@ -44,7 +44,7 @@ public class MenuController {
      */
     @DeleteMapping("delete/{id}")
     @Operation(description="根据主键菜单表")
-    public boolean remove(@PathVariable @Parameter(description="菜单表主键")Long id) {
+    public boolean remove(@PathVariable("id") @Parameter(description="菜单表主键")Long id) {
         return menuService.removeById(id);
     }
 
@@ -79,7 +79,7 @@ public class MenuController {
      */
     @GetMapping("select/{id}")
     @Operation(description="根据主键获取菜单表")
-    public Menu getInfo(@PathVariable Long id) {
+    public Menu getInfo(@PathVariable("id") Long id) {
         return menuService.getById(id);
     }
 

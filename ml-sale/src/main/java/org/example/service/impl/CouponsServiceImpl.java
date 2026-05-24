@@ -16,7 +16,9 @@ import org.example.vo.PageVO;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
+import static com.mybatisflex.core.query.QueryMethods.currentTimestamp;
 import static org.example.entity.table.CouponsTableDef.COUPONS;
 
 /**
@@ -81,5 +83,13 @@ public class CouponsServiceImpl extends ServiceImpl<CouponsMapper, Coupons>  imp
         return QueryChain.of(mapper)
                 .where(COUPONS.CODE.eq(code))
                 .one();
+    }
+
+    @Override
+    public List<Coupons> queryAvailableCoupons() {
+        return QueryChain.of(mapper)
+                .where(COUPONS.START_TIME.lt(currentTimestamp()))
+                .and(COUPONS.END_TIME.gt(currentTimestamp()))
+                .list();
     }
 }

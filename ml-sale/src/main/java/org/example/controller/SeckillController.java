@@ -1,20 +1,16 @@
 package org.example.controller;
 
-import com.mybatisflex.core.paginate.Page;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.example.entity.Seckill;
-import org.example.service.SeckillService;
-import org.springframework.web.bind.annotation.RestController;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.example.dto.SeckillInsertDTO;
+import org.example.dto.SeckillPageDTO;
+import org.example.entity.Seckill;
+import org.example.service.SeckillService;
+import org.example.vo.PageVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 /**
@@ -37,9 +33,9 @@ public class SeckillController {
      * @param seckill 秒杀表
      * @return {@code true} 添加成功，{@code false} 添加失败
      */
-    @PostMapping("save")
+    @PostMapping("insert")
     @Operation(description="保存秒杀表")
-    public boolean save(@RequestBody @Parameter(description="秒杀表")Seckill seckill) {
+    public boolean save(@RequestBody @Parameter(description="秒杀表") SeckillInsertDTO seckill) {
         return seckillService.save(seckill);
     }
 
@@ -49,9 +45,9 @@ public class SeckillController {
      * @param id 主键
      * @return {@code true} 删除成功，{@code false} 删除失败
      */
-    @DeleteMapping("remove/{id}")
+    @DeleteMapping("delete/{id}")
     @Operation(description="根据主键秒杀表")
-    public boolean remove(@PathVariable @Parameter(description="秒杀表主键")Long id) {
+    public boolean remove(@PathVariable("id") Long id) {
         return seckillService.removeById(id);
     }
 
@@ -84,9 +80,9 @@ public class SeckillController {
      * @param id 秒杀表主键
      * @return 秒杀表详情
      */
-    @GetMapping("getInfo/{id}")
+    @GetMapping("select/{id}")
     @Operation(description="根据主键获取秒杀表")
-    public Seckill getInfo(@PathVariable Long id) {
+    public Seckill getInfo(@PathVariable("id") Long id) {
         return seckillService.getById(id);
     }
 
@@ -98,7 +94,7 @@ public class SeckillController {
      */
     @GetMapping("page")
     @Operation(description="分页查询秒杀表")
-    public Page<Seckill> page(@Parameter(description="分页信息")Page<Seckill> page) {
+    public PageVO<Seckill> page(@Parameter(description="分页信息") SeckillPageDTO page) {
         return seckillService.page(page);
     }
 

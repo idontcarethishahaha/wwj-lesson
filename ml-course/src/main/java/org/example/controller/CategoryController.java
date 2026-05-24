@@ -48,7 +48,7 @@ public class CategoryController {
      */
     @DeleteMapping("delete/{id}")
     @Operation(description="根据主键课程类别表")
-    public boolean remove(@PathVariable @Parameter(description="课程类别表主键")Long id) {
+    public boolean remove(@PathVariable("id") @Parameter(description="课程类别表主键")Long id) {
         return categoryService.removeById(id);
     }
 
@@ -83,7 +83,7 @@ public class CategoryController {
      */
     @GetMapping("select/{id}")
     @Operation(description="根据主键获取课程类别表")
-    public Category getInfo(@PathVariable Long id) {
+    public Category getInfo(@PathVariable("id") Long id) {
         return categoryService.getById(id);
     }
 

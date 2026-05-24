@@ -18,5 +18,5 @@ import org.springframework.web.bind.annotation.PathVariable;
 public interface CourseFeign {
     @GetMapping("/api/v1/course/select/{id}")
     @Operation(description = "根据主键获取课程表")
-    Result<Course> getInfo(@PathVariable Long id);
+    Result<Course> getInfo(@PathVariable("id") Long id);
 }

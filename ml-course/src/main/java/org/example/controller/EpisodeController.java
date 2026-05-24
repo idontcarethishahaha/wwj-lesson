@@ -49,7 +49,7 @@ public class EpisodeController {
      */
     @DeleteMapping("delete/{id}")
     @Operation(description="根据主键集次表")
-    public boolean remove(@PathVariable @Parameter(description="集次表主键")Long id) {
+    public boolean remove(@PathVariable("id") @Parameter(description="集次表主键")Long id) {
         return episodeService.removeById(id);
     }
 
@@ -84,7 +84,7 @@ public class EpisodeController {
      */
     @GetMapping("select/{id}")
     @Operation(description="根据主键获取集次表")
-    public Episode getInfo(@PathVariable Long id) {
+    public Episode getInfo(@PathVariable("id") Long id) {
         return episodeService.getById(id);
     }
 
@@ -102,7 +102,7 @@ public class EpisodeController {
 
     @PostMapping("uploadVideoCover/{id}")
     @Operation(description="上传集次表封面")
-    public Result<String> uploadCover(@PathVariable("id") Long episodeId,@RequestParam("coverFile") MultipartFile coverFile) {
+    public Result<String> uploadCover(@PathVariable("id") Long episodeId,@RequestParam("videoCoverFile") MultipartFile coverFile) {
         return new Result<>(episodeService.uploadCover(episodeId,coverFile));
     }
 

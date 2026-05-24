@@ -22,9 +22,9 @@ public class MinioUtil {
     /** MinIO 端点 */
     private final static String END_POINT = "http://192.168.227.128:9001";
     /** MinIO 访钥 */
-    private final static String ACCESS_KEY = "ewbUbkXx1uRCYyC5op3y";
+    private final static String ACCESS_KEY = "minioadmin";
     /** MinIO 秘钥 */
-    private final static String SECRET_KEY = "dTDxeWVRgJMeZG2eTNsuAwkP8bflXjYaxS8eniqO";
+    private final static String SECRET_KEY = "minioadmin";
 
     static {
         try {

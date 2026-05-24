@@ -23,9 +23,20 @@ public interface CourseService extends IService<Course> {
     //boolean update(CourseUpdateDTO dto);
 
     // 上传课程封面
-    String uploadCover(Long courseId, MultipartFile  coverFile);
+//    String uploadCover(Long courseId, MultipartFile  coverFile);
+
+    /**
+     * 上传课程封面图片
+     *
+     * @param newFile 封面图片文件
+     * @param id      课程主键
+     * @return 文件名
+     */
+    String uploadCover(Long id, MultipartFile newFile);
+
+
     // 上传课程摘要
-    //String uploadSummary(Long courseId, MultipartFile  summaryFile);
+      String uploadSummary(Long courseId, MultipartFile  summaryFile);
 
     boolean delete(Long id);
     //boolean deleteBatch(List<Long> ids);

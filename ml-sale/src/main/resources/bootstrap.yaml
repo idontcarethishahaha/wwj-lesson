@@ -13,3 +13,5 @@ spring:
             refresh: true # 是否动态刷新，默认为false
   profiles:
     active: dev # 当前开发环境，决定了使用NacosConfig中，哪个环境的配置文件
+  main: #new
+    allow-bean-definition-overriding: true

@@ -47,7 +47,7 @@ public class NoticeController {
      */
     @DeleteMapping("delete/{id}")
     @Operation(description="根据主键通知表")
-    public boolean remove(@PathVariable @Parameter(description="通知表主键")Long id) {
+    public boolean remove(@PathVariable("id") Long id) {
         return noticeService.removeById(id);
     }
 
@@ -82,7 +82,7 @@ public class NoticeController {
      */
     @GetMapping("select/{id}")
     @Operation(description="根据主键获取通知表")
-    public Notice getInfo(@PathVariable Long id) {
+    public Notice getInfo(@PathVariable("id") Long id) {
         return noticeService.getById(id);
     }
 
@@ -105,7 +105,7 @@ public class NoticeController {
      */
     @GetMapping("top/{n}")
     @Operation(description="获取最新n个通知")
-    public List<Notice> top(@PathVariable("n") @Parameter(description="获取最新n个通知") Long n) {
+    public List<Notice> top(@PathVariable("n") Long n) {
         return noticeService.top(n);
     }
 }

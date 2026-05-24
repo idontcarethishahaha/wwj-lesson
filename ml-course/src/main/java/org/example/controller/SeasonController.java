@@ -47,7 +47,7 @@ public class SeasonController {
      */
     @DeleteMapping("delete/{id}")
     @Operation(description="根据主键季次表")
-    public boolean remove(@PathVariable @Parameter(description="季次表主键")Long id) {
+    public boolean remove(@PathVariable("id") @Parameter(description="季次表主键")Long id) {
         return seasonService.removeById(id);
     }
 
@@ -82,7 +82,7 @@ public class SeasonController {
      */
     @GetMapping("select/{id}")
     @Operation(description="根据主键获取季次表")
-    public Season getInfo(@PathVariable Long id) {
+    public Season getInfo(@PathVariable("id") Long id) {
         return seasonService.getById(id);
     }
 

@@ -18,5 +18,5 @@ import org.springframework.web.bind.annotation.PathVariable;
 public interface UserFeign {
     @GetMapping("/api/v1/user/select/{id}")
     @Operation(description = "根据主键获取用户表")
-    Result<User> getInfo(@PathVariable Long id);
+    Result<User> getInfo(@PathVariable("id") Long id);
 }

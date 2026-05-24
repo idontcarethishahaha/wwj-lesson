@@ -51,7 +51,7 @@ public class RoleMenuController {
      */
     @DeleteMapping("remove/{id}")
     @Operation(description="根据主键角色菜单关系表")
-    public boolean remove(@PathVariable @Parameter(description="角色菜单关系表主键")Long id) {
+    public boolean remove(@PathVariable("id") @Parameter(description="角色菜单关系表主键")Long id) {
         return roleMenuService.removeById(id);
     }
 
@@ -86,7 +86,7 @@ public class RoleMenuController {
      */
     @GetMapping("getInfo/{id}")
     @Operation(description="根据主键获取角色菜单关系表")
-    public RoleMenu getInfo(@PathVariable Long id) {
+    public RoleMenu getInfo(@PathVariable("id") Long id) {
         return roleMenuService.getById(id);
     }
 

@@ -54,7 +54,7 @@ public class UserController {
      */
     @DeleteMapping("delete/{id}")
     @Operation(description="根据主键用户表")
-    public boolean remove(@PathVariable @Parameter(description="用户表主键")Long id) {
+    public boolean remove(@PathVariable("id") @Parameter(description="用户表主键")Long id) {
         return userService.removeById(id);
     }
 
@@ -89,7 +89,7 @@ public class UserController {
      */
     @GetMapping("select/{id}")
     @Operation(description="根据主键获取用户表")
-    public User getInfo(@PathVariable Long id) {
+    public User getInfo(@PathVariable("id") Long id) {
         return userService.getById(id);
     }
 

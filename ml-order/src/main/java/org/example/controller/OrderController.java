@@ -13,6 +13,7 @@ import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.example.constant.ML;
+import org.example.dto.OrderInsertDTO;
 import org.example.dto.OrderPageDTO;
 import org.example.dto.PrePayDTO;
 import org.example.dto.QrCodeDTO;
@@ -51,7 +52,7 @@ public class OrderController {
      */
     @PostMapping("insert")
     @Operation(description="保存订单表")
-    public boolean save(@RequestBody @Parameter(description="订单表")Order order) {
+    public boolean save(@RequestBody @Parameter(description="订单表") OrderInsertDTO order) {
         return orderService.save(order);
     }
 
@@ -63,7 +64,7 @@ public class OrderController {
      */
     @DeleteMapping("delete/{id}")
     @Operation(description="根据主键订单表")
-    public boolean remove(@PathVariable @Parameter(description="订单表主键")Long id) {
+    public boolean remove(@PathVariable("id") @Parameter(description="订单表主键")Long id) {
         return orderService.removeById(id);
     }
 
@@ -98,7 +99,7 @@ public class OrderController {
      */
     @GetMapping("select/{id}")
     @Operation(description="根据主键获取订单表")
-    public Order getInfo(@PathVariable Long id) {
+    public Order getInfo(@PathVariable("id") Long id) {
         return orderService.getById(id);
     }
 

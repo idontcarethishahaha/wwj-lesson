@@ -47,7 +47,7 @@ public class FollowController {
      */
     @DeleteMapping("delete/{id}")
     @Operation(description="根据主键收藏表")
-    public boolean remove(@PathVariable @Parameter(description="收藏表主键")Long id) {
+    public boolean remove(@PathVariable("id") @Parameter(description="收藏表主键")Long id) {
         return followService.removeById(id);
     }
 
@@ -82,7 +82,7 @@ public class FollowController {
      */
     @GetMapping("select/{id}")
     @Operation(description="根据主键获取收藏表")
-    public Follow getInfo(@PathVariable Long id) {
+    public Follow getInfo(@PathVariable("id") Long id) {
         return followService.getById(id);
     }
 

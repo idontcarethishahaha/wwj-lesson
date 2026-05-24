@@ -6,6 +6,7 @@ import cn.hutool.core.util.StrUtil;
 import com.mybatisflex.core.paginate.Page;
 import com.mybatisflex.core.query.QueryChain;
 import com.mybatisflex.core.relation.RelationManager;
+import com.mybatisflex.core.update.UpdateChain;
 import com.mybatisflex.spring.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
 import org.example.component.MyRedis;
@@ -32,8 +33,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.example.entity.table.CourseTableDef.COURSE;
-import static org.example.entity.table.SeasonTableDef.SEASON;
 import static org.example.entity.table.EpisodeTableDef.EPISODE;
+import static org.example.entity.table.SeasonTableDef.SEASON;
 
 /**
  * 课程表 服务层实现。
@@ -118,9 +119,70 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course>  implem
         return pageVO;
     }
 
+//    @Override
+//    @Transactional
+//    public String uploadCover(Long courseId, MultipartFile coverFile) {
+//        // 先查询课程
+//        Course course = QueryChain.of(mapper)
+//                .where(COURSE.ID.eq(courseId))
+//                .one();
+//        // 判断课程是否存在
+//        if(course==null){
+//            throw new ServiceException(ResultCode.COURSE_NOT_FOUND,"课程不存在");
+//        }
+//        // 将新的封面文件上传到 MinIO,生成一个新的文件名
+//        String newFileName = MinioUtil.upload(coverFile,ML.MinIO.COURSE_COVER_DIR,ML.MinIO.BUCKET_NAME);
+//        course.setCover(newFileName);
+//        if(mapper.update(course)<=0){
+//            throw new ServiceException(ResultCode.MYSQL_ERROR,"更新数据库课程封面失败");
+//        }
+//        // 返回新的文件名
+//        return newFileName;
+//    }
+
+
+    // new
+    @Transactional(rollbackFor = Exception.class)
     @Override
-    @Transactional
-    public String uploadCover(Long courseId, MultipartFile coverFile) {
+    public String uploadCover(Long id, MultipartFile newFile) {
+        // 1. 校验课程是否存在
+        Course course = mapper.selectOneById(id);
+        if (ObjectUtil.isNull(course)) {
+            throw new ServiceException(ResultCode.COURSE_NOT_FOUND, id + "号课程数据不存在");
+        }
+
+        // 2. 备份旧文件名
+        String oldFileName = course.getCover();
+
+        // 3. 生成新文件名并上传 MinIO
+        String newFileName = null;
+        try {
+            // 上传新文件
+            newFileName = MinioUtil.upload(newFile, ML.MinIO.COURSE_COVER_DIR, ML.MinIO.BUCKET_NAME);
+            // 删除旧文件（默认封面不删）
+            if (!ML.Course.DEFAULT_COVER.equals(oldFileName)) {
+                MinioUtil.delete(oldFileName, ML.MinIO.COURSE_COVER_DIR, ML.MinIO.BUCKET_NAME);
+            }
+        } catch (Exception e) {
+            throw new ServiceException(ResultCode.SERVER_ERROR, "MinIO操作失败：" + e.getMessage());
+        }
+
+        // 4. 【关键】MyBatis-Flex 按主键更新封面和时间
+        boolean success = UpdateChain.of(Course.class)
+                .set(COURSE.COVER, newFileName)
+                .set(COURSE.UPDATED, LocalDateTime.now())
+                .where(COURSE.ID.eq(id))
+                .update();
+
+        if (!success) {
+            throw new ServiceException(ResultCode.MYSQL_ERROR, "数据库更新失败，可能课程ID不存在");
+        }
+
+        return newFileName;
+    }
+
+    @Override
+    public String uploadSummary(Long courseId, MultipartFile summaryFile) {
         // 先查询课程
         Course course = QueryChain.of(mapper)
                 .where(COURSE.ID.eq(courseId))
@@ -129,46 +191,15 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course>  implem
         if(course==null){
             throw new ServiceException(ResultCode.COURSE_NOT_FOUND,"课程不存在");
         }
-        // 生成一个新的文件名
-        String newFileName = MinioUtil.randomFilename(coverFile);
-        course.setCover(newFileName);
+        // 将新的封面文件上传到 MinIO,生成一个新的文件名
+        String newFileName = MinioUtil.upload(summaryFile,ML.MinIO.COURSE_SUMMARY_DIR,ML.MinIO.BUCKET_NAME);
+        course.setSummary(newFileName);
         if(mapper.update(course)<=0){
-            throw new ServiceException(ResultCode.MYSQL_ERROR,"数据操作失败");
+            throw new ServiceException(ResultCode.MYSQL_ERROR,"更新数据库课程摘要失败");
         }
-        // 将新的封面文件上传到 MinIO
-        MinioUtil.upload(coverFile,ML.MinIO.COURSE_COVER_DIR,ML.MinIO.BUCKET_NAME);
         // 返回新的文件名
         return newFileName;
     }
-
-//    @Override
-//    public boolean update(CourseUpdateDTO dto) {
-//        String title = dto.getTitle();
-//        Long id = dto.getId();
-//
-//        // 检查课程是否存在
-//        this.existsById(id);
-//
-//        // 标题查重
-//        // select count(1) from course where title = ? and id <> ?
-//        if (QueryChain.of(mapper)
-//                .where(COURSE.TITLE.eq(dto.getTitle()))
-//                .and(COURSE.ID.ne(dto.getId()))
-//                .exists()) {
-//            throw new ServiceException(ResultCode.TITLE_REPEAT, "标题" + title + "重复");
-//        }
-//
-//        // 组装实体类
-//        Course course = BeanUtil.copyProperties(dto, Course.class);
-//        course.setUpdated(LocalDateTime.now());
-//        // update course set title = ?, author = ?, fk_category_id = ?, info = ?, summary = ?, cover = ?, price = ?, idx = ?, updated = ? where id = ?
-//        if (!UpdateChain.of(course)
-//                .where(COURSE.ID.eq(course.getId()))
-//                .update()) {
-//            throw new ServiceException(ResultCode.MYSQL_ERROR, "数据库修改失败");
-//        }
-//        return true;
-//    }
 
     @Transactional(rollbackFor = Exception.class)
     @Override
@@ -194,36 +225,6 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course>  implem
         }
         return true;
     }
-
-//    @Transactional(rollbackFor = Exception.class)
-//    @Override
-//    public boolean deleteBatch(List<Long> ids) {
-//
-//        // 检查课程是否存在
-//        // select count(*) from course where id in (?, ?, ?)
-//        if (QueryChain.of(mapper)
-//                .where(COURSE.ID.in(ids))
-//                .count() < ids.size()) {
-//            throw new ServiceException(ResultCode.COURSE_NOT_FOUND, "至少一个课程数据不存在");
-//        }
-//
-//        // 通过课程主键列表批量查询全部季次的ID列表
-//        // select id from season where fk_course_id in (?)
-//        List<Long> seasonIds = QueryChain.of(seasonMapper)
-//                .select(SEASON.ID)
-//                .where(SEASON.FK_COURSE_ID.in(ids))
-//                .objListAs(Long.class);
-//
-//        // 存在季记录时，批量删除季
-//        this.clearSeasonAndEpisode(seasonIds);
-//
-//        // 批量删除课程
-//        // delete from course where id in (?)
-//        if (mapper.deleteBatchByIds(ids) <= 0) {
-//            throw new ServiceException(ResultCode.MYSQL_ERROR, "数据库删除失败");
-//        }
-//        return true;
-//    }
 
     /**
      * 按主键检查课程是否存在，如果不存在则直接抛出异常

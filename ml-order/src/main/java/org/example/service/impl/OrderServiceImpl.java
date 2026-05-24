@@ -189,7 +189,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order>  implement
         if (username!=null){
             queryChain.where(ORDER.USERNAME.eq(username));
         }
-        Page<Order> result = queryChain.page(new Page<>(dto.getPageNum(),dto.getPageSize()));
+        Page<Order> result = queryChain.withRelations().page(new Page<>(dto.getPageNum(),dto.getPageSize()));
         PageVO<Order> pageVO = new PageVO<>();
         BeanUtil.copyProperties(result,pageVO);
         pageVO.setPageNum(result.getPageNumber());
@@ -205,5 +205,11 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order>  implement
                 .remove();
         // 再删除订单
         return super.removeById(id);
+    }
+
+    @Override
+    public Order getById(Serializable id) {
+        // 查询订单的同时查询订单详情
+        return mapper.selectOneWithRelationsById(id);
     }
 }

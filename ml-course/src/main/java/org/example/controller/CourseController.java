@@ -92,7 +92,7 @@ public class CourseController {
      */
     @GetMapping("select/{id}")
     @Operation(description="根据主键获取课程表")
-    public Course getInfo(@PathVariable Long id) {
+    public Course getInfo(@PathVariable("id") Long id) {
         return courseService.getById(id);
     }
 
@@ -110,16 +110,16 @@ public class CourseController {
 
     @Operation(description="上传课程封面")
     @PostMapping("uploadCover/{id}")
-    public Result<String> uploadCover(@PathVariable Long id, @RequestParam("coverFile") MultipartFile coverFile) {
+    public Result<String> uploadCover(@PathVariable("id") Long id, @RequestParam("coverFile") MultipartFile coverFile) {
         return new Result<>(courseService.uploadCover(id, coverFile));
     }
 
     // 仿照上传课程封面，创建一个上传课程摘要的方法
-//    @Operation(description="上传课程摘要")
-//    @PostMapping("uploadSummary/{id}")
-//    public Result<String> uploadSummary(@PathVariable Long id, @RequestParam("summaryFile") MultipartFile summaryFile) {
-//        return new Result<>(courseService.uploadSummary(id, summaryFile));
-//    }
+    @Operation(description="上传课程摘要")
+    @PostMapping("uploadSummary/{id}")
+    public Result<String> uploadSummary(@PathVariable("id") Long id, @RequestParam("summaryFile") MultipartFile summaryFile) {
+        return new Result<>(courseService.uploadSummary(id, summaryFile));
+    }
 
 
 

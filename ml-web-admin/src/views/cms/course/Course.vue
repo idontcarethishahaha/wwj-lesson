@@ -65,7 +65,7 @@ function courseSeason(row) {
   // 存储当前课程ID和名称
   sessionStorage.setItem('courseId', row.id);
   sessionStorage.setItem('courseTitle', row.title);
-  router.push('/Seasons');// 跳转到 courseSeason
+  router.push('/Season');// 跳转到 courseSeason
 }
 
 // 删除课程成功时，显示消息提醒

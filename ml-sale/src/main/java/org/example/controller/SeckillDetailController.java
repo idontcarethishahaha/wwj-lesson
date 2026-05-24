@@ -47,7 +47,7 @@ public class SeckillDetailController {
      */
     @DeleteMapping("delete/{id}")
     @Operation(description="根据主键秒杀明细表")
-    public boolean remove(@PathVariable @Parameter(description="秒杀明细表主键")Long id) {
+    public boolean remove(@PathVariable("id") Long id) {
         return seckillDetailService.removeById(id);
     }
 
@@ -82,7 +82,7 @@ public class SeckillDetailController {
      */
     @GetMapping("select/{id}")
     @Operation(description="根据主键获取秒杀明细表")
-    public SeckillDetail getInfo(@PathVariable Long id) {
+    public SeckillDetail getInfo(@PathVariable("id") Long id) {
         return seckillDetailService.getById(id);
     }
 

@@ -47,7 +47,7 @@ public class CartController {
      */
     @DeleteMapping("delete/{id}")
     @Operation(description="根据主键购物车表")
-    public boolean remove(@PathVariable @Parameter(description="购物车表主键")Long id) {
+    public boolean remove(@PathVariable("id") @Parameter(description="购物车表主键")Long id) {
         return cartService.removeById(id);
     }
 
@@ -94,7 +94,7 @@ public class CartController {
      */
     @GetMapping("select/{id}")
     @Operation(description="根据主键获取购物车表")
-    public Cart getInfo(@PathVariable Long id) {
+    public Cart getInfo(@PathVariable("id") Long id) {
         return cartService.getById(id);
     }
 

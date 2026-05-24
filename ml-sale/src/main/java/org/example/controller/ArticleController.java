@@ -47,7 +47,7 @@ public class ArticleController {
      */
     @DeleteMapping("delete/{id}")
     @Operation(description="根据主键新闻表")
-    public boolean remove(@PathVariable @Parameter(description="新闻表主键")Long id) {
+    public boolean remove(@PathVariable("id") Long id) {
         return articleService.removeById(id);
     }
 
@@ -82,7 +82,7 @@ public class ArticleController {
      */
     @GetMapping("select/{id}")
     @Operation(description="根据主键获取新闻表")
-    public Article getInfo(@PathVariable Long id) {
+    public Article getInfo(@PathVariable("id") Long id) {
         return articleService.getById(id);
     }
 
@@ -106,7 +106,7 @@ public class ArticleController {
      */
     @GetMapping("top/{n}")
     @Operation(description="获取最新新闻表")
-    public List<Article> top(@PathVariable("n") @Parameter(description="获取数量") int n) {
+    public List<Article> top(@PathVariable("n") int n) {
         return articleService.top(n);
     }
 

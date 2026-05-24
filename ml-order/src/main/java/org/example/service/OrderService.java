@@ -30,4 +30,5 @@ public interface OrderService extends IService<Order> {
 
     // 检查订单是否完成支付
     boolean checkPay(String sn);
+
 }

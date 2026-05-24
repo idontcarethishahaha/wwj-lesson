@@ -47,7 +47,7 @@ public class CouponsController {
      */
     @DeleteMapping("delete/{id}")
     @Operation(description="根据主键优惠卷表")
-    public boolean remove(@PathVariable @Parameter(description="优惠卷表主键")Long id) {
+    public boolean remove(@PathVariable("id") @Parameter(description="优惠卷表主键")Long id) {
         return couponsService.removeById(id);
     }
 
@@ -82,7 +82,7 @@ public class CouponsController {
      */
     @GetMapping("select/{id}")
     @Operation(description="根据主键获取优惠卷表")
-    public Coupons getInfo(@PathVariable Long id) {
+    public Coupons getInfo(@PathVariable("id") Long id) {
         return couponsService.getById(id);
     }
 
@@ -109,4 +109,12 @@ public class CouponsController {
      public Coupons getInfoByCode(@PathVariable("code") @Parameter(description = "优惠券口令") String code) {
          return couponsService.selectByCode(code);
      }
+
+     // 查询全部可用优惠券
+    @GetMapping("simpleList")
+    @Operation(description="查询全部可用优惠券")
+    public List<Coupons> simpleList() {
+         // 返回所有可用的优惠券
+         return couponsService.queryAvailableCoupons();
+    }
 }
