@@ -81,10 +81,12 @@ public class EpisodeTableDef extends TableDef {
      */
     public final QueryColumn ALL_COLUMNS = new QueryColumn(this, "*");
 
+    public final QueryColumn DURATION = new QueryColumn(this, "duration");
+
     /**
      * 默认字段，不包含逻辑删除或者 large 等字段。
      */
-    public final QueryColumn[] DEFAULT_COLUMNS = new QueryColumn[]{ID, TITLE, INFO, VIDEO, COVER, FK_SEASON_ID, IDX, VERSION, CREATED, UPDATED};
+    public final QueryColumn[] DEFAULT_COLUMNS = new QueryColumn[]{ID, TITLE, INFO, VIDEO,DURATION,COVER, FK_SEASON_ID, IDX, VERSION, CREATED, UPDATED};
 
     public EpisodeTableDef() {
         super("ml_cms", "episode");

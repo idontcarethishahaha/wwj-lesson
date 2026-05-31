@@ -68,10 +68,10 @@ public class SeasonController {
      *
      * @return 所有数据
      */
-    @GetMapping("list")
+    @GetMapping("list/{courseId}")
     @Operation(description="查询所有季次表")
-    public List<Season> list() {
-        return seasonService.list();
+    public List<Season> list(@PathVariable("courseId") Long courseId) {
+        return seasonService.list(courseId);
     }
 
     /**

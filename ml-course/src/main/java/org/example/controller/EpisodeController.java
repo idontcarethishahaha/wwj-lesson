@@ -109,7 +109,7 @@ public class EpisodeController {
 
     @PostMapping("uploadVideo/{id}")
     @Operation(description="上传集次表视频")
-    public Result<String> uploadVideo(@PathVariable("id") Long episodeId,@RequestParam("videoFile") MultipartFile videoFile) {
+    public Result<String> uploadVideo(@PathVariable("id") Long episodeId,@RequestParam("videoFile") MultipartFile videoFile) throws Exception {
         return new Result<>(episodeService.uploadVideo(episodeId,videoFile));
     }
 

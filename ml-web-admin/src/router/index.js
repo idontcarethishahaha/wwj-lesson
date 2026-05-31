@@ -6,6 +6,7 @@ import Personal from "@/views/personal/Personal.vue";
 import PersonalUpdate from "@/views/personal/PersonalUpdate.vue";
 import PersonalUpdatePhone from "@/views/personal/PersonalUpdatePhone.vue";
 import User from "@/views/ums/user/User.vue";
+import UserInsert from "@/views/ums/user/UsertInsert.vue";
 import Category from "@/views/cms/category/Category.vue";
 import CategoryInsert from "@/views/cms/category/CategoryInsert.vue";
 import CategoryUpdate from "@/views/cms/category/CategoryUpdate.vue";
@@ -58,6 +59,7 @@ const router = createRouter({
                 {path: '/personalUpdate',name: 'PersonalUpdate',component: PersonalUpdate},
                 {path: '/personalUpdatePhone',name: 'PersonalUpdatePhone',component: PersonalUpdatePhone},
                 {path: '/user',name: 'User',component: User},
+                {path: '/userInsert',name:'UserInsert',component:UserInsert},
                 {path: '/category',name: 'Category',component: Category},
                 {path: '/categoryInsert',name: CategoryInsert,component: CategoryInsert},
                 {path: '/categoryUpdate',name: CategoryUpdate,component: CategoryUpdate},

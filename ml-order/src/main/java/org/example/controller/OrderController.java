@@ -128,7 +128,7 @@ public class OrderController {
     }
 
     // 获取支付二维码
-    @GetMapping("getQrCode")
+    @PostMapping("getQrCode")
     @Operation(description="获取支付二维码")
     public void getQrCode(HttpServletResponse resp,
                             @RequestBody @Parameter(description="订单预支付参数") QrCodeDTO dto) throws Exception {
@@ -168,5 +168,19 @@ public class OrderController {
     @Operation(description="查询订单状态（是否完成支付）")
     public boolean checkPay(@PathVariable("sn") @Parameter(description="订单编号") String sn) {
         return orderService.checkPay(sn);
+    }
+
+    // 获取订单状态
+    @GetMapping("/status/{id}")
+    @Operation(description = "获取订单状态")
+    public Result getStatus(@PathVariable("id") @Parameter(description = "订单编号") Long id) {
+        return new Result(orderService.getById(id).getStatus());
+    }
+
+    // 取消订单的方法
+    @PostMapping("cancel/{id}")
+    @Operation(description = "取消订单")
+    public boolean cancel(@PathVariable("id") @Parameter(description = "订单编号") Long id) {
+        return orderService.cancel(id);
     }
 }

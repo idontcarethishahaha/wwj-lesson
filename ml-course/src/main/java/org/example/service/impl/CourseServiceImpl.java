@@ -29,6 +29,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -269,5 +270,10 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course>  implem
                 throw new ServiceException(ResultCode.MYSQL_ERROR, "数据库删除季次数据失败");
             }
         }
+    }
+
+    @Override
+    public Course getById(Serializable id) {
+        return mapper.selectOneWithRelationsById(id);
     }
 }

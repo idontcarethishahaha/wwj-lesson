@@ -20,5 +20,5 @@ public interface EpisodeService extends IService<Episode> {
    // 上传视频封面
     String uploadCover(Long episodeId, MultipartFile coverFile);
     // 上传视频
-    String uploadVideo(Long episodeId, MultipartFile videoFile);
+    String uploadVideo(Long episodeId, MultipartFile videoFile) throws Exception;
 }

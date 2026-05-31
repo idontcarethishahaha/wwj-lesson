@@ -101,4 +101,6 @@ public class Episode implements Serializable {
     @RelationManyToOne(selfField = "fkSeasonId", targetField = "id")
     private Season season;
 
+    @Schema(description = "视频时长")
+    private Integer duration; // 对应数据库 INT，单位：秒
 }

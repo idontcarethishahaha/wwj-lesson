@@ -8,6 +8,7 @@ import org.example.entity.Order;
 import org.example.vo.PageVO;
 
 import java.io.Serializable;
+import java.util.Map;
 
 /**
  * 订单表 服务层。
@@ -23,7 +24,10 @@ public interface OrderService extends IService<Order> {
     boolean removeById(Serializable id);
 
     // 新增一个预支付订单的方法
-    String prePay(PrePayDTO dto);
+    Map<String,Object> prePay(PrePayDTO dto);
+
+    // 取消订单
+    boolean cancel(Long id);
 
     // 更新订单状态
     boolean updateStatus(String sn, Integer status);

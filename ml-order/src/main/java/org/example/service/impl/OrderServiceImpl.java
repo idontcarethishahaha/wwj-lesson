@@ -29,6 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 import static org.example.entity.table.CartTableDef.CART;
 import static org.example.entity.table.OrderDetailTableDef.ORDER_DETAIL;
@@ -75,8 +76,20 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order>  implement
     }
 
     @Override
+    public boolean cancel(Long id) {
+        Order order = mapper.selectOneById(id);
+        if(order == null){
+            throw new ServiceException(ResultCode.ORDER_NOT_FOUND,"订单不存在");
+        }
+        if(order.getStatus()!=ML.Order.CANCEL){
+            return updateStatus(order.getSn(),ML.Order.CANCEL);
+        }
+        return true;
+    }
+
+    @Override
     @Transactional(rollbackFor = Exception.class)
-    public String prePay(PrePayDTO dto) {
+    public Map<String,Object> prePay(PrePayDTO dto) {
         // 获取用户ID
         Long fkUserId = dto.getFkUserId();
         // 获取课程id列表
@@ -134,6 +147,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order>  implement
                             .courseTitle(course.getTitle())// 课程标题
                             .courseCover(course.getCover())// 课程封面
                             .coursePrice(course.getPrice())// 课程价格
+                            .created(LocalDateTime.now())
+                            .updated(LocalDateTime.now())
                             .build();
                 }).toList();
         // 批量保存订单明细
@@ -144,7 +159,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order>  implement
                 .and(CART.FK_COURSE_ID.in(courseIds))
                 .remove();
         // 返回订单编号
-        return sn;
+        return Map.of("sn",sn,"id",order.getId());
     }
 
     @Override

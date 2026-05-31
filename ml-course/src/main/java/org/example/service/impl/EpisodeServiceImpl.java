@@ -15,6 +15,7 @@ import org.example.mapper.EpisodeMapper;
 import org.example.result.ResultCode;
 import org.example.service.EpisodeService;
 import org.example.util.MinioUtil;
+import org.example.util.VideoDurationUtil;
 import org.example.vo.PageVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -101,7 +102,9 @@ public class EpisodeServiceImpl extends ServiceImpl<EpisodeMapper, Episode>  imp
 
     @Override
     @Transactional
-    public String uploadVideo(Long episodeId, MultipartFile videoFile) {
+    public String uploadVideo(Long episodeId, MultipartFile videoFile) throws Exception {
+        // 获取视频时长
+        long durationSeconds= VideoDurationUtil.getVideoDurationSeconds(videoFile);
         Episode episode = getById(episodeId);
         if (episode == null){
             throw new ServiceException(ResultCode.EPISODE_NOT_FOUND,"数据不存在");
@@ -110,6 +113,7 @@ public class EpisodeServiceImpl extends ServiceImpl<EpisodeMapper, Episode>  imp
         String newFileName
                 = MinioUtil.upload(videoFile, ML.MinIO.EPISODE_VIDEO_DIR, ML.MinIO.BUCKET_NAME);
         episode.setVideo(newFileName);
+        episode.setDuration((int) durationSeconds);
         if (mapper.update(episode)<=0){
             throw new ServiceException(ResultCode.MYSQL_ERROR,"数据操作失败");
         }

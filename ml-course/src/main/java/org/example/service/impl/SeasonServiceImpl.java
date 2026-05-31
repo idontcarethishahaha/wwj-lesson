@@ -17,6 +17,7 @@ import org.example.vo.PageVO;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static org.example.entity.table.SeasonTableDef.SEASON;
 
@@ -75,5 +76,13 @@ public class SeasonServiceImpl extends ServiceImpl<SeasonMapper, Season>  implem
             throw new ServiceException(ResultCode.SEASON_NOT_FOUND,"数据不存在");
         }
         return season;
+    }
+
+    @Override
+    public List<Season> list(Long courseId) {
+        QueryChain queryChain = QueryChain.of(mapper)
+                .where(SEASON.FK_COURSE_ID.eq(courseId))
+                .orderBy(SEASON.IDX.asc(), SEASON.ID.desc());
+        return queryChain.withRelations().list();
     }
 }

@@ -145,6 +145,13 @@
             <artifactId>feign-micrometer</artifactId>
             <version>${feign-micrometer.version}</version>
         </dependency>
+
+        <!-- javacv - 用于调用FFmpeg解析视频 -->
+        <dependency>
+            <groupId>org.bytedeco</groupId>
+            <artifactId>javacv-platform</artifactId>
+            <version>1.5.12</version>
+        </dependency>
     </dependencies>
 
 
