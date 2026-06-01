@@ -4,15 +4,15 @@
       <div class="header-inner">
         <div class="header-left">
           <router-link to="/" class="logo">
-            <img class="logo-icon" src="@/assets/my-lesson.ico" alt="logo">
+            <span class="logo-icon">E</span>
             <span class="logo-text">在线课堂</span>
           </router-link>
           <el-menu
-              :default-active="route.path"
-              mode="horizontal"
-              :ellipsis="false"
-              class="nav-menu"
-              router
+            :default-active="route.path"
+            mode="horizontal"
+            :ellipsis="false"
+            class="nav-menu"
+            router
           >
             <el-menu-item index="/">首页</el-menu-item>
             <el-menu-item index="/courses">全部课程</el-menu-item>
@@ -22,12 +22,12 @@
         </div>
         <div class="header-right">
           <el-input
-              v-model="searchKeyword"
-              placeholder="搜索课程"
-              prefix-icon="Search"
-              size="small"
-              class="search-input"
-              @keyup.enter="handleSearch"
+            v-model="searchKeyword"
+            placeholder="搜索课程"
+            prefix-icon="Search"
+            size="small"
+            class="search-input"
+            @keyup.enter="handleSearch"
           />
           <template v-if="userStore.isLoggedIn">
             <el-badge :value="cartStore.items.length" :hidden="cartStore.items.length === 0" class="cart-badge">
@@ -35,8 +35,7 @@
             </el-badge>
             <el-dropdown trigger="click" @command="handleCommand">
               <span class="el-dropdown-link">
-                <!-- ✅ 正确头像 -->
-                <el-avatar :size="28" :src="userStore.avatar ? MINIO_AVATAR(userStore.avatar) : ''" />
+                <el-avatar :size="28" :src="userStore.avatar" />
                 <span>{{ userStore.nickname }}</span>
               </span>
               <template #dropdown>
@@ -74,7 +73,6 @@ import { useRoute, useRouter } from 'vue-router'
 import { ShoppingCart } from '@element-plus/icons-vue'
 import { useUserStore } from '@/stores/user'
 import { useCartStore } from '@/stores/cart'
-import { MINIO_AVATAR } from "@/const/index.js"; // ✅ 引入
 
 const route = useRoute()
 const router = useRouter()
