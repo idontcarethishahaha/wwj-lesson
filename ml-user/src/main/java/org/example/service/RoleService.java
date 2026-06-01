@@ -3,6 +3,7 @@ package org.example.service;
 import com.mybatisflex.core.service.IService;
 import org.example.dto.RoleInsertDTO;
 import org.example.dto.RolePageDTO;
+import org.example.dto.RoleUpdateDTO;
 import org.example.entity.Role;
 import org.example.vo.PageVO;
 import org.example.vo.RoleSimpleListVO;
@@ -24,5 +25,7 @@ public interface RoleService extends IService<Role> {
       List<Long> listRoleIdsByUserId(Long userId);
       // 修改用户角色的方法
       boolean updateRolesByUserId(Long userId, List<Long> roleIds);
+
+      boolean update(RoleUpdateDTO dto);
 
 }

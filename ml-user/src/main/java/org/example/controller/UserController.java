@@ -3,13 +3,12 @@ package org.example.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.example.dto.LoginByAccountDTO;
-import org.example.dto.UserInsertDTO;
-import org.example.dto.UserPageDTO;
-import org.example.dto.UserUpdatePasswordDTO;
+import jakarta.servlet.http.HttpServletResponse;
+import org.example.dto.*;
 import org.example.entity.User;
 import org.example.result.Result;
 import org.example.service.UserService;
+import org.example.util.ExcelUtil;
 import org.example.vo.LoginVO;
 import org.example.vo.PageVO;
 import org.example.vo.UserSimpleListVO;
@@ -19,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 用户表 控制层。
@@ -46,29 +46,6 @@ public class UserController {
         return userService.save(dto);
     }
 
-    /**
-     * 根据主键删除用户表。
-     *
-     * @param id 主键
-     * @return {@code true} 删除成功，{@code false} 删除失败
-     */
-    @DeleteMapping("delete/{id}")
-    @Operation(description="根据主键用户表")
-    public boolean remove(@PathVariable("id") @Parameter(description="用户表主键")Long id) {
-        return userService.removeById(id);
-    }
-
-    /**
-     * 根据主键更新用户表。
-     *
-     * @param user 用户表
-     * @return {@code true} 更新成功，{@code false} 更新失败
-     */
-    @PutMapping("update")
-    @Operation(description="根据主键更新用户表")
-    public boolean update(@RequestBody @Parameter(description="用户表主键")User user) {
-        return userService.updateById(user);
-    }
 
     /**
      * 查询所有用户表。
@@ -119,6 +96,13 @@ public class UserController {
         return userService.updatePassword(dto);
     }
 
+    @Operation(summary = "修改 - 重置密码", description = "按主键重置用户的登录密码为默认密码，重置成功后返回默认密码")
+    @PutMapping("resetPassword/{id}")
+    public Result<String> resetPassword(@PathVariable("id") Long id) {
+        return new Result<>(userService.resetPassword(id));
+    }
+
+
     @Operation(summary = "用户 - 修改头像", description = "用户修改自己的头像")
     @PutMapping("updateAvatar/{id}")
     public Result<String> updateAvatar(@PathVariable("id") Long id,
@@ -131,4 +115,62 @@ public class UserController {
     public LoginVO loginByAccount(@Validated @RequestBody LoginByAccountDTO dto){
         return userService.loginByAccount(dto);
     }
+
+    @Operation(summary = "查询 - 报表打印", description = "打印用户相关的报表数据")
+    @GetMapping("excel")
+    public void excel(HttpServletResponse response) {
+        ExcelUtil.download(response, "用户统计表", userService.getExcelData());
+    }
+
+    @Operation(summary = "修改 - 单条修改", description = "按主键修改一条用户记录")
+    @PutMapping("update")
+    public boolean update(@Validated @RequestBody UserUpdateDTO dto) {
+        return userService.update(dto);
+    }
+
+    @Operation(summary = "删除 - 单条删除", description = "按主键删除一条用户记录")
+    @DeleteMapping("delete/{id}")
+    public boolean delete(@PathVariable("id") Long id) {
+        return userService.delete(id);
+    }
+
+    @Operation(summary = "删除 - 批量删除", description = "按主键批量删除用户记录")
+    @DeleteMapping("deleteBatch")
+    public boolean deleteBatch(@RequestParam("ids") List<Long> ids) {
+        return userService.deleteBatch(ids);
+    }
+    //=================换绑手机号码=======================
+    @Operation(summary = "查询 - 解绑验证码", description = "获取旧手机号码的解绑验证码")
+    @GetMapping("getUnboundVcode/{id}")
+    public Result<String> getUnboundVcode(@PathVariable("id") Long id) {
+        return new Result<>(userService.getUnboundVcode(id));
+    }
+
+    @Operation(summary = "校验 - 解绑验证码", description = "校验旧手机号码的解绑验证码")
+    @GetMapping("checkUnboundVcode/{id}/{vcode}")
+    public boolean checkUnboundVcode(@PathVariable("id") Long id,
+                                     @PathVariable("vcode") String vcode) {
+        return userService.checkUnboundVcode(id, vcode);
+    }
+
+    @Operation(summary = "查询 - 绑定验证码", description = "获取新手机号码的绑定验证码")
+    @GetMapping("getBoundVcode/{phone}")
+    public Result<String> getBoundVcode(@PathVariable("phone") String phone) {
+        return new Result<>(userService.getBoundVcode(phone));
+    }
+
+    @Operation(summary = "修改 - 手机号码", description = "修改用户的手机号码")
+    @PutMapping("updatePhone")
+    public boolean updatePhone(@Validated @RequestBody UserUpdatePhoneDTO dto) {
+        return userService.updatePhone(dto);
+    }
+
+    @Operation(summary = "查询 - 统计数据", description = "查询用户相关的统计数据")
+    @GetMapping("statistics")
+    public Map<String, Object> statistics() {
+        return userService.statistics();
+    }
+
+
+
 }

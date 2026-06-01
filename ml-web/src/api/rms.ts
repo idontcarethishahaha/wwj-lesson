@@ -26,8 +26,14 @@ export const rmsApi = {
     return request.put('/user-server/api/v1/user/info', data)
   },
 
-  uploadAvatar(data: FormData): Promise<ApiResult<{ url: string }>> {
-    return request.post('/user-server/api/v1/user/avatar', data, {
+  // uploadAvatar(data: FormData): Promise<ApiResult<{ url: string }>> {
+  //   return request.post('/user-server/api/v1/user/avatar', data, {
+  //     headers: { 'Content-Type': 'multipart/form-data' }
+  //   })
+  // },
+
+  uploadAvatar(id: number | string, data: FormData): Promise<ApiResult<{ url: string }>> {
+    return request.put(`/user-server/api/v1/user/updateAvatar/${id}`, data, {
       headers: { 'Content-Type': 'multipart/form-data' }
     })
   },

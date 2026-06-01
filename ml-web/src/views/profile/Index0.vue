@@ -3,14 +3,11 @@
     <div class="profile-header">
       <div class="profile-avatar">
         <el-upload
-          :show-file-list="false"
-          :http-request="handleUpload"
-          accept="image/*"
+            :show-file-list="false"
+            :http-request="handleUpload"
+            accept="image/*"
         >
-          <el-avatar
-              :size="96"
-              :src="userStore.userInfo?.avatar ? MINIO_AVATAR(userStore.userInfo.avatar) : ''"
-          >
+          <el-avatar :size="96" :src="userStore.userInfo?.avatar">
             <el-icon :size="40"><UserFilled /></el-icon>
           </el-avatar>
           <div class="avatar-overlay">
@@ -74,10 +71,10 @@
               <h4>权限列表</h4>
               <div class="permission-tags">
                 <el-tag
-                  v-for="perm in roleInfo.permissions"
-                  :key="perm"
-                  size="small"
-                  hit
+                    v-for="perm in roleInfo.permissions"
+                    :key="perm"
+                    size="small"
+                    hit
                 >
                   {{ perm }}
                 </el-tag>
@@ -95,12 +92,12 @@
         </el-form-item>
         <el-form-item label="签名" prop="signature">
           <el-input
-            v-model="editForm.signature"
-            type="textarea"
-            :rows="4"
-            placeholder="请输入个人签名"
-            maxlength="100"
-            show-word-limit
+              v-model="editForm.signature"
+              type="textarea"
+              :rows="4"
+              placeholder="请输入个人签名"
+              maxlength="100"
+              show-word-limit
           />
         </el-form-item>
       </el-form>
@@ -119,7 +116,6 @@ import { UserFilled, Camera, Lock, Reading } from '@element-plus/icons-vue'
 import { rmsApi } from '@/api'
 import { useUserStore } from '@/stores/user'
 import type { UploadRequestOptions } from 'element-plus'
-import { MINIO_AVATAR } from "@/const/index.js";
 
 const userStore = useUserStore()
 
@@ -144,27 +140,16 @@ const editRules = {
 
 const editFormRef = ref()
 
-// ========== 已修改完成的上传方法 ==========
 async function handleUpload(options: UploadRequestOptions) {
-  // 取出当前登录用户ID
-  const userId = userStore.userInfo?.id
-  if (!userId) {
-    ElMessage.error('未获取到用户信息')
-    return
-  }
-
   const formData = new FormData()
-  // 和后端 @RequestParam("avatarFile") 保持一致
-  formData.append('avatarFile', options.file)
-
+  formData.append('file', options.file)
   try {
-    const res = await rmsApi.uploadAvatar(userId, formData)
+    const res = await rmsApi.uploadAvatar(formData)
     if (userStore.userInfo) {
       userStore.userInfo.avatar = res.data.url
     }
     ElMessage.success('头像更新成功')
-  } catch (err) {
-    console.error('上传异常：', err)
+  } catch {
     ElMessage.error('头像上传失败')
   }
 }

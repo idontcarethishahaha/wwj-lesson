@@ -11,6 +11,7 @@ import com.mybatisflex.spring.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
 import org.example.dto.RoleInsertDTO;
 import org.example.dto.RolePageDTO;
+import org.example.dto.RoleUpdateDTO;
 import org.example.entity.Role;
 import org.example.entity.UserRole;
 import org.example.exception.ServiceException;
@@ -132,5 +133,48 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role>  implements R
             throw new ServiceException(ResultCode.MYSQL_ERROR,"批量分配用户角色失败");
         }
         return true;
+    }
+
+    @Override
+    public boolean update(RoleUpdateDTO dto) {
+        String title = dto.getTitle();
+
+        // 检查角色是否存在
+        this.existsById(dto.getId());
+
+        // 标题查重
+        // select count(*) from role where title = ? and id <> ?
+        if (QueryChain.of(mapper)
+                .where(ROLE.TITLE.eq(title))
+                .and(ROLE.ID.ne(dto.getId()))
+                .exists()) {
+            throw new ServiceException(ResultCode.TITLE_REPEAT, "角色标题" + title + "已存在");
+        }
+
+        // 组装实体类
+        Role role = BeanUtil.copyProperties(dto, Role.class);
+        role.setUpdated(LocalDateTime.now());
+
+        // update role set title = ?, info = ?, idx = ?, updated = ? where id = ?
+        if (!UpdateChain.of(role)
+                .where(ROLE.ID.eq(role.getId()))
+                .update()) {
+            throw new ServiceException(ResultCode.MYSQL_ERROR, "数据库修改失败");
+        }
+        return true;
+    }
+
+    /**
+     * 按主键检查角色是否存在，如果不存在则直接抛出异常
+     *
+     * @param id 角色主键
+     */
+    private void existsById(Long id) {
+        // select count(*) from role where id = ?
+        if (!QueryChain.of(mapper)
+                .where(ROLE.ID.eq(id))
+                .exists()) {
+            throw new ServiceException(ResultCode.ROLE_NOT_FOUND, id + "号角色数据不存在");
+        }
     }
 }

@@ -4,11 +4,13 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.example.dto.RolePageDTO;
+import org.example.dto.RoleUpdateDTO;
 import org.example.entity.Role;
 import org.example.service.RoleService;
 import org.example.vo.PageVO;
 import org.example.vo.RoleSimpleListVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -51,16 +53,21 @@ public class RoleController {
         return roleService.removeById(id);
     }
 
-    /**
-     * 根据主键更新角色表。
-     *
-     * @param role 角色表
-     * @return {@code true} 更新成功，{@code false} 更新失败
-     */
+//    /**
+//     * 根据主键更新角色表。
+//     *
+//     * @param role 角色表
+//     * @return {@code true} 更新成功，{@code false} 更新失败
+//     */
+//    @PutMapping("update")
+//    @Operation(description="根据主键更新角色表")
+//    public boolean update(@RequestBody @Parameter(description="角色表主键")Role role) {
+//        return roleService.updateById(role);
+//    }
+    @Operation(summary = "修改 - 单条修改", description = "按主键修改一条角色记录")
     @PutMapping("update")
-    @Operation(description="根据主键更新角色表")
-    public boolean update(@RequestBody @Parameter(description="角色表主键")Role role) {
-        return roleService.updateById(role);
+    public boolean update(@Validated @RequestBody RoleUpdateDTO dto) {
+        return roleService.update(dto);
     }
 
     /**

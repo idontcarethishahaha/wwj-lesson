@@ -1,13 +1,16 @@
 package org.example.controller;
 
 import com.mybatisflex.core.paginate.Page;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.example.entity.Menu;
-import org.example.service.MenuService;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.example.dto.MenuUpdateDTO;
+import org.example.entity.Menu;
+import org.example.service.MenuService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 /**
@@ -48,16 +51,10 @@ public class MenuController {
         return menuService.removeById(id);
     }
 
-    /**
-     * 根据主键更新菜单表。
-     *
-     * @param menu 菜单表
-     * @return {@code true} 更新成功，{@code false} 更新失败
-     */
+    @Operation(summary = "修改 - 单条修改", description = "按主键修改一条菜单记录")
     @PutMapping("update")
-    @Operation(description="根据主键更新菜单表")
-    public boolean update(@RequestBody @Parameter(description="菜单表主键")Menu menu) {
-        return menuService.updateById(menu);
+    public boolean update(@Validated @RequestBody MenuUpdateDTO dto) {
+        return menuService.update(dto);
     }
 
     /**

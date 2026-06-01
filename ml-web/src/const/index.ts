@@ -13,3 +13,4 @@ export const MINIO_COURSE_COVER = (url: string) => MINIO_HOST + '/course-cover/'
 export const MINIO_COURSE_SUMMARY = (url: string) => MINIO_HOST + '/course-summary/' + url;
 export const MINIO_EPISODE_VIDEO = (url: string) => MINIO_HOST + '/episode-video/' + url;
 export const MINIO_EPISODE_VIDEO_COVER = (url: string) => MINIO_HOST + '/episode-video-cover/' + url;
+

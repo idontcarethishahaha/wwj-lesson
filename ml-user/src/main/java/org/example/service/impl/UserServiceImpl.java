@@ -3,25 +3,22 @@ package org.example.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.UUID;
-import cn.hutool.core.util.IdcardUtil;
-import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.core.util.RandomUtil;
-import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.util.*;
 import cn.hutool.json.JSONUtil;
 import com.mybatisflex.core.paginate.Page;
 import com.mybatisflex.core.query.QueryChain;
+import com.mybatisflex.core.query.QueryMethods;
 import com.mybatisflex.core.relation.RelationManager;
 import com.mybatisflex.core.update.UpdateChain;
 import com.mybatisflex.spring.service.impl.ServiceImpl;
+import jakarta.annotation.Resource;
 import org.example.component.MyRedis;
 import org.example.constant.ML;
-import org.example.dto.LoginByAccountDTO;
-import org.example.dto.UserInsertDTO;
-import org.example.dto.UserPageDTO;
-import org.example.dto.UserUpdatePasswordDTO;
+import org.example.dto.*;
 import org.example.entity.*;
 import org.example.exception.ServiceException;
 import org.example.mapper.UserMapper;
+import org.example.mapper.UserRoleMapper;
 import org.example.result.ResultCode;
 import org.example.service.UserService;
 import org.example.util.MinioUtil;
@@ -37,14 +34,19 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import static com.mybatisflex.core.query.QueryMethods.*;
 import static org.example.entity.table.MenuTableDef.MENU;
 import static org.example.entity.table.RoleMenuTableDef.ROLE_MENU;
 import static org.example.entity.table.RoleTableDef.ROLE;
 import static org.example.entity.table.UserRoleTableDef.USER_ROLE;
 import static org.example.entity.table.UserTableDef.USER;
+
 
 /**
  * 用户表 服务层实现。
@@ -55,6 +57,9 @@ import static org.example.entity.table.UserTableDef.USER;
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User>  implements UserService{
    //ctrl+i
+
+    @Resource
+    private UserRoleMapper userRoleMapper;
 
     @Override
     public boolean save(UserInsertDTO dto) {
@@ -140,12 +145,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>  implements U
         BeanUtil.copyProperties(result, pageVO);
         pageVO.setPageNum(result.getPageNumber());
         return pageVO;
-    }
-
-    // 自己写
-    @Override
-    public boolean update(User user) {
-        return false;
     }
 
     @Override
@@ -260,4 +259,333 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>  implements U
         result.setToken(tokenKey);
         return result;
     }
+
+    @Override
+    public String resetPassword(Long id) {
+
+        // 检查用户是否存在
+        //==================================
+        this.existsById(id);
+
+        // 重置密码
+        // update user set password = ? where id = ?
+        if (!UpdateChain.of(mapper)
+                .set(USER.PASSWORD, BCrypt.hashpw(ML.User.DEFAULT_PASSWORD, BCrypt.gensalt(10)))
+                .where(USER.ID.eq(id))
+                .update()) {
+            throw new ServiceException(ResultCode.MYSQL_ERROR, "数据库重置密码失败");
+        }
+
+        // 返回用户的默认密码
+        return ML.User.DEFAULT_PASSWORD;
+    }
+
+    /**
+     * 判断用户是否存在，不存在则抛出异常
+     * @param id 用户ID
+     */
+    private void existsById(Serializable id) {
+        // 查询数据库判断用户是否存在
+        boolean exists = QueryChain.of(mapper)
+                .where(USER.ID.eq(id))
+                .exists();
+
+        // 不存在则抛出异常
+        if (!exists) {
+            throw new ServiceException(ResultCode.USER_NOT_FOUND, "该用户不存在");
+        }
+    }
+
+
+    @Override
+    public List<UserExcelDTO> getExcelData() {
+
+        // 查询全部用户记录
+        // select * from user
+        List<User> users = QueryChain.of(mapper)
+                .withRelations()
+                .list();
+
+        // 类型转换：List<User> -> List<UserExcelDTO>
+        List<UserExcelDTO> result = new ArrayList<>();
+        users.forEach(user -> {
+            UserExcelDTO userExcelDTO = BeanUtil.copyProperties(user, UserExcelDTO.class);
+            userExcelDTO.setGender(ML.User.genderFormat(user.getGender()));
+            userExcelDTO.setRealname(DesensitizedUtil.chineseName(user.getRealname()));
+            userExcelDTO.setIdcard(DesensitizedUtil.idCardNum(user.getIdcard(), 6, 3));
+            userExcelDTO.setPhone(DesensitizedUtil.mobilePhone(user.getPhone()));
+            result.add(userExcelDTO);
+        });
+        return result;
+    }
+
+    @Override
+    public boolean update(UserUpdateDTO dto) {
+
+        // 检查用户是否存在
+        this.existsById(dto.getId());
+
+        // 邮箱查重
+        // select count(*) from user where email = ? and id != ?
+        String email = dto.getEmail();
+        if (StrUtil.isNotEmpty(email) && QueryChain.of(mapper)
+                .where(USER.EMAIL.eq(dto.getEmail()))
+                .and(USER.ID.ne(dto.getId()))
+                .exists()) {
+            throw new ServiceException(ResultCode.EMAIL_REPEAT, "电子邮箱" + email + "重复");
+        }
+
+        // 组装实体类
+        User user = BeanUtil.copyProperties(dto, User.class);
+        user.setUpdated(LocalDateTime.now());
+
+        // update user set username=?, password=?, nickname=?, avatar=?, phone=?, email=?, gender=?, age=?, zodiac=?, province=?, realname=?, idcard=?, info=?, updated=? where id = ?
+        if (!UpdateChain.of(user)
+                .where(USER.ID.eq(user.getId()))
+                .update()) {
+            throw new ServiceException(ResultCode.MYSQL_ERROR, "数据库修改失败");
+        }
+        return true;
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public boolean deleteBatch(List<Long> ids) {
+
+        // 检查用户是否存在
+        // select count(*) from user where id in (?)
+        if (QueryChain.of(mapper)
+                .where(USER.ID.in(ids))
+                .count() < ids.size()) {
+            throw new ServiceException(ResultCode.USER_NOT_FOUND, "至少一个用户数据不存在");
+        }
+
+        // 删除中间表
+        // delete from user_role where fk_user_id in (?)
+        UpdateChain.of(userRoleMapper)
+                .where(USER_ROLE.FK_USER_ID.in(ids))
+                .remove();
+
+        // 删除基本表
+        // delete from user where id in (?)
+        if (mapper.deleteBatchByIds(ids) != ids.size()) {
+            throw new ServiceException(ResultCode.MYSQL_ERROR, "数据库删除失败");
+        }
+        return true;
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public boolean delete(Long id) {
+
+        // 检查用户是否存在
+        this.existsById(id);
+
+        // 删除中间表
+        // delete from user_role where fk_user_id = ?
+        UpdateChain.of(userRoleMapper)
+                .where(USER_ROLE.FK_USER_ID.eq(id))
+                .remove();
+
+        // 删除基本表
+        // delete from user where id = ?
+        if (mapper.deleteById(id) <= 0) {
+            throw new ServiceException(ResultCode.MYSQL_ERROR, "数据库删除失败");
+        }
+        return true;
+    }
+    //==========================换绑手机号码================================
+
+    @Resource
+    private MyRedis redis;
+
+    @Override
+    public String getUnboundVcode(Long id) {
+
+        // 通过用户主键查询旧的手机号码
+        // select phone from user where id = ?
+        String phone = QueryChain.of(mapper)
+                .select(USER.PHONE)
+                .where(USER.ID.eq(id))
+                .objAs(String.class);
+        if (ObjectUtil.isNull(phone)) {
+            throw new ServiceException(ResultCode.PHONE_NOT_FOUND, "手机号码" + phone + "不存在");
+        }
+
+        // 将短信验证码存入redis中，有效期5分钟
+        String key = ML.Redis.UNBOUND_VCODE_PREFIX + phone;
+        String val = RandomUtil.randomNumbers(6);
+        redis.setEx(key, val, 5, TimeUnit.MINUTES);
+        // todo: 向指定手机号码发送验证码
+
+        // 将短信验证码返回给客户端
+        return val;
+    }
+
+    @Override
+    public boolean checkUnboundVcode(Long id, String vcode) {
+
+        // 通过用户主键获取 phone 字段
+        // select phone from user where id = ?
+        String phone = QueryChain.of(mapper)
+                .select(USER.PHONE)
+                .where(USER.ID.eq(id))
+                .objAs(String.class);
+        if (ObjectUtil.isNull(phone)) {
+            throw new ServiceException(ResultCode.PHONE_NOT_FOUND, "手机号码" + phone + "不存在");
+        }
+
+        // 校验验证码是否有效
+        String key = ML.Redis.UNBOUND_VCODE_PREFIX + phone;
+        String vcodeFromRedis = redis.get(key);
+        if (ObjectUtil.isNull(vcodeFromRedis)) {
+            throw new ServiceException(ResultCode.VCODE_ILLEGAL, "验证码" + vcode + "失效");
+        }
+
+        // 校验验证码是否正确，校验成功后，删除旧的验证码
+        boolean result = vcodeFromRedis.equals(vcode);
+        if (result) {
+            redis.del(key);
+        } else {
+            throw new ServiceException(ResultCode.VCODE_ILLEGAL, "验证码" + vcode + "错误");
+        }
+        return true;
+    }
+
+    @Override
+    public String getBoundVcode(String phone) {
+
+        // 手机号码查重
+        // select count(*) from user where phone = ?
+        if (QueryChain.of(mapper)
+                .select(USER.PHONE)
+                .where(USER.PHONE.eq(phone))
+                .exists()) {
+            throw new ServiceException(ResultCode.PHONE_REPEAT, "手机号码" + phone + "重复");
+        }
+
+        // 将短信验证码存入redis中，有效期5分钟
+        String key = ML.Redis.BOUND_VCODE_PREFIX + phone;
+        String val = RandomUtil.randomNumbers(6);
+        redis.setEx(key, val, 5, TimeUnit.MINUTES);
+        // todo: 向指定手机号码发送验证码
+
+        // 将短信验证码返回给客户端
+        return val;
+    }
+
+    @Override
+    public boolean updatePhone(UserUpdatePhoneDTO dto) {
+        Long id = dto.getId();
+        String phone = dto.getPhone();
+        String vcode = dto.getVcode();
+
+        // 检查用户是否存在
+        this.existsById(id);
+
+        // 手机号码查重
+        // select count(*) from user where phone = ?
+        if (QueryChain.of(mapper)
+                .select(USER.PHONE)
+                .where(USER.PHONE.eq(dto.getPhone()))
+                .exists()) {
+            throw new ServiceException(ResultCode.PHONE_REPEAT, "手机号码" + phone + "重复");
+        }
+
+        // 校验验证码是否有效
+        String key = ML.Redis.BOUND_VCODE_PREFIX + phone;
+        String vcodeFromRedis = redis.get(key);
+        if (ObjectUtil.isNull(vcodeFromRedis)) {
+            throw new ServiceException(ResultCode.VCODE_ILLEGAL, "验证码" + vcode + "失效");
+        }
+
+        // 校验验证码是否正确
+        if (!vcodeFromRedis.equals(dto.getVcode())) {
+            throw new ServiceException(ResultCode.VCODE_ILLEGAL, "验证码" + vcode + "错误");
+        }
+
+        // 修改用户手机号，修改成功后，删除旧的验证码
+        // update user set phone = ? where id = ?
+        if (UpdateChain.of(mapper)
+                .set(USER.PHONE, phone)
+                .where(USER.ID.eq(dto.getId()))
+                .update()) {
+            redis.del(key);
+        } else {
+            throw new ServiceException(ResultCode.MYSQL_ERROR, "数据库修改手机号码失败");
+        }
+        return true;
+    }
+
+
+
+    @Override
+    public Map<String, Object> statistics() {
+
+        // 尝试从缓存中获取统计数据，若存在则直接返回
+        String dataFromRedis = redis.get(ML.Redis.USER_STATISTICS_DATA_KEY);
+        if (ObjectUtil.isNotNull(dataFromRedis)) {
+            return JSONUtil.parseObj(dataFromRedis);
+        }
+
+        Map<String, Object> result = new HashMap<>();
+
+        // 统计用户性别比例
+        // select gender as name, count(*) as value from `user` group by gender
+        result.put("genderCount", QueryChain.of(mapper)
+                .select(USER.GENDER.as("name"), QueryMethods.count().as("value"))
+                .groupBy(USER.GENDER)
+                .orderBy(USER.GENDER.asc())
+                .listAs(Map.class));
+
+        // 统计今日用户数
+        // select count(*) from `user` where datediff(curdate(), date_format(created, '%Y-%m-%d')) = 0
+        double todayCount = QueryChain.of(mapper)
+                .where(dateDiff(currentDate(), dateFormat(USER.CREATED, "%Y-%m-%d")).eq(0))
+                .count();
+
+        // 统计昨日用户数
+        // select count(*) from `user` where datediff(curdate(), date_format(created, '%Y-%m-%d')) = 1
+        double yesterdayCount = QueryChain.of(mapper)
+                .where(dateDiff(currentDate(), dateFormat(USER.CREATED, "%Y-%m-%d")).eq(1))
+                .count();
+
+        // 统计今年用户数
+        // select count(*) from `user` where year(created) = year(current_date);
+        double thisYearCount = QueryChain.of(mapper)
+                .where(year(USER.CREATED).eq(year(currentDate())))
+                .count();
+
+        // 统计去年用户总数
+        // select count(*) from `user` where year(created) - year(current_date) = -1;
+        double lastYearCount = QueryChain.of(mapper)
+                .where(year(USER.CREATED).subtract(year(currentDate())).eq(-1))
+                .count();
+
+        result.put("todayCount", todayCount);
+        result.put("yesterdayCount", yesterdayCount);
+        result.put("dayIncrease", this.increase(todayCount, yesterdayCount));
+        result.put("thisYearCount", thisYearCount);
+        result.put("lastYearCount", lastYearCount);
+        result.put("yearIncrease", this.increase(thisYearCount, lastYearCount));
+
+        // 加入Redis缓存，2 个小时后过期
+        redis.setEx(ML.Redis.USER_STATISTICS_DATA_KEY, JSONUtil.toJsonStr(result), 2, TimeUnit.HOURS);
+        return result;
+    }
+
+    /**
+     * 计算a到b的增长率
+     *
+     * @param a 第一个操作数
+     * @param b 第二个操作数
+     * @return 保留两位小数的增长率
+     */
+    private String increase(double a, double b) {
+        if (b == 0) {
+            return a > b ? "100.00" : a < b ? "-100.00" : "0";
+        }
+        return String.format("%.2f", (a - b) / b);
+    }
+
 }

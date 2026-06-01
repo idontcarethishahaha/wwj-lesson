@@ -62,7 +62,32 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu>  implements M
 
     @Override
     public boolean update(MenuUpdateDTO dto) {
-        return false;
+        String title = dto.getTitle();
+        Long id = dto.getId();
+
+        // 检查菜单是否存在
+        this.existsById(id);
+
+        // 标题查重
+        // select count(*) from menu where title = ? and id <> ?
+        if (QueryChain.of(mapper)
+                .where(MENU.TITLE.eq(title))
+                .and(MENU.ID.ne(id))
+                .exists()) {
+            throw new ServiceException(ResultCode.TITLE_REPEAT, "标题" + title + "重复");
+        }
+
+        // 组装实体类
+        Menu menu = BeanUtil.copyProperties(dto, Menu.class);
+        menu.setUpdated(LocalDateTime.now());
+
+        // update menu set title = ?, info = ?, url = ?, icon = ?, pid = ?, idx = ?, updated = ? where id = ?
+        if (!UpdateChain.of(menu)
+                .where(MENU.ID.eq(menu.getId()))
+                .update()) {
+            throw new ServiceException(ResultCode.MYSQL_ERROR, "数据库修改失败");
+        }
+        return true;
     }
 
     @Override
@@ -125,5 +150,19 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu>  implements M
             throw new ServiceException(ResultCode.MYSQL_ERROR,"为角色批量分配菜单失败");
         }
         return true;
+    }
+
+    /**
+     * 按主键检查菜单是否存在，如果不存在则直接抛出异常
+     *
+     * @param id 菜单主键
+     */
+    private void existsById(Long id) {
+        // select count(*) from menu where id = ?
+        if (!QueryChain.of(mapper)
+                .where(MENU.ID.eq(id))
+                .exists()) {
+            throw new ServiceException(ResultCode.MENU_NOT_FOUND, id + "号菜单数据不存在");
+        }
     }
 }

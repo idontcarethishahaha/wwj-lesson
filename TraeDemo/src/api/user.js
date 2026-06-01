@@ -40,12 +40,28 @@ export const userApi = {
     })
   },
 
-  uploadAvatar(file) {
+  // uploadAvatar(file) {
+  //   const formData = new FormData()
+  //   formData.append('file', file)
+  //   return request({
+  //     url: '/user-server/api/v1/user/avatar',
+  //     method: 'post',
+  //     data: formData,
+  //     headers: {
+  //       'Content-Type': 'multipart/form-data'
+  //     }
+  //   })
+  // },
+  uploadAvatar(id, file) {
     const formData = new FormData()
-    formData.append('file', file)
+    // 必须和后端 @RequestParam("avatarFile") 一致
+    formData.append('avatarFile', file)
+
     return request({
-      url: '/user-server/api/v1/user/avatar',
-      method: 'post',
+      // 地址 + 拼接用户 id
+      url: `/user-server/api/v1/user/updateAvatar/${id}`,
+      // 后端是 PUT
+      method: 'put',
       data: formData,
       headers: {
         'Content-Type': 'multipart/form-data'
