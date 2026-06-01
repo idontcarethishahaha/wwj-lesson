@@ -3,6 +3,7 @@ package org.example.service;
 import com.mybatisflex.core.service.IService;
 import org.example.dto.CourseInsertDTO;
 import org.example.dto.CoursePageDTO;
+import org.example.dto.CourseUpdateDTO;
 import org.example.entity.Course;
 import org.example.vo.CourseSimpleListVO;
 import org.example.vo.PageVO;
@@ -20,7 +21,7 @@ public interface CourseService extends IService<Course> {
     boolean insert(CourseInsertDTO dto);
     List<CourseSimpleListVO> simpleList();
     PageVO<Course> page(CoursePageDTO dto);
-    //boolean update(CourseUpdateDTO dto);
+    boolean update(CourseUpdateDTO dto);
 
     // 上传课程封面
 //    String uploadCover(Long courseId, MultipartFile  coverFile);

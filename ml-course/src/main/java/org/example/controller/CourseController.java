@@ -5,12 +5,14 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.example.dto.CourseInsertDTO;
 import org.example.dto.CoursePageDTO;
+import org.example.dto.CourseUpdateDTO;
 import org.example.entity.Course;
 import org.example.result.Result;
 import org.example.service.CourseService;
 import org.example.vo.CourseSimpleListVO;
 import org.example.vo.PageVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -59,19 +61,6 @@ public class CourseController {
 //        return courseService.removeById(id);
 //    }
 
-
-
-    /**
-     * 根据主键更新课程表。
-     *
-     * @param course 课程表
-     * @return {@code true} 更新成功，{@code false} 更新失败
-     */
-    @PutMapping("update")
-    @Operation(description="根据主键更新课程表")
-    public boolean update(@RequestBody @Parameter(description="课程表主键")Course course) {
-        return courseService.updateById(course);
-    }
 
     /**
      * 查询所有课程表。
@@ -122,14 +111,11 @@ public class CourseController {
     }
 
 
-
-
-
-//    @Operation(summary = "修改 - 单条修改", description = "按主键修改一条课程记录")
-//    @PutMapping("update")
-//    public boolean update(@Validated @RequestBody CourseUpdateDTO dto) {
-//        return courseService.update(dto);
-//    }
+    @Operation(summary = "修改 - 单条修改", description = "按主键修改一条课程记录")
+    @PutMapping("update")
+    public boolean update(@Validated @RequestBody CourseUpdateDTO dto) {
+        return courseService.update(dto);
+    }
 
 //
 //    @Operation(summary = "删除 - 批量删除", description = "按主键批量删除课程记录")

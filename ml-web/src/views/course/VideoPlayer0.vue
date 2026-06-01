@@ -89,10 +89,7 @@
 
           <div v-else class="comment-list">
             <div v-for="comment in comments" :key="comment.id" class="comment-item">
-              <el-avatar
-                  :size="40"
-                  :src="comment.avatar ? MINIO_AVATAR(comment.avatar) : ''"
-              >
+              <el-avatar :size="40" :src="comment.avatar">
                 {{ comment.nickname?.charAt(0) || '?' }}
               </el-avatar>
               <div class="comment-body">
@@ -167,7 +164,6 @@ import { cmsApi } from '@/api'
 import { MINIO_EPISODE_VIDEO } from '@/const'
 import { useUserStore } from '@/stores/user'
 import type { Episode, Season, Danmaku, Comment } from '@/types'
-import { MINIO_AVATAR } from "@/const/index.js";
 
 const route = useRoute()
 const router = useRouter()

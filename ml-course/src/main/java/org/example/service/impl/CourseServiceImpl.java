@@ -13,6 +13,7 @@ import org.example.component.MyRedis;
 import org.example.constant.ML;
 import org.example.dto.CourseInsertDTO;
 import org.example.dto.CoursePageDTO;
+import org.example.dto.CourseUpdateDTO;
 import org.example.entity.Course;
 import org.example.exception.ServiceException;
 import org.example.mapper.CourseMapper;
@@ -276,4 +277,34 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course>  implem
     public Course getById(Serializable id) {
         return mapper.selectOneWithRelationsById(id);
     }
+
+    @Override
+    public boolean update(CourseUpdateDTO dto) {
+        String title = dto.getTitle();
+        Long id = dto.getId();
+
+        // 检查课程是否存在
+        this.existsById(id);
+
+        // 标题查重
+        // select count(1) from course where title = ? and id <> ?
+        if (QueryChain.of(mapper)
+                .where(COURSE.TITLE.eq(dto.getTitle()))
+                .and(COURSE.ID.ne(dto.getId()))
+                .exists()) {
+            throw new ServiceException(ResultCode.TITLE_REPEAT, "标题" + title + "重复");
+        }
+
+        // 组装实体类
+        Course course = BeanUtil.copyProperties(dto, Course.class);
+        course.setUpdated(LocalDateTime.now());
+        // update course set title = ?, author = ?, fk_category_id = ?, info = ?, summary = ?, cover = ?, price = ?, idx = ?, updated = ? where id = ?
+        if (!UpdateChain.of(course)
+                .where(COURSE.ID.eq(course.getId()))
+                .update()) {
+            throw new ServiceException(ResultCode.MYSQL_ERROR, "数据库修改失败");
+        }
+        return true;
+    }
+
 }
