@@ -160,6 +160,7 @@ async function handleSaveProfile() {
   saving.value = true
   try {
     await rmsApi.updateProfile({
+      userId: userStore.userInfo?.id,
       nickname: editForm.nickname,
       signature: editForm.signature
     })

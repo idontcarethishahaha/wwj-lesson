@@ -171,6 +171,16 @@ public class UserController {
         return userService.statistics();
     }
 
+    @Operation(summary = "用户 - 更新基本信息", description = "用户更新自己的昵称和签名")
+    @PutMapping("info")
+    public boolean updateInfo(@RequestBody Map<String, Object> data) {
+        System.out.println("收到更新请求，数据: " + data);
+        Long userId = data.get("userId") != null ? ((Number) data.get("userId")).longValue() : null;
+        System.out.println("解析后的userId: " + userId);
+        String nickname = (String) data.get("nickname");
+        String signature = (String) data.get("signature");
+        return userService.updateInfo(userId, nickname, signature);
+    }
 
 
 }

@@ -22,7 +22,7 @@ export const rmsApi = {
     return request.get(`/user-server/api/v1/user/select/${uid}`)
   },
 
-  updateProfile(data: { nickname?: string; signature?: string }): Promise<ApiResult<null>> {
+  updateProfile(data: { userId?: number; nickname?: string; signature?: string }): Promise<ApiResult<null>> {
     return request.put('/user-server/api/v1/user/info', data)
   },
 

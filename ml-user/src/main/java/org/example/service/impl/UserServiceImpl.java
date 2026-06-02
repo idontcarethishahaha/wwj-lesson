@@ -574,6 +574,33 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>  implements U
         return result;
     }
 
+    @Override
+    public boolean updateInfo(Long userId, String nickname, String signature) {
+        // 参数校验
+        if (userId == null) {
+            throw new ServiceException(ResultCode.ILLEGAL_PARAM, "用户ID不能为空");
+        }
+        
+        // 检查用户是否存在
+        User user = mapper.selectOneById(userId);
+        if (user == null) {
+            throw new ServiceException(ResultCode.USER_NOT_FOUND, "用户不存在");
+        }
+        
+        // 更新用户信息
+        boolean success = UpdateChain.of(mapper)
+                .set(USER.NICKNAME, nickname)
+                .set(USER.INFO, signature)
+                .where(USER.ID.eq(userId))
+                .update();
+        
+        if (!success) {
+            throw new ServiceException(ResultCode.MYSQL_ERROR, "更新用户信息失败");
+        }
+        
+        return true;
+    }
+
     /**
      * 计算a到b的增长率
      *

@@ -88,5 +88,14 @@ public interface UserService extends IService<User> {
       */
      Map<String, Object> statistics();
 
+     /**
+      * 更新用户基本信息（昵称、签名等）
+      *
+      * @param userId 用户ID
+      * @param nickname 昵称
+      * @param signature 签名
+      * @return 更新是否成功
+      */
+     boolean updateInfo(Long userId, String nickname, String signature);
 
 }
