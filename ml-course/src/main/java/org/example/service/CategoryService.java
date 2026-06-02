@@ -3,6 +3,7 @@ package org.example.service;
 import com.mybatisflex.core.service.IService;
 import org.example.dto.CategoryInsertDTO;
 import org.example.dto.CategoryPageDTO;
+import org.example.dto.CategoryUpdateDTO;
 import org.example.entity.Category;
 import org.example.vo.CategorySimpleListVO;
 import org.example.vo.PageVO;
@@ -19,4 +20,9 @@ public interface CategoryService extends IService<Category> {
     boolean insert(CategoryInsertDTO dto);
     List<CategorySimpleListVO> listSimple();
     PageVO<Category> page(CategoryPageDTO dto);
+
+    boolean update(CategoryUpdateDTO dto);
+
+    boolean delete(Long id);
+    boolean deleteBatch(List<Long> ids);
 }

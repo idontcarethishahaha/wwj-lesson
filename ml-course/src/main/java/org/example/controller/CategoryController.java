@@ -5,11 +5,13 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.example.dto.CategoryInsertDTO;
 import org.example.dto.CategoryPageDTO;
+import org.example.dto.CategoryUpdateDTO;
 import org.example.entity.Category;
 import org.example.service.CategoryService;
 import org.example.vo.CategorySimpleListVO;
 import org.example.vo.PageVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -52,16 +54,16 @@ public class CategoryController {
         return categoryService.removeById(id);
     }
 
-    /**
-     * 根据主键更新课程类别表。
-     *
-     * @param category 课程类别表
-     * @return {@code true} 更新成功，{@code false} 更新失败
-     */
+    @Operation(summary = "删除 - 批量删除", description = "按主键批量删除类别记录")
+    @DeleteMapping("deleteBatch")
+    public boolean deleteBatch(@RequestParam("ids") List<Long> ids) {
+        return categoryService.deleteBatch(ids);
+    }
+
+    @Operation(summary = "修改 - 单条修改", description = "按主键修改一条类别记录")
     @PutMapping("update")
-    @Operation(description="根据主键更新课程类别表")
-    public boolean update(@RequestBody @Parameter(description="课程类别表主键")Category category) {
-        return categoryService.updateById(category);
+    public boolean update(@Validated @RequestBody CategoryUpdateDTO dto) {
+        return categoryService.update(dto);
     }
 
     /**

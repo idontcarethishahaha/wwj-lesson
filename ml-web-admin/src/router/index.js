@@ -46,6 +46,11 @@ import OrderUpdate from "../views/oms/order/OrderUpdate.vue";
 import OrderDetail from "../views/oms/order/detail/OrderDetail.vue";
 import OrderDetailInsert from "../views/oms/order/detail/OrderDetailInsert.vue";
 import OrderDetailUpdate from "../views/oms/order/detail/OrderDetailUpdate.vue";
+import SubComment from "@/views/cms/comment/sub/SubComment.vue";
+import Comment from "@/views/cms/comment/Comment.vue";
+import Role from "@/views/ums/role/Role.vue";
+import RoleInsert from "@/views/ums/role/RoleInsert.vue";
+import RoleUpdate from "@/views/ums/role/RoleUpdate.vue";
 
 
 const router = createRouter({
@@ -99,6 +104,11 @@ const router = createRouter({
                 {path: '/OrderDetail', name: 'OrderDetail', component: OrderDetail},
                 {path: '/OrderDetailInsert', name: 'OrderDetailInsert', component: OrderDetailInsert},
                 {path: '/OrderDetailUpdate', name: 'OrderDetailUpdate', component: OrderDetailUpdate},
+                {path: '/Comment', name: 'Comment', component: Comment},
+                {path: '/SubComment', name: 'SubComment', component: SubComment},
+                {path: '/Role', name: 'Role', component: Role},
+                {path: '/RoleInsert', name: 'RoleInsert', component: RoleInsert},
+                {path: '/RoleUpdate', name: 'RoleUpdate', component: RoleUpdate},
             ]
         }
     ]
