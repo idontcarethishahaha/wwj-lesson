@@ -86,7 +86,7 @@ public class BarrageServer {
     @OnMessage
     public void onMessage(@PathParam("userId") Long userId, String msg, Session session) {
 
-        log.info("{} 号用户发来弹幕: {}", userId, msg);
+        log.info("{} 号用户发来弹幕：{}", userId, msg);
 
         // 群发消息（同步快速处理，不阻塞）
         CLIENTS.forEach((key, clientSession) -> {
@@ -104,12 +104,11 @@ public class BarrageServer {
                 barrageDoc.setId(SNOWFLAKE.nextIdStr());
                 // 动态获取 BarrageRepository（通过 SpringContextUtil）
                 BarrageDoc result = SpringUtil.getBean(BarrageRepository.class).save(barrageDoc);
-                log.info("{} 号用户的弹幕保存成功，弹幕ID：{}", userId, result.getId());
+                log.info("{} 号用户的弹幕保存成功，弹幕 ID：{}", userId, result.getId());
             } catch (Exception e) {
                 log.error("{} 号用户的弹幕保存失败，消息内容：{}", userId, msg, e);
             }
 
         });
-        log.info("{} 号用户发来弹幕: {}", userId, msg);
     }
 }

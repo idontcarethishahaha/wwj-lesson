@@ -161,6 +161,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { VideoCamera, Lock, HeartFilled } from '@element-plus/icons-vue'
 import { cmsApi } from '@/api'
+import { barrageService } from '@/api/barrage'
 import { MINIO_EPISODE_VIDEO } from '@/const'
 import { useUserStore } from '@/stores/user'
 import type { Episode, Season, Danmaku, Comment } from '@/types'
@@ -185,6 +186,7 @@ const danmakuContent = ref('')
 const playbackRate = ref('1')
 const currentTime = ref(0)
 const isPlaying = ref(false)
+const isConnected = ref(false)
 
 const comments = ref<Comment[]>([])
 const commentPage = ref(1)
@@ -229,13 +231,8 @@ async function fetchSeasons() {
 }
 
 async function fetchDanmakus() {
-  try {
-    const res = await cmsApi.getDanmakus(episodeId.value)
-    allDanmakus.value = res.data
-    processedDanmakuIds.clear()
-  } catch {
-    allDanmakus.value = []
-  }
+  allDanmakus.value = []
+  processedDanmakuIds.clear()
 }
 
 function handleSpeedChange(val: string) {
@@ -311,7 +308,7 @@ async function handleSendDanmaku() {
   }
   const time = getCurrentVideoTime()
   try {
-    await cmsApi.sendDanmaku({
+    barrageService.send({
       episodeId: episodeId.value,
       content: danmakuContent.value.trim(),
       time,
@@ -320,8 +317,8 @@ async function handleSendDanmaku() {
     const newDm: Danmaku = {
       id: Date.now(),
       episodeId: episodeId.value,
-      userId: 0,
-      username: '我',
+      userId: userStore.userInfo?.id || 0,
+      username: userStore.userInfo?.nickname || '我',
       content: danmakuContent.value.trim(),
       time,
       createTime: new Date().toISOString(),
@@ -336,8 +333,8 @@ async function handleSendDanmaku() {
       activeDanmakus.value.push({ ...newDm, top, duration, color })
     }
     danmakuContent.value = ''
-  } catch {
-    ElMessage.error('弹幕发送失败')
+  } catch (error) {
+    ElMessage.error('弹幕发送失败：' + (error as Error).message)
   }
 }
 
@@ -428,15 +425,58 @@ watch(
     }
 )
 
+async function initBarrage() {
+  const userId = userStore.userInfo?.id
+  if (!userId) {
+    ElMessage.warning('请先登录')
+    return
+  }
+  
+  try {
+    await barrageService.connect(userId)
+    isConnected.value = true
+    
+    barrageService.onMessage((data) => {
+      const dm: Danmaku = {
+        id: Date.now(),
+        episodeId: data.episodeId,
+        userId: data.userId,
+        username: data.username || '匿名用户',
+        content: data.content,
+        time: data.time,
+        createTime: new Date().toISOString(),
+      }
+      
+      allDanmakus.value.push(dm)
+      
+      const overlay = danmakuOverlayRef.value
+      if (overlay) {
+        const top = 10 + Math.random() * 60
+        const duration = 5 + Math.random() * 3
+        const colors = ['#fff', '#ff0', '#0ff', '#f0f', '#0f0', '#f80']
+        const color = colors[Math.floor(Math.random() * colors.length)]
+        activeDanmakus.value.push({ ...dm, top, duration, color })
+      }
+    })
+    
+    ElMessage.success('弹幕服务已连接')
+  } catch (error) {
+    ElMessage.error('弹幕服务连接失败')
+    console.error('弹幕服务连接失败', error)
+  }
+}
+
 onMounted(async () => {
   await fetchEpisode()
   await fetchSeasons()
   await fetchDanmakus()
   await fetchComments()
+  await initBarrage()
 })
 
 onBeforeUnmount(() => {
   stopDanmakuCheck()
+  barrageService.disconnect()
 })
 </script>
 
