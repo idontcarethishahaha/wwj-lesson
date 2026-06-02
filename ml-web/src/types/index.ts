@@ -51,7 +51,7 @@ export interface Episode {
 export interface Comment {
   id: number
   courseId: number
-  userId: number
+  fkUserId: number
   nickname: string
   avatar: string
   content: string

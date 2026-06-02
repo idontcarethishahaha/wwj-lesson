@@ -111,6 +111,16 @@
                   >
                     {{ comment.likeCount }}
                   </el-button>
+                  <el-button
+                      v-if="comment.fkUserId === userStore.userInfo?.id"
+                      text
+                      size="small"
+                      type="danger"
+                      icon="Delete"
+                      @click="handleDeleteComment(comment)"
+                  >
+                    删除
+                  </el-button>
                 </div>
               </div>
             </div>
@@ -406,6 +416,17 @@ async function handleLikeComment(comment: Comment) {
     comment.likeCount += comment.liked ? 1 : -1
   } catch {
     ElMessage.error('操作失败')
+  }
+}
+
+async function handleDeleteComment(comment: Comment) {
+  try {
+    await cmsApi.deleteComment(comment.id)
+    comments.value = comments.value.filter(c => c.id !== comment.id)
+    commentTotal.value--
+    ElMessage.success('删除成功')
+  } catch {
+    ElMessage.error('删除失败')
   }
 }
 

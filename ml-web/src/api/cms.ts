@@ -48,5 +48,9 @@ export const cmsApi = {
 
   reportComment(data: { commentId: number; reason: string }): Promise<ApiResult<null>> {
     return request.post('/course-server/api/v1/comment/report', data)
+  },
+
+  deleteComment(commentId: number): Promise<ApiResult<null>> {
+    return request.delete(`/course-server/api/v1/comment/delete/${commentId}`)
   }
 }
