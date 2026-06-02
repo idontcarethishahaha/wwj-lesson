@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2bfe111d-2371-478a-b9d7-87f6c93e6ee4" name="Changes" comment="" />
+    <list default="true" id="2bfe111d-2371-478a-b9d7-87f6c93e6ee4" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/ml-course/src/main/java/org/example/controller/CourseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-course/src/main/java/org/example/controller/CourseController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml-course/src/main/java/org/example/service/CourseService.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-course/src/main/java/org/example/service/CourseService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml-course/src/main/java/org/example/service/impl/CourseServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-course/src/main/java/org/example/service/impl/CourseServiceImpl.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -232,7 +236,7 @@
       <workItem from="1780230490562" duration="5000" />
       <workItem from="1780282461355" duration="14757000" />
       <workItem from="1780363858680" duration="3752000" />
-      <workItem from="1780369634671" duration="7844000" />
+      <workItem from="1780369634671" duration="9029000" />
     </task>
     <servers />
   </component>

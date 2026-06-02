@@ -87,7 +87,7 @@
                 class="recommend-item"
                 @click="$router.push(`/courses/${item.id}`)"
               >
-                <img :src="item.cover" :alt="item.title" class="recommend-cover">
+                <img :src="MINIO_COURSE_COVER(item.cover)" :alt="item.title" class="recommend-cover">
                 <div class="recommend-info">
                   <div class="recommend-title">{{ item.title }}</div>
                   <div class="recommend-price">&yen;{{ item.price.toFixed(2) }}</div>

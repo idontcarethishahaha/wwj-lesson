@@ -307,4 +307,14 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course>  implem
         return true;
     }
 
+    @Override
+    public List<Course> recommend() {
+        RelationManager.addQueryRelations("category", "seasons", "episode");
+        return QueryChain.of(mapper)
+                .orderBy(COURSE.IDX.asc(), COURSE.ID.desc())
+                .limit(6)
+                .withRelations()
+                .list();
+    }
+
 }

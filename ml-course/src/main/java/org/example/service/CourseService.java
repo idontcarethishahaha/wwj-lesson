@@ -42,5 +42,6 @@ public interface CourseService extends IService<Course> {
     boolean delete(Long id);
     //boolean deleteBatch(List<Long> ids);
 
+    List<Course> recommend();
 
 }

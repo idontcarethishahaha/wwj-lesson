@@ -117,6 +117,12 @@ public class CourseController {
         return courseService.update(dto);
     }
 
+    @Operation(description = "获取推荐课程列表")
+    @GetMapping("recommend")
+    public List<Course> recommend() {
+        return courseService.recommend();
+    }
+
 //
 //    @Operation(summary = "删除 - 批量删除", description = "按主键批量删除课程记录")
 //    @DeleteMapping("deleteBatch")
