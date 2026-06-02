@@ -1,6 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="450" height="560" viewBox="0 0 450 560">
-  <rect width="450" height="560" fill="#667eea"/>
-  <circle cx="225" cy="200" r="80" fill="rgba(255,255,255,0.2)"/>
-  <text x="225" y="350" text-anchor="middle" fill="white" font-size="24" font-weight="bold">在线课堂</text>
-  <text x="225" y="400" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="14">开启您的学习之旅</text>
-</svg>
