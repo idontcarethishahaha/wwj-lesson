@@ -7,6 +7,8 @@ import PersonalUpdate from "@/views/personal/PersonalUpdate.vue";
 import PersonalUpdatePhone from "@/views/personal/PersonalUpdatePhone.vue";
 import User from "@/views/ums/user/User.vue";
 import UserInsert from "@/views/ums/user/UsertInsert.vue";
+import UserUpdate from "../views/ums/user/UserUpdate.vue";
+import UserUpdateRoles from "../views/ums/user/UserUpdateRoles.vue";
 import Category from "@/views/cms/category/Category.vue";
 import CategoryInsert from "@/views/cms/category/CategoryInsert.vue";
 import CategoryUpdate from "@/views/cms/category/CategoryUpdate.vue";
@@ -51,6 +53,13 @@ import Comment from "@/views/cms/comment/Comment.vue";
 import Role from "@/views/ums/role/Role.vue";
 import RoleInsert from "@/views/ums/role/RoleInsert.vue";
 import RoleUpdate from "@/views/ums/role/RoleUpdate.vue";
+import RoleUpdateMenus from "@/views/ums/role/RoleUpdateMenus.vue";
+import MenuInsert from "@/views/ums/menu/MenuInsert.vue";
+import MenuUpdate from "../views/ums/menu/MenuUpdate.vue";
+import SubMenu from "../views/ums/menu/sub/SubMenu.vue";
+import SubMenuInsert from "../views/ums/menu/sub/SubMenuInsert.vue";
+import SubMenuUpdate from "../views/ums/menu/sub/SubMenuUpdate.vue";
+import Menu from "@/views/ums/menu/Menu.vue";
 
 
 const router = createRouter({
@@ -65,6 +74,8 @@ const router = createRouter({
                 {path: '/personalUpdatePhone',name: 'PersonalUpdatePhone',component: PersonalUpdatePhone},
                 {path: '/user',name: 'User',component: User},
                 {path: '/userInsert',name:'UserInsert',component:UserInsert},
+                {path: '/UserUpdate', name: 'UserUpdate', component: UserUpdate},
+                {path: '/UserUpdateRoles', name: 'UserUpdateRoles', component: UserUpdateRoles},
                 {path: '/category',name: 'Category',component: Category},
                 {path: '/categoryInsert',name: CategoryInsert,component: CategoryInsert},
                 {path: '/categoryUpdate',name: CategoryUpdate,component: CategoryUpdate},
@@ -109,6 +120,13 @@ const router = createRouter({
                 {path: '/Role', name: 'Role', component: Role},
                 {path: '/RoleInsert', name: 'RoleInsert', component: RoleInsert},
                 {path: '/RoleUpdate', name: 'RoleUpdate', component: RoleUpdate},
+                {path: '/RoleUpdateMenus', name: 'RoleUpdateMenus', component: RoleUpdateMenus},
+                {path: '/Menu', name: 'Menu', component: Menu},
+                {path: '/MenuInsert', name: 'MenuInsert', component: MenuInsert},
+                {path: '/MenuUpdate', name: 'MenuUpdate', component: MenuUpdate},
+                {path: '/SubMenu', name: 'SubMenu', component: SubMenu},
+                {path: '/SubMenuInsert', name: 'SubMenuInsert', component: SubMenuInsert},
+                {path: '/SubMenuUpdate', name: 'SubMenuUpdate', component: SubMenuUpdate},
             ]
         }
     ]
