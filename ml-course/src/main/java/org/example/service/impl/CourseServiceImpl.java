@@ -101,8 +101,20 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course>  implem
     public PageVO<Course> page(CoursePageDTO dto) {
         // 指定要关联查询的字段：课程类别,季次,集数
         RelationManager.addQueryRelations("category","seasons","episode");
-        QueryChain queryChain = QueryChain.of(mapper)
-                .orderBy(COURSE.IDX.asc(),COURSE.ID.desc());
+        QueryChain queryChain = QueryChain.of(mapper);
+        
+        // 处理排序方式
+         String sort = dto.getSort();
+         if("price_asc".equals(sort)){
+             queryChain.orderBy(COURSE.PRICE.asc());
+         } else if("price_desc".equals(sort)){
+             queryChain.orderBy(COURSE.PRICE.desc());
+         } else if("popularity".equals(sort)){
+             queryChain.orderBy(COURSE.CREATED.desc());
+         } else {
+             queryChain.orderBy(COURSE.IDX.asc(),COURSE.ID.desc());
+         }
+        
         // 判断title是否有值
         String title = dto.getTitle();
         if(StrUtil.isNotBlank(title)){

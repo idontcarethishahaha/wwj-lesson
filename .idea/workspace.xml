@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2bfe111d-2371-478a-b9d7-87f6c93e6ee4" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/ml-barrage/src/main/java/org/example/component/BarrageServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-barrage/src/main/java/org/example/component/BarrageServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml-course/src/main/java/org/example/dto/CoursePageDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-course/src/main/java/org/example/dto/CoursePageDTO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ml-course/src/main/java/org/example/service/impl/CourseServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-course/src/main/java/org/example/service/impl/CourseServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -254,7 +254,7 @@
       <workItem from="1780363858680" duration="3752000" />
       <workItem from="1780369634671" duration="14591000" />
       <workItem from="1780454817019" duration="968000" />
-      <workItem from="1780462213533" duration="2292000" />
+      <workItem from="1780462213533" duration="2693000" />
     </task>
     <servers />
   </component>

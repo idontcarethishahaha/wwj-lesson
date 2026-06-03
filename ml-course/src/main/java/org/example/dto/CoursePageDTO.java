@@ -26,4 +26,6 @@ public class CoursePageDTO extends PageDTO {
     @Size(max = 42, message = "搜索关键字不能超过42个字")
     @Schema(description = "搜索关键字，比如课程名称或作者名称")
     private String keyword;
+    @Schema(description = "排序方式：price_asc价格升序，price_desc价格降序，popularity人气排序")
+    private String sort;
 }
