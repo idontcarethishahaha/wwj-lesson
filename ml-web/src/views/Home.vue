@@ -46,13 +46,18 @@
           <h3 class="section-title">秒杀活动</h3>
           <div class="card-list" v-if="seckillList.length > 0">
             <el-card
-              v-for="item in seckillList"
+              v-for="(item, index) in seckillList"
               :key="item.id"
               class="course-card seckill-card"
               shadow="hover"
               @click="$router.push(`/seckill/${item.id}`)"
             >
-              <img :src="item.cover" :alt="item.title" class="course-cover" />
+              <div class="seckill-cover" :class="`cover-${index % 4}`">
+                <div class="cover-content">
+                  <span class="seckill-badge">秒杀</span>
+                  <span class="cover-text">{{ item.title }}</span>
+                </div>
+              </div>
               <div class="course-info">
                 <h4 class="course-title">{{ item.title }}</h4>
                 <div class="course-price seckill-price">
@@ -285,6 +290,56 @@ onMounted(() => {
 
 .seckill-stock {
   color: #F56C6C;
+}
+
+.seckill-cover {
+  width: 100%;
+  height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  color: #fff;
+  
+  &.cover-0 {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  }
+  
+  &.cover-1 {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  }
+  
+  &.cover-2 {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  }
+  
+  &.cover-3 {
+    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+  }
+}
+
+.cover-content {
+  text-align: center;
+  padding: 20px;
+}
+
+.seckill-badge {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.3);
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+.cover-text {
+  display: block;
+  font-size: 15px;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .notice-list {

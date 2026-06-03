@@ -17,21 +17,26 @@
         <div v-else class="activity-grid">
           <div
             class="activity-card"
-            v-for="activity in activities"
+            v-for="(activity, index) in activities"
             :key="activity.id"
             @click="$router.push(`/seckill/${activity.id}`)"
           >
-            <el-image class="activity-cover" :src="activity.cover" fit="cover" />
+            <div class="activity-cover" :class="`cover-${index % 4}`">
+              <div class="cover-content">
+                <span class="seckill-badge">秒杀</span>
+                <span class="cover-text">{{ activity.title }}</span>
+              </div>
+            </div>
             <div class="activity-info">
               <h3 class="activity-title">{{ activity.title }}</h3>
-              <!-- <div class="activity-price">
+              <div class="activity-price">
                 <span class="seckill-price">&yen;{{ activity.price }}</span>
                 <span class="original-price">&yen;{{ activity.originalPrice }}</span>
-              </div> -->
+              </div>
               <div class="activity-meta">
-                <!-- <span class="stock" :class="{ 'low-stock': activity.stock <= 10 }">
+                <span class="stock" :class="{ 'low-stock': activity.stock <= 10 }">
                   剩余 {{ activity.stock }} 件
-                </span> -->
+                </span>
                 <span class="countdown" v-if="countdowns[activity.id]">
                   {{ countdowns[activity.id] }}
                 </span>
@@ -150,7 +155,51 @@ function updateCountdowns() {
 .activity-cover {
   width: 100%;
   height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  color: #fff;
+  
+  &.cover-0 {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  }
+  
+  &.cover-1 {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  }
+  
+  &.cover-2 {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  }
+  
+  &.cover-3 {
+    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+  }
+}
+
+.cover-content {
+  text-align: center;
+  padding: 20px;
+}
+
+.seckill-badge {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.3);
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+.cover-text {
   display: block;
+  font-size: 16px;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .activity-info {
