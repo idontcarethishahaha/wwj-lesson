@@ -5,14 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2bfe111d-2371-478a-b9d7-87f6c93e6ee4" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/TraeDemo/src/views/profile/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/TraeDemo/src/views/profile/Index.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TraeDemo/src/views/profile/Index0.vue" beforeDir="false" afterPath="$PROJECT_DIR$/TraeDemo/src/views/profile/Index0.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ml-user/src/main/java/org/example/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-user/src/main/java/org/example/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ml-user/src/main/java/org/example/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-user/src/main/java/org/example/service/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ml-user/src/main/java/org/example/service/impl/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-user/src/main/java/org/example/service/impl/UserServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ml-web/src/api/rms.ts" beforeDir="false" afterPath="$PROJECT_DIR$/ml-web/src/api/rms.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ml-web/src/views/profile/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/ml-web/src/views/profile/Index.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ml-web/src/views/profile/Index0.vue" beforeDir="false" afterPath="$PROJECT_DIR$/ml-web/src/views/profile/Index0.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml-barrage/src/main/java/org/example/component/BarrageServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-barrage/src/main/java/org/example/component/BarrageServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml-course/src/main/java/org/example/service/impl/CourseServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-course/src/main/java/org/example/service/impl/CourseServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -118,7 +112,7 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.BarrageApp">
+  <component name="RunManager" selected="Spring Boot.CourseApp">
     <configuration name="BarrageApp" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
       <module name="ml-barrage" />
       <option name="SHORTEN_COMMAND_LINE" value="ARGS_FILE" />
@@ -133,9 +127,24 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="OrderApp" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
-      <module name="ml-order" />
-      <option name="SPRING_BOOT_MAIN_CLASS" value="org.example.OrderApp" />
+    <configuration name="CourseApp" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="ml-course" />
+      <option name="SHORTEN_COMMAND_LINE" value="ARGS_FILE" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="org.example.CourseApp" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.example.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GatewayApp" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="ml-gateway" />
+      <option name="SHORTEN_COMMAND_LINE" value="ARGS_FILE" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="org.example.GatewayApp" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="org.example.*" />
@@ -179,17 +188,19 @@
       </method>
     </configuration>
     <list>
+      <item itemvalue="Spring Boot.CourseApp" />
+      <item itemvalue="Spring Boot.GatewayApp" />
       <item itemvalue="Spring Boot.BarrageApp" />
-      <item itemvalue="Spring Boot.OrderApp" />
       <item itemvalue="Spring Boot.SaleApp" />
       <item itemvalue="Spring Boot.UserApp" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Spring Boot.UserApp" />
+        <item itemvalue="Spring Boot.CourseApp" />
         <item itemvalue="Spring Boot.BarrageApp" />
+        <item itemvalue="Spring Boot.GatewayApp" />
         <item itemvalue="Spring Boot.SaleApp" />
-        <item itemvalue="Spring Boot.OrderApp" />
+        <item itemvalue="Spring Boot.UserApp" />
       </list>
     </recent_temporary>
   </component>
@@ -241,7 +252,9 @@
       <workItem from="1780230490562" duration="5000" />
       <workItem from="1780282461355" duration="14757000" />
       <workItem from="1780363858680" duration="3752000" />
-      <workItem from="1780369634671" duration="14452000" />
+      <workItem from="1780369634671" duration="14591000" />
+      <workItem from="1780454817019" duration="968000" />
+      <workItem from="1780462213533" duration="2292000" />
     </task>
     <servers />
   </component>

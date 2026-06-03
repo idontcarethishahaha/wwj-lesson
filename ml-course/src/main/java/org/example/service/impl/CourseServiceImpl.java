@@ -113,6 +113,11 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course>  implem
         if(fkCategoryId!=null){
             queryChain.where(COURSE.FK_CATEGORY_ID.eq(fkCategoryId));
         }
+        // 判断搜索关键字是否有值
+        String keyword = dto.getKeyword();
+        if(StrUtil.isNotBlank(keyword)){
+            queryChain.where(COURSE.TITLE.like(keyword).or(COURSE.AUTHOR.like(keyword)));
+        }
         // 分页查询
         Page<Course> result = queryChain.withRelations().page(new Page<>(dto.getPageNum(),dto.getPageSize()));
         PageVO<Course> pageVO = new PageVO<>();
