@@ -22,9 +22,9 @@ export interface Course {
   cover: string
   price: number
   originalPrice: number
-  description: string
+  info: string
   categoryId: number
-  teacherName: string
+  author: string
   studentCount: number
   episodeCount: number
   status: number

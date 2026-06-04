@@ -131,7 +131,7 @@ const mobileFormRef = ref<FormInstance>()
 
 const accountForm = reactive({
   username: 'jiahao',
-  password: '8428075love'
+  password: '123456789'
 })
 
 const mobileForm = reactive({

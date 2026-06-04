@@ -11,7 +11,7 @@
         </div>
         <div class="hero-info">
           <h1 class="hero-title">{{ course.title }}</h1>
-          <p class="hero-desc">{{ course.description }}</p>
+          <p class="hero-desc">{{ course.info }}</p>
           <div class="hero-price">
             <span class="current-price">&yen;{{ course.price.toFixed(2) }}</span>
             <!-- <span class="original-price">&yen;{{ course.originalPrice.toFixed(2) }}</span> -->
