@@ -31,7 +31,7 @@ export const smsApi = {
   },
 
   getSeckillList(): Promise<ApiResult<SeckillActivity[]>> {
-    return request.get('/sale-server/api/v1/seckill/list')
+    return request.get('/sale-server/api/v1/seckill/today')
   },
 
   getSeckillDetail(id: number): Promise<ApiResult<SeckillActivity>> {

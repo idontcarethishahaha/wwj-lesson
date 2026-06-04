@@ -98,4 +98,10 @@ public class SeckillController {
         return seckillService.page(page);
     }
 
+    // 查询今日秒杀活动
+    @GetMapping("today")
+    @Operation(description="查询今日秒杀活动")
+    public List<Seckill> queryTodaySeckill() {
+        return seckillService.queryTodaySeckill();
+    }
 }
