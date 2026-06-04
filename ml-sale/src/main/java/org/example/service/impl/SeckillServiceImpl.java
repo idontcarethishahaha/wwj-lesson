@@ -23,6 +23,7 @@ import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.stereotype.Service;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -143,5 +144,10 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill>  imp
         }finally {
             lock.unlock();//为了避免锁忘记，一定要在finally中解锁
         }
+    }
+
+    @Override
+    public Seckill getById(Serializable id) {
+        return mapper.selectOneWithRelationsById(id);
     }
 }
