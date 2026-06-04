@@ -1,6 +1,7 @@
 package org.example.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.mybatisflex.core.paginate.Page;
@@ -15,6 +16,8 @@ import org.example.dto.CourseInsertDTO;
 import org.example.dto.CoursePageDTO;
 import org.example.dto.CourseUpdateDTO;
 import org.example.entity.Course;
+import org.example.entity.Episode;
+import org.example.entity.Season;
 import org.example.exception.ServiceException;
 import org.example.mapper.CourseMapper;
 import org.example.mapper.EpisodeMapper;
@@ -292,7 +295,28 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course>  implem
 
     @Override
     public Course getById(Serializable id) {
-        return mapper.selectOneWithRelationsById(id);
+        Course course = mapper.selectOneWithRelationsById(id);
+        if (course == null) {
+            throw new ServiceException(ResultCode.COURSE_NOT_FOUND, "课程不存在");
+        }
+        // 查询这个课程共有多少集
+        // 先到季次表查询，再根据季次表查询集数表
+        QueryChain<Season> queryChain = QueryChain.of(Season.class);
+        List<Long> seasonIds = queryChain.select(SEASON.ID)
+                .where(SEASON.FK_COURSE_ID.eq(id))
+                .listAs(Long.class);
+        // 再创建一个查询链
+        QueryChain<Episode> episodeQueryChain = QueryChain.of(Episode.class);
+        // 判断季次列表是否为空
+        if (CollUtil.isNotEmpty(seasonIds)) {
+            // 获取集数表中的所有数据行数
+            Long episodeCount = episodeQueryChain
+                    .where(EPISODE.FK_SEASON_ID.in(seasonIds))
+                    .count();
+            // 设置课程的课时数量
+            course.setEpisodeCount(episodeCount.intValue());
+        }
+        return course;
     }
 
     @Override

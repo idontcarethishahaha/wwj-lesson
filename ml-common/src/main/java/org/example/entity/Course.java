@@ -121,5 +121,7 @@ public class Course implements Serializable {
     @RelationOneToMany(selfField = "id",targetField = "fkCourseId")
     private List<Season> seasons;
 
-
+    // 添加集数
+    @Column(ignore = true)//表中并没有这个字段
+    private int episodeCount;
 }
