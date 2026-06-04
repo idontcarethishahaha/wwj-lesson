@@ -6,6 +6,7 @@ import com.mybatisflex.core.paginate.Page;
 import com.mybatisflex.core.query.QueryChain;
 import com.mybatisflex.spring.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.example.component.MyRedis;
 import org.example.constant.ML;
@@ -39,6 +40,7 @@ import static org.example.entity.table.SeckillTableDef.SECKILL;
  * @author WuWenJin
  * @since v1.0.0
  */
+@Slf4j
 @Service
 public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill>  implements SeckillService{
     @Override
@@ -104,41 +106,54 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill>  imp
     // 秒杀
     @Override
     public boolean kill(KillDTO dto) {
+        log.info("========== 收到秒杀请求 ==========");
+        log.info("秒杀请求参数: {}", dto);
         // 获取秒杀活动ID
         Long fkSeckillId = dto.getFkSeckillId();
         Seckill seckill = mapper.selectOneById(fkSeckillId);
         if (seckill == null){
+            log.error("秒杀活动不存在, fkSeckillId: {}", fkSeckillId);
             throw new ServiceException(ResultCode.SECKILL_NOT_FOUND,"秒杀活动不存在");
         }
         // 1 判断秒杀活动是否在有效时间内
         // 判断秒杀活动是否开始
         if (seckill.getStartTime().isAfter(LocalDateTime.now())){
+            log.error("秒杀活动未开始");
             throw new ServiceException(ResultCode.SECKILL_NOT_START,"秒杀活动未开始");
         }
         // 判断秒杀活动是否结束
         if (seckill.getEndTime().isBefore(LocalDateTime.now())){
+            log.error("秒杀活动已结束");
             throw new ServiceException(ResultCode.SECKILL_END,"秒杀活动已结束");
         }
         // 2 获取redis中的分布式锁
         final String KEY = ML.Redis.SECKILL_COURSE_COUNT_PREFIX + dto.getFkCourseId();
+        log.info("库存KEY: {}", KEY);
         // 只有获得分布式锁的用户才能继续秒杀活动（防止超卖）
         RLock lock = redissonClient.getLock("skLock");
         // 获取锁，并锁定10秒
         lock.lock(10, TimeUnit.SECONDS);
         try {
+            String stockStr = myRedis.get(KEY);
+            log.info("当前库存值: {}", stockStr);
             // 3 判断库存是否充足
-            if (Integer.parseInt(myRedis.get(KEY))>0){
+            if (stockStr != null && Integer.parseInt(stockStr) > 0){
                 // 4 减库存
                 myRedis.incr(KEY,-1);
+                log.info("库存减1成功");
                 // 5 发送消息给MQ，告诉MQ该用户秒杀成功，异步下单（创建订单）：利用MQ的削峰填谷，快速完成秒杀流程，提升秒杀活动成功率
                 OrderMessage orderMessage = new OrderMessage();
                 orderMessage.setFkUserId(dto.getFkUserId());//用户id：谁参与了本次秒杀
                 orderMessage.setFkCourseId(dto.getFkCourseId());// 课程id：秒杀的课程id
                 orderMessage.setPrice(dto.getPrice());//正常价格
                 orderMessage.setSkPrice(dto.getSkPrice());//秒杀价格
+                log.info("准备发送消息到MQ: {}", orderMessage);
                 rocketMQTemplate.convertAndSend("ml-topic:ml-tag",orderMessage);
+                log.info("消息发送成功");
+                log.info("========== 秒杀成功 ==========");
                 return true;
             }else{
+                log.error("库存不足, stockStr: {}", stockStr);
                 throw new ServiceException(ResultCode.SERVER_ERROR,"库存不足");
             }
 

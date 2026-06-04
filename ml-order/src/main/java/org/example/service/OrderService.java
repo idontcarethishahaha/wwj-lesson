@@ -2,6 +2,7 @@ package org.example.service;
 
 import com.mybatisflex.core.service.IService;
 import org.example.dto.OrderInsertDTO;
+import org.example.dto.OrderMessage;
 import org.example.dto.OrderPageDTO;
 import org.example.dto.PrePayDTO;
 import org.example.entity.Order;
@@ -34,5 +35,8 @@ public interface OrderService extends IService<Order> {
 
     // 检查订单是否完成支付
     boolean checkPay(String sn);
+
+    // 创建秒杀订单
+    boolean createSeckillOrder(OrderMessage orderMessage);
 
 }

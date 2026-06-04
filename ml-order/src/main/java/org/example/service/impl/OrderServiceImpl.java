@@ -10,6 +10,7 @@ import com.mybatisflex.spring.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
 import org.example.constant.ML;
 import org.example.dto.OrderInsertDTO;
+import org.example.dto.OrderMessage;
 import org.example.dto.OrderPageDTO;
 import org.example.dto.PrePayDTO;
 import org.example.entity.*;
@@ -226,5 +227,59 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order>  implement
     public Order getById(Serializable id) {
         // 查询订单的同时查询订单详情
         return mapper.selectOneWithRelationsById(id);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean createSeckillOrder(OrderMessage orderMessage) {
+        Long fkUserId = orderMessage.getFkUserId();
+        Long fkCourseId = orderMessage.getFkCourseId();
+        Double skPrice = orderMessage.getSkPrice();
+
+        // 创建订单
+        Order order = new Order();
+        order.setSn(RandomUtil.randomNumbers(19));
+        order.setTotalAmount(skPrice);
+        order.setPayAmount(0.0);
+        order.setPayType(ML.Order.NO_PAY);
+        order.setStatus(ML.Order.UNPAID);
+        order.setFkUserId(fkUserId);
+
+        // 获取用户信息
+        Result<User> userResult = userFeign.getInfo(fkUserId);
+        if (userResult == null) {
+            throw new ServiceException(ResultCode.OPEN_FEIGN_ERROR, "获取用户信息失败");
+        }
+        if (userResult.getData() == null) {
+            throw new ServiceException(ResultCode.USER_NOT_FOUND, "用户不存在");
+        }
+        order.setUsername(userResult.getData().getUsername());
+        order.setInfo("秒杀活动订单");
+        order.setCreated(LocalDateTime.now());
+        order.setUpdated(LocalDateTime.now());
+        mapper.insert(order);
+
+        // 创建订单明细
+        OrderDetail orderDetail = new OrderDetail();
+        orderDetail.setFkOrderId(order.getId());
+        orderDetail.setFkCourseId(fkCourseId);
+
+        // 获取课程信息
+        Result<Course> courseResult = courseFeign.getInfo(fkCourseId);
+        if (courseResult == null) {
+            throw new ServiceException(ResultCode.OPEN_FEIGN_ERROR, "获取课程信息失败");
+        }
+        Course course = courseResult.getData();
+        if (course == null) {
+            throw new ServiceException(ResultCode.COURSE_NOT_FOUND, "课程不存在");
+        }
+        orderDetail.setCourseTitle(course.getTitle());
+        orderDetail.setCourseCover(course.getCover());
+        orderDetail.setCoursePrice(course.getPrice());
+        orderDetail.setCreated(LocalDateTime.now());
+        orderDetail.setUpdated(LocalDateTime.now());
+        orderDetailMapper.insert(orderDetail);
+
+        return true;
     }
 }

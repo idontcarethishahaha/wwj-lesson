@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.example.constant.ML;
 import org.example.dto.OrderInsertDTO;
+import org.example.dto.OrderMessage;
 import org.example.dto.OrderPageDTO;
 import org.example.dto.PrePayDTO;
 import org.example.dto.QrCodeDTO;
@@ -113,6 +114,15 @@ public class OrderController {
     @Operation(description="分页查询订单表")
     public PageVO<Order> page(@Parameter(description="分页信息") OrderPageDTO page) {
         return orderService.page(page);
+    }
+
+    /**
+     * 创建秒杀订单
+     */
+    @PostMapping("create/seckill")
+    @Operation(description="创建秒杀订单")
+    public Result<Boolean> createSeckillOrder(@RequestBody @Parameter(description="秒杀订单信息") OrderMessage orderMessage) {
+        return new Result<>(orderService.createSeckillOrder(orderMessage));
     }
 
     /**
