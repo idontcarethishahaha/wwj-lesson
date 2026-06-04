@@ -55,6 +55,7 @@ import { ref, reactive } from 'vue'
 import { ElMessage } from 'element-plus'
 import { Lock, Iphone } from '@element-plus/icons-vue'
 import { rmsApi } from '@/api'
+import { useUserStore } from '@/stores/user'
 
 const passwordFormRef = ref()
 const mobileFormRef = ref()
@@ -62,6 +63,8 @@ const passwordLoading = ref(false)
 const mobileLoading = ref(false)
 const codeCountdown = ref(0)
 let countdownTimer: ReturnType<typeof setInterval> | null = null
+
+const userStore = useUserStore()
 
 const passwordForm = reactive({
   oldPassword: '',
@@ -121,6 +124,7 @@ async function handleChangePassword() {
   passwordLoading.value = true
   try {
     await rmsApi.changePassword({
+      id: userStore.userInfo?.id || 1,
       oldPassword: passwordForm.oldPassword,
       newPassword: passwordForm.newPassword
     })

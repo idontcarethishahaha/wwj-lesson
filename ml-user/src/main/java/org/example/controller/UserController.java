@@ -182,5 +182,19 @@ public class UserController {
         return userService.updateInfo(userId, nickname, signature);
     }
 
+    @Operation(summary = "用户 - 获取角色信息", description = "获取当前登录用户的角色和权限")
+    @GetMapping("role")
+    public Map<String, Object> getRole(@RequestParam(required = false) Long userId) {
+        // 如果没有传递 userId，默认使用用户ID为1（实际项目中应该从JWT token中解析）
+        if (userId == null) {
+            userId = 1L;
+        }
+        System.out.println("=== getRole 接口被调用 ===");
+        System.out.println("userId: " + userId);
+        Map<String, Object> result = userService.getRole(userId);
+        System.out.println("返回结果: " + result);
+        return result;
+    }
+
 
 }

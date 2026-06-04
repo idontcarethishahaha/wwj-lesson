@@ -58,34 +58,6 @@
           </div>
         </el-card>
       </div>
-
-      <div class="content-right">
-        <el-card shadow="never" class="role-card">
-          <template #header>
-            <span>权限状态</span>
-          </template>
-          <div v-loading="roleLoading" class="role-content">
-            <div class="role-badge">
-              <el-tag :type="roleInfo.role === 'admin' ? 'danger' : roleInfo.role === 'teacher' ? 'warning' : 'success'" size="large">
-                {{ roleInfo.role || '-' }}
-              </el-tag>
-            </div>
-            <div v-if="roleInfo.permissions?.length" class="permissions">
-              <h4>权限列表</h4>
-              <div class="permission-tags">
-                <el-tag
-                  v-for="perm in roleInfo.permissions"
-                  :key="perm"
-                  size="small"
-                  hit
-                >
-                  {{ perm }}
-                </el-tag>
-              </div>
-            </div>
-          </div>
-        </el-card>
-      </div>
     </div>
 
     <el-dialog v-model="showEditDialog" title="编辑资料" width="480px" destroy-on-close>
@@ -125,8 +97,6 @@ const userStore = useUserStore()
 
 const showEditDialog = ref(false)
 const saving = ref(false)
-const roleLoading = ref(false)
-const roleInfo = ref<{ role: string; permissions: string[] }>({ role: '', permissions: [] })
 
 const editForm = reactive({
   nickname: '',
@@ -192,18 +162,6 @@ async function handleSaveProfile() {
   }
 }
 
-async function fetchRole() {
-  roleLoading.value = true
-  try {
-    const res = await rmsApi.getRole()
-    roleInfo.value = res.data
-  } catch {
-    ElMessage.error('获取权限信息失败')
-  } finally {
-    roleLoading.value = false
-  }
-}
-
 function openEditDialog() {
   editForm.nickname = userStore.userInfo?.nickname || ''
   editForm.signature = userStore.userInfo?.signature || ''
@@ -211,7 +169,6 @@ function openEditDialog() {
 }
 
 onMounted(() => {
-  fetchRole()
 })
 </script>
 

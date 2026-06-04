@@ -17,6 +17,7 @@ import org.example.constant.ML;
 import org.example.dto.*;
 import org.example.entity.*;
 import org.example.exception.ServiceException;
+import org.example.mapper.RoleMenuMapper;
 import org.example.mapper.UserMapper;
 import org.example.mapper.UserRoleMapper;
 import org.example.result.ResultCode;
@@ -60,6 +61,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>  implements U
 
     @Resource
     private UserRoleMapper userRoleMapper;
+
+    @Resource
+    private RoleMenuMapper roleMenuMapper;
 
     @Override
     public boolean save(UserInsertDTO dto) {
@@ -613,6 +617,37 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>  implements U
             return a > b ? "100.00" : a < b ? "-100.00" : "0";
         }
         return String.format("%.2f", (a - b) / b);
+    }
+
+    @Override
+    public Map<String, Object> getRole(Long userId) {
+        Map<String, Object> result = new java.util.HashMap<>();
+        
+        // 参数校验
+        if (userId == null) {
+            throw new ServiceException(ResultCode.ILLEGAL_PARAM, "用户ID不能为空");
+        }
+        
+        // 查询用户的角色
+        List<Long> roleIds = QueryChain.of(userRoleMapper)
+                .select(USER_ROLE.FK_ROLE_ID)
+                .where(USER_ROLE.FK_USER_ID.eq(userId))
+                .objListAs(Long.class);
+        
+        if (CollUtil.isEmpty(roleIds)) {
+            result.put("role", "普通用户");
+            return result;
+        }
+        
+        // 查询角色名称
+        List<String> roleNames = QueryChain.of(Role.class)
+                .select(ROLE.TITLE)
+                .where(ROLE.ID.in(roleIds))
+                .objListAs(String.class);
+        
+        result.put("role", roleNames.isEmpty() ? "普通用户" : roleNames.get(0));
+        
+        return result;
     }
 
 }

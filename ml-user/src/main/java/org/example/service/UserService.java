@@ -98,4 +98,11 @@ public interface UserService extends IService<User> {
       */
      boolean updateInfo(Long userId, String nickname, String signature);
 
+     /**
+      * 获取用户的角色和权限
+      *
+      * @param userId 用户ID
+      * @return 角色和权限信息
+      */
+     Map<String, Object> getRole(Long userId);
 }

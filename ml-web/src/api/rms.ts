@@ -38,8 +38,8 @@ export const rmsApi = {
     })
   },
 
-  changePassword(data: { oldPassword: string; newPassword: string }): Promise<ApiResult<null>> {
-    return request.put('/user-server/api/v1/user/password', data)
+  changePassword(data: { id: number; oldPassword: string; newPassword: string }): Promise<ApiResult<null>> {
+    return request.put('/user-server/api/v1/user/updatePassword', data)
   },
 
   bindMobile(data: { phone: string; code: string }): Promise<ApiResult<null>> {
@@ -50,8 +50,8 @@ export const rmsApi = {
     return request.get('/user-server/api/v1/user/learning-record')
   },
 
-  getRole(): Promise<ApiResult<{ role: string; permissions: string[] }>> {
-    return request.get('/user-server/api/v1/user/role')
+  getRole(userId: number): Promise<ApiResult<{ role: string }>> {
+    return request.get(`/user-server/api/v1/user/role?userId=${userId}`)
   },
 
   sendSmsCode(phone: string): Promise<ApiResult<null>> {
