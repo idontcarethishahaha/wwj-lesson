@@ -29,6 +29,7 @@
               <div class="order-meta">
                 <span class="order-no">订单号：{{ order.sn }}</span>
                 <span class="order-time">{{ order.created }}</span>
+                <el-tag v-if="order.info" :type="primary" size="small">{{order.info}}</el-tag>
               </div>
               <el-tag :type="getStatusType(order.status)" size="small">
                 {{ getStatusText(order.status) }}

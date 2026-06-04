@@ -21,6 +21,8 @@ import org.example.result.Result;
 import org.example.result.ResultCode;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+
 /**
  * 类说明：订单消息处理的监听器
  *
@@ -58,8 +60,8 @@ public class OrderMessageListener implements RocketMQListener<OrderMessage> {
         Double skPrice = orderMessage.getSkPrice();// 秒杀价格
         Order order = new Order();
         order.setSn(RandomUtil.randomNumbers(19));// 随机生成一个19位的订单编号
-        order.setTotalAmount(price);// 订单总金额
-        order.setPayAmount(skPrice);// 支付金额
+        order.setTotalAmount(skPrice);// 订单总金额
+        order.setPayAmount(0.0);// 实际支付金额
         order.setPayType(ML.Order.NO_PAY);
         order.setStatus(ML.Order.UNPAID);
         order.setFkUserId(fkUserId);
@@ -74,6 +76,8 @@ public class OrderMessageListener implements RocketMQListener<OrderMessage> {
         }
         order.setUsername(userResult.getData().getUsername());// 添加用户名到订单对象
         order.setInfo("秒杀活动订单");
+        order.setCreated(LocalDateTime.now());
+        order.setUpdated(LocalDateTime.now());
         orderMapper.insert(order);// 保存订单
         // 添加订单明细
         OrderDetail orderDetail = new OrderDetail();
@@ -91,6 +95,8 @@ public class OrderMessageListener implements RocketMQListener<OrderMessage> {
         orderDetail.setCourseTitle(course.getTitle());// 课程标题
         orderDetail.setCourseCover(course.getCover());// 课程封面
         orderDetail.setCoursePrice(course.getPrice());// 课程价格
+        orderDetail.setCreated(LocalDateTime.now());
+        orderDetail.setUpdated(LocalDateTime.now());
         // 保存订单明细
         orderDetailMapper.insert(orderDetail);
     }

@@ -27,6 +27,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import static com.mybatisflex.core.query.QueryMethods.curDate;
 import static com.mybatisflex.core.query.QueryMethods.date;
@@ -119,7 +120,7 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill>  imp
             throw new ServiceException(ResultCode.SECKILL_END,"秒杀活动已结束");
         }
         // 2 获取redis中的分布式锁
-        final String KEY = ML.Redis.SECKILL_COURSE_COUNT_PREFIX + fkSeckillId;
+        final String KEY = ML.Redis.SECKILL_COURSE_COUNT_PREFIX + dto.getFkCourseId();
         // 只有获得分布式锁的用户才能继续秒杀活动（防止超卖）
         RLock lock = redissonClient.getLock("skLock");
         // 获取锁，并锁定10秒
@@ -146,8 +147,22 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill>  imp
         }
     }
 
-    @Override
-    public Seckill getById(Serializable id) {
-        return mapper.selectOneWithRelationsById(id);
+//    @Override
+//    public Seckill getById(Serializable id) {
+//        return mapper.selectOneWithRelationsById(id);
+//    }
+@Override
+public Seckill getById(Serializable id) {
+    Seckill seckill = mapper.selectOneWithRelationsById(id);
+    if (seckill == null) {
+        throw new ServiceException(ResultCode.SECKILL_NOT_FOUND, "秒杀活动不存在");
     }
+    // 获取秒杀活动下的课程列表，从缓存中获取课程的真实库存数
+    seckill.setSeckillDetails(seckill.getSeckillDetails().stream().map(detail -> {
+        String KEY = ML.Redis.SECKILL_COURSE_COUNT_PREFIX + detail.getFkCourseId();
+        detail.setSkCount(Integer.parseInt(myRedis.get(KEY)));
+        return detail;
+    }).collect(Collectors.toList()));
+    return seckill;
+}
 }

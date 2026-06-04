@@ -101,11 +101,14 @@ export interface Coupon {
 
 export interface SeckillDetail {
   id: number
-  courseId: number
-  courseTitle: string
-  courseCover: string
-  coursePrice: number
-  stock: number
+  fkSeckillId: number//秒杀活动id
+  fkCourseId: number// 课程id
+  fkUserId: number//用户id
+  courseTitle: string//课程标题
+  courseCover: string//课程封面
+  coursePrice: number//课程原价
+  skPrice: number//秒杀价
+  stock: number//秒杀数量
 }
 
 export interface SeckillActivity {

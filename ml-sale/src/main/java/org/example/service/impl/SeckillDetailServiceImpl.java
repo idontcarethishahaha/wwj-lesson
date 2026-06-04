@@ -5,6 +5,8 @@ import com.mybatisflex.core.paginate.Page;
 import com.mybatisflex.core.query.QueryChain;
 import com.mybatisflex.spring.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
+import org.example.component.MyRedis;
+import org.example.constant.ML;
 import org.example.dto.SeckillDetailInsertDTO;
 import org.example.dto.SeckillDetailPageDTO;
 import org.example.entity.Course;
@@ -33,6 +35,9 @@ public class SeckillDetailServiceImpl extends ServiceImpl<SeckillDetailMapper, S
 
     @Resource
     private CourseFeign courseFeign;// 调用课程服务
+
+    @Resource
+    private MyRedis myRedis;
 
     @Override
     public boolean save(SeckillDetailInsertDTO dto) {
@@ -64,6 +69,12 @@ public class SeckillDetailServiceImpl extends ServiceImpl<SeckillDetailMapper, S
         // 设置创建时间和修改时间
         seckillDetail.setCreated(LocalDateTime.now());
         seckillDetail.setUpdated(LocalDateTime.now());
+        final String KEY = ML.Redis.SECKILL_COURSE_COUNT_PREFIX+dto.getFkCourseId();
+        if(super.save(seckillDetail)){
+            // 保存成功，将这个库课程的秒杀库存数量初始化到Redis中
+            myRedis.set(KEY,seckillDetail.getSkCount().toString());
+            return true;
+        }
         // 保存数据
         return mapper.insert(seckillDetail) > 0;
     }

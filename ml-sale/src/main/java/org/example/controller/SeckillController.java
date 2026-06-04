@@ -3,9 +3,11 @@ package org.example.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.example.dto.KillDTO;
 import org.example.dto.SeckillInsertDTO;
 import org.example.dto.SeckillPageDTO;
 import org.example.entity.Seckill;
+import org.example.result.Result;
 import org.example.service.SeckillService;
 import org.example.vo.PageVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -104,4 +106,11 @@ public class SeckillController {
     public List<Seckill> queryTodaySeckill() {
         return seckillService.queryTodaySeckill();
     }
+
+    @PostMapping("order")
+    @Operation(description="秒杀下单")
+    public Result order(@RequestBody @Parameter(description="秒杀下单参数") KillDTO dto){
+        return new Result<>(seckillService.kill(dto));
+    }
+
 }

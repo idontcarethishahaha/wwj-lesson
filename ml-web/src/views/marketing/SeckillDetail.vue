@@ -168,11 +168,14 @@ async function handleSeckill() {
   seckilling.value = true
   try {
     const res = await smsApi.seckillOrder({
-      activityId: activity.value.id,
-      courseId: selectedDetail.value.courseId
+      fkSeckillId: activity.value.id,
+      fkCourseId: selectedDetail.value.fkCourseId,
+      fkUserId: userStore.userInfo?.id || 0,
+      price: selectedDetail.value.coursePrice,
+      skPrice: selectedDetail.value.skPrice,
     })
     ElMessage.success('秒杀成功')
-    router.push(`/orders/pay/${res.data.id}`)
+    router.push(`/orders`)
   } catch {
     ElMessage.error('秒杀失败')
   } finally {

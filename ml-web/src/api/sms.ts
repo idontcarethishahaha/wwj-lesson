@@ -38,7 +38,8 @@ export const smsApi = {
     return request.get(`/sale-server/api/v1/seckill/select/${id}`)
   },
 
-  seckillOrder(data: { activityId: number; courseId: number }): Promise<ApiResult<Order>> {
+  // 对应后端的KillDTO
+  seckillOrder(data: { fkSeckillId: number; fkUserId: number;fkCourseId:number;price:number;skPrice:number }): Promise<ApiResult<Order>> {
     return request.post('/sale-server/api/v1/seckill/order', data)
   }
 }
