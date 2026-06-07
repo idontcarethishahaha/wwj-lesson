@@ -1,5 +1,0 @@
-export { rmsApi } from './rms'
-export { cmsApi } from './cms'
-export { omsApi } from './oms'
-export { smsApi } from './sms'
-export { default as request } from './request'

@@ -20,7 +20,7 @@ public class MinioUtil {
     /** MinIO 客户端 */
     private static MinioClient minioClient;
     /** MinIO 端点 */
-    private final static String END_POINT = "http://192.168.227.128:9001";
+    private final static String END_POINT = "http://192.168.227.128:9000";
     /** MinIO 访钥 */
     private final static String ACCESS_KEY = "minioadmin";
     /** MinIO 秘钥 */

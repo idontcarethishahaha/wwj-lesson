@@ -6,7 +6,7 @@ export const EPISODE_EXCEL_HOST = `${GATEWAY_HOST}/course-server/v1/episode/exce
 export const ORDER_EXCEL_HOST = `${GATEWAY_HOST}/order-server/api/v1/order/excel`;
 
 // Minio函数
-export const MINIO_HOST = `http://192.168.227.128:9001/mylesson`;
+export const MINIO_HOST = `http://192.168.227.128:9000/mylesson`;
 export const MINIO_AVATAR = url => MINIO_HOST + '/avatar/' + url;
 export const MINIO_BANNER = url => MINIO_HOST + '/banner/' + url;
 export const MINIO_COURSE_COVER = url => MINIO_HOST + '/course-cover/' + url;

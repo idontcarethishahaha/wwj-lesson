@@ -26,6 +26,7 @@ public class ExceptionAdvice {
     public Object serviceException(ServiceException e) {
         String coderMessage = e.getMessage();
         log.error("业务层异常: " + coderMessage);
+        e.printStackTrace();
         return new Result<>(e.getResultCode(), coderMessage);
     }
 
@@ -50,6 +51,7 @@ public class ExceptionAdvice {
     public Object exception(Exception e) {
         String coderMessage = e.getMessage();
         log.error("其他异常: " + coderMessage);
+        e.printStackTrace();
         return new Result<>(ResultCode.SERVER_ERROR, coderMessage);
     }
 }

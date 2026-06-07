@@ -188,6 +188,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>  implements U
         try{
             newFileName=MinioUtil.upload(newFile,ML.MinIO.AVATAR_DIR,ML.MinIO.BUCKET_NAME);
         }catch (Exception ex){
+            ex.printStackTrace();
             throw new ServiceException(ResultCode.SERVER_ERROR,"MinIO操作失败：用户头像上传未成功");
         }
         user.setAvatar(newFileName);

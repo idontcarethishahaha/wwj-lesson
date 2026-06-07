@@ -129,8 +129,12 @@ async function handleUpload(options: UploadRequestOptions) {
 
   try {
     const res = await rmsApi.uploadAvatar(userId, formData)
+    console.log('上传响应:', res)  // 调试日志
+    console.log('返回的URL:', res.data.url)  // 调试日志
     if (userStore.userInfo) {
       userStore.userInfo.avatar = res.data.url
+      console.log('更新后的avatar字段:', userStore.userInfo.avatar)  // 调试日志
+      console.log('最终显示的图片URL:', MINIO_AVATAR(userStore.userInfo.avatar))  // 调试日志
     }
     ElMessage.success('头像更新成功')
   } catch (err) {
