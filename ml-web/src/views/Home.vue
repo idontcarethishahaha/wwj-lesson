@@ -61,7 +61,7 @@
               <div class="course-info">
                 <h4 class="course-title">{{ item.title }}</h4>
                 <div class="course-meta">
-                  <span class="seckill-stock">剩余 {{ (item.seckillDetails?.[0]?.stock || item.stock || 0) }} 件</span>
+                  <span class="seckill-stock">剩余 {{ (item.seckillDetails?.reduce((sum, detail) => sum + (detail.skCount || 0), 0) || 0) }} 件</span>
                 </div>
               </div>
             </el-card>

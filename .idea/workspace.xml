@@ -5,6 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2bfe111d-2371-478a-b9d7-87f6c93e6ee4" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/ml-sale/src/main/java/org/example/service/impl/SeckillServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-sale/src/main/java/org/example/service/impl/SeckillServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml-web/src/types/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/ml-web/src/types/index.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ml-web/src/views/Home.vue" beforeDir="false" afterPath="$PROJECT_DIR$/ml-web/src/views/Home.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ml-web/src/views/marketing/SeckillList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/ml-web/src/views/marketing/SeckillList.vue" afterDir="false" />
     </list>
@@ -204,11 +206,11 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Spring Boot.SaleApp" />
         <item itemvalue="Spring Boot.OrderApp" />
         <item itemvalue="Spring Boot.GatewayApp" />
         <item itemvalue="Spring Boot.CourseApp" />
         <item itemvalue="Spring Boot.UserApp" />
-        <item itemvalue="Spring Boot.SaleApp" />
       </list>
     </recent_temporary>
   </component>
@@ -273,7 +275,7 @@
       <workItem from="1780766456989" duration="3080000" />
       <workItem from="1780803143230" duration="8205000" />
       <workItem from="1780826803787" duration="1518000" />
-      <workItem from="1780881039593" duration="11839000" />
+      <workItem from="1780881039593" duration="13091000" />
     </task>
     <servers />
   </component>

@@ -108,7 +108,7 @@ export interface SeckillDetail {
   courseCover: string//课程封面
   coursePrice: number//课程原价
   skPrice: number//秒杀价
-  stock: number//秒杀数量
+  skCount: number//秒杀数量（从Redis获取的实际库存）
 }
 
 export interface SeckillActivity {

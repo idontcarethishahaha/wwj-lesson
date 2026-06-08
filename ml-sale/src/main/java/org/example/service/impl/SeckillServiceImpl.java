@@ -43,6 +43,17 @@ import static org.example.entity.table.SeckillTableDef.SECKILL;
 @Slf4j
 @Service
 public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill>  implements SeckillService{
+    
+    @Resource
+    private MyRedis myRedis;
+
+    // 专门用来操作Redis数据库的客户端
+    @Resource
+    private RedissonClient redissonClient;
+
+    // 注入一个RocketMQTemplate
+    @Resource
+    private RocketMQTemplate rocketMQTemplate;
     @Override
     public boolean save(SeckillInsertDTO dto) {
         // 获取title
@@ -85,23 +96,28 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill>  imp
     @Override
     public List<Seckill> queryTodaySeckill() {
         // 查询今天开始的秒杀活动
-        return QueryChain.of(mapper)
+        List<Seckill> seckillList = QueryChain.of(mapper)
                 .where(date(SECKILL.START_TIME).eq(curDate()))
                 .orderBy(SECKILL.START_TIME.asc())
                 .withRelations()
                 .list();
+        
+        // 从Redis获取实际库存
+        seckillList.forEach(seckill -> {
+            if (seckill.getSeckillDetails() != null) {
+                seckill.setSeckillDetails(seckill.getSeckillDetails().stream().map(detail -> {
+                    String KEY = ML.Redis.SECKILL_COURSE_COUNT_PREFIX + detail.getFkCourseId();
+                    String stockStr = myRedis.get(KEY);
+                    if (stockStr != null) {
+                        detail.setSkCount(Integer.parseInt(stockStr));
+                    }
+                    return detail;
+                }).collect(Collectors.toList()));
+            }
+        });
+        
+        return seckillList;
     }
-
-    @Resource
-    private MyRedis myRedis;
-
-    // 专门用来操作Redis数据库的客户端
-    @Resource
-    private RedissonClient redissonClient;
-
-    // 注入一个RocketMQTemplate
-    @Resource
-    private RocketMQTemplate rocketMQTemplate;
 
     // 秒杀
     @Override

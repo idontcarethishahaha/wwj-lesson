@@ -30,8 +30,8 @@
             <div class="activity-info">
               <h3 class="activity-title">{{ activity.title }}</h3>
               <div class="activity-meta">
-                <span class="stock" :class="{ 'low-stock': ((activity.seckillDetails?.[0]?.stock || activity.stock || 0) <= 10) }">
-                  剩余 {{ (activity.seckillDetails?.[0]?.stock || activity.stock || 0) }} 件
+                <span class="stock" :class="{ 'low-stock': ((activity.seckillDetails?.reduce((sum, detail) => sum + (detail.skCount || 0), 0) || 0) <= 10) }">
+                  剩余 {{ (activity.seckillDetails?.reduce((sum, detail) => sum + (detail.skCount || 0), 0) || 0) }} 件
                 </span>
                 <span class="countdown" v-if="countdowns[activity.id]">
                   {{ countdowns[activity.id] }}
