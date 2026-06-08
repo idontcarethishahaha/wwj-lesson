@@ -40,5 +40,9 @@ export const omsApi = {
 
   getOrderStatus(id: number): Promise<ApiResult<{ status: number; statusText: string }>> {
     return request.get(`/order-server/api/v1/order/status/${id}`)
+  },
+
+  checkPurchased(params: { userId: number; courseId: number }): Promise<ApiResult<boolean>> {
+    return request.get('/order-server/api/v1/order/hasPurchased', { params })
   }
 }

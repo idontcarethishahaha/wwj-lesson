@@ -171,9 +171,9 @@
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { ElMessage } from 'element-plus'
-import { VideoCamera, Lock, HeartFilled } from '@element-plus/icons-vue'
-import { cmsApi } from '@/api'
+import { ElMessage, ElMessageBox } from 'element-plus'
+import { VideoCamera, Lock, HeartFilled, ShoppingCart } from '@element-plus/icons-vue'
+import { cmsApi, omsApi } from '@/api'
 import { barrageService } from '@/api/barrage'
 import { MINIO_EPISODE_VIDEO } from '@/const'
 import { useUserStore } from '@/stores/user'
@@ -209,6 +209,11 @@ const commentLoading = ref(false)
 const commentContent = ref('')
 const commentSubmitting = ref(false)
 
+// 权限相关状态
+const hasAccess = ref(false) // 是否有权限观看完整视频
+const isTrial = ref(false) // 是否是试看模式
+const trialDuration = ref(180) // 试看时长（秒），默认3分钟
+
 let danmakuTimer: ReturnType<typeof setInterval> | null = null
 let processedDanmakuIds = new Set<number>()
 
@@ -222,10 +227,48 @@ function formatDuration(seconds: number): string {
   return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`
 }
 
+async function checkAccess() {
+  // 如果是免费视频，直接有权限
+  if (episode.value?.free) {
+    hasAccess.value = true
+    return
+  }
+
+  // 如果用户未登录，只能试看
+  if (!userStore.userInfo?.id) {
+    hasAccess.value = false
+    isTrial.value = true
+    ElMessage.warning('请登录后观看完整课程')
+    return
+  }
+
+  // 检查用户是否购买了课程
+  try {
+    const res = await omsApi.checkPurchased({
+      userId: userStore.userInfo.id,
+      courseId
+    })
+    if (res.data) {
+      hasAccess.value = true
+      isTrial.value = false
+    } else {
+      hasAccess.value = false
+      isTrial.value = true
+      ElMessage.warning('该课程需要购买后才能观看完整内容')
+    }
+  } catch {
+    hasAccess.value = false
+    isTrial.value = true
+    ElMessage.warning('检查购买状态失败，当前仅支持试看')
+  }
+}
+
 async function fetchEpisode() {
   try {
     const res = await cmsApi.getEpisode(episodeId.value)
     episode.value = res.data
+    // 获取完视频信息后检查权限
+    await checkAccess()
   } catch {
     episode.value = null
     ElMessage.error('获取视频信息失败')
@@ -258,12 +301,47 @@ function handleSpeedChange(val: string) {
 function handleTimeUpdate() {
   if (videoRef.value) {
     currentTime.value = videoRef.value.currentTime
+    
+    // 试看模式下检查是否超过试看时长
+    if (isTrial.value && !hasAccess.value) {
+      if (videoRef.value.currentTime >= trialDuration.value) {
+        videoRef.value.pause()
+        showPurchaseModal()
+      }
+    }
   }
 }
 
 function handlePlay() {
   isPlaying.value = true
   startDanmakuCheck()
+  
+  // 如果是试看模式，提示用户试看时长
+  if (isTrial.value && !hasAccess.value) {
+    ElMessage.info(`当前为试看模式，可观看${formatDuration(trialDuration.value)}`)
+  }
+}
+
+function showPurchaseModal() {
+  ElMessageBox.confirm(
+    `您的试看时长已用完，如需继续观看完整课程，请先购买课程。`,
+    '试看结束',
+    {
+      confirmButtonText: '立即购买',
+      cancelButtonText: '继续试看',
+      type: 'warning',
+    }
+  )
+  .then(() => {
+    // 用户点击了"立即购买"
+    router.push(`/courses/${courseId}`)
+  })
+  .catch(() => {
+    // 用户点击了"继续试看"
+    if (videoRef.value) {
+      videoRef.value.currentTime = 0
+    }
+  })
 }
 
 function handlePause() {
@@ -353,6 +431,31 @@ async function handleSendDanmaku() {
 }
 
 function switchEpisode(id: number) {
+  // 获取点击的集次信息
+  const clickedEpisode = seasons.value
+    .flatMap(s => s.episodes)
+    .find(e => e.id === id)
+  
+  // 如果是付费集次且用户没有权限，提示购买
+  if (clickedEpisode && !clickedEpisode.free && !hasAccess.value) {
+    ElMessageBox.confirm(
+      '该集次需要购买课程后才能观看，是否前往购买？',
+      '需要购买课程',
+      {
+        confirmButtonText: '立即购买',
+        cancelButtonText: '取消',
+        type: 'warning',
+      }
+    )
+    .then(() => {
+      router.push(`/courses/${courseId}`)
+    })
+    .catch(() => {
+      // 用户取消了
+    })
+    return
+  }
+  
   router.push(`/courses/${courseId}/video/${id}`)
 }
 

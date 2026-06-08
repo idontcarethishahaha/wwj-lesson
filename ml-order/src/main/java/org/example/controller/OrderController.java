@@ -193,4 +193,19 @@ public class OrderController {
     public boolean cancel(@PathVariable("id") @Parameter(description = "订单编号") Long id) {
         return orderService.cancel(id);
     }
+
+    /**
+     * 检查用户是否购买了课程
+     *
+     * @param userId  用户ID
+     * @param courseId 课程ID
+     * @return true表示已购买，false表示未购买
+     */
+    @GetMapping("hasPurchased")
+    @Operation(description = "检查用户是否购买了课程")
+    public Result<Boolean> hasPurchased(
+            @RequestParam("userId") @Parameter(description = "用户ID") Long userId,
+            @RequestParam("courseId") @Parameter(description = "课程ID") Long courseId) {
+        return new Result<>(orderService.hasPurchased(userId, courseId));
+    }
 }

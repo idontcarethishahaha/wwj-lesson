@@ -230,7 +230,26 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order>  implement
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    public boolean hasPurchased(Long userId, Long courseId) {
+        // 查询用户的有效订单
+        List<Long> orderIds = QueryChain.of(mapper)
+                .select(ORDER.ID)
+                .where(ORDER.FK_USER_ID.eq(userId))
+                .and(ORDER.STATUS.eq(ML.Order.PAID)) // 已支付的订单
+                .listAs(Long.class);
+
+        if (CollUtil.isEmpty(orderIds)) {
+            return false;
+        }
+
+        // 查询订单明细表，检查是否购买了该课程
+        return QueryChain.of(orderDetailMapper)
+                .where(ORDER_DETAIL.FK_ORDER_ID.in(orderIds))
+                .and(ORDER_DETAIL.FK_COURSE_ID.eq(courseId))
+                .exists();
+    }
+
+    @Override
     public boolean createSeckillOrder(OrderMessage orderMessage) {
         Long fkUserId = orderMessage.getFkUserId();
         Long fkCourseId = orderMessage.getFkCourseId();

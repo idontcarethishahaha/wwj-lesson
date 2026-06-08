@@ -39,4 +39,7 @@ public interface OrderService extends IService<Order> {
     // 创建秒杀订单
     boolean createSeckillOrder(OrderMessage orderMessage);
 
+    // 检查用户是否购买了课程
+    boolean hasPurchased(Long userId, Long courseId);
+
 }
