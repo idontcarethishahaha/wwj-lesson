@@ -95,10 +95,11 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order>  implement
         Long fkUserId = dto.getFkUserId();
         // 获取课程id列表
         List<Long> courseIds = dto.getCourseIds();
-        // 查询用户的订单，防止出现重复购买现象
+        // 查询用户的有效订单（未取消的订单），防止出现重复购买现象
         List<Long> orderIds = QueryChain.of(mapper)
                 .select(ORDER.ID)
                 .where(ORDER.FK_USER_ID.eq(fkUserId))
+                .and(ORDER.STATUS.ne(ML.Order.CANCEL)) // 排除已取消的订单
                 .listAs(Long.class);
         // 判断订单ID列表是否为空，看是否购买过课程
         if (CollUtil.isNotEmpty(orderIds)){
