@@ -8,6 +8,7 @@ import com.mybatisflex.core.query.QueryChain;
 import com.mybatisflex.core.update.UpdateChain;
 import com.mybatisflex.spring.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
+import lombok.extern.slf4j.Slf4j;
 import org.example.constant.ML;
 import org.example.dto.OrderInsertDTO;
 import org.example.dto.OrderMessage;
@@ -23,6 +24,7 @@ import org.example.mapper.OrderMapper;
 import org.example.result.Result;
 import org.example.result.ResultCode;
 import org.example.service.OrderService;
+import org.example.component.MyRedis;
 import org.example.vo.PageVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,6 +44,7 @@ import static org.example.entity.table.OrderTableDef.ORDER;
  * @author WuWenJin
  * @since v1.0.0
  */
+@Slf4j
 @Service
 public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order>  implements OrderService{
 
@@ -56,7 +59,10 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order>  implement
     private CourseFeign courseFeign;// 远程调用课程微服务，用于查询课程信息
 
     @Resource
-    private CartMapper cartMapper;// 购物车Mapper,用于删除购物车
+    private CartMapper cartMapper;// 购物车 Mapper，用于删除购物车
+
+    @Resource
+    private MyRedis myRedis;// Redis 操作客户端，用于恢复秒杀库存
 
     @Override
     public boolean checkPay(String sn) {
@@ -83,6 +89,25 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order>  implement
             throw new ServiceException(ResultCode.ORDER_NOT_FOUND,"订单不存在");
         }
         if(order.getStatus()!=ML.Order.CANCEL){
+            // 查询订单明细，获取课程 ID 列表
+            List<Long> courseIds = QueryChain.of(orderDetailMapper)
+                    .select(ORDER_DETAIL.FK_COURSE_ID)
+                    .where(ORDER_DETAIL.FK_ORDER_ID.eq(id))
+                    .listAs(Long.class);
+            
+            // 恢复每个课程的库存
+            if (courseIds != null && !courseIds.isEmpty()) {
+                for (Long courseId : courseIds) {
+                    String KEY = ML.Redis.SECKILL_COURSE_COUNT_PREFIX + courseId;
+                    String stockStr = myRedis.get(KEY);
+                    // 如果 Redis 中有该课程的库存记录，说明是秒杀订单，需要恢复库存
+                    if (stockStr != null) {
+                        myRedis.incr(KEY, 1);
+                        log.info("取消订单恢复库存成功，courseId: {}, 新库存：{}", courseId, myRedis.get(KEY));
+                    }
+                }
+            }
+            
             return updateStatus(order.getSn(),ML.Order.CANCEL);
         }
         return true;
