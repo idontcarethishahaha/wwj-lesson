@@ -6,6 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="2bfe111d-2371-478a-b9d7-87f6c93e6ee4" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/ml-order/src/main/java/org/example/service/impl/OrderServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/ml-order/src/main/java/org/example/service/impl/OrderServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml-web-admin/src/views/oms/order/Order.vue" beforeDir="false" afterPath="$PROJECT_DIR$/ml-web-admin/src/views/oms/order/Order.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml-web-admin/src/views/oms/order/OrderUpdate.vue" beforeDir="false" afterPath="$PROJECT_DIR$/ml-web-admin/src/views/oms/order/OrderUpdate.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -272,7 +274,7 @@
       <workItem from="1780766456989" duration="3080000" />
       <workItem from="1780803143230" duration="8205000" />
       <workItem from="1780826803787" duration="1518000" />
-      <workItem from="1780881039593" duration="9773000" />
+      <workItem from="1780881039593" duration="11253000" />
     </task>
     <servers />
   </component>

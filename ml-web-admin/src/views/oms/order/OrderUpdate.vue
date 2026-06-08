@@ -10,13 +10,13 @@ import router from "@/router/index.js";
 
 // 全部优惠卷下拉菜单选项
 let couponsOptions = ref([]);
-// 获取当前订单记录
+// 获取当前订单记录（从 sessionStorage 获取）
 let order = JSON.parse(sessionStorage.getItem('row'));
 // 路径导航
 const navItems = [
   {icon: 'Files', label: '订单管理'},
   {icon: 'Goods', label: '订单列表', url: '/Order'},
-  {icon: 'Edit', label: '修改购物车记录'},
+  {icon: 'Edit', label: '修改订单记录'},
 ];
 // 表单项 + 表单值 + 表单规则
 let items = ref([
@@ -28,7 +28,7 @@ let items = ref([
   {label: '优惠卷', prop: 'fkCouponsId', type: 'select', options: couponsOptions},
   {label: '描述', prop: 'info', required: true, type: 'textarea'},
 ]);
-let params = reactive(order);
+let params = reactive(order || {});
 let rules = {info: RULE.INFO};
 
 /* ==================== 修改成功后 ==================== */
@@ -41,16 +41,27 @@ function updateSuccess() {
 /* ==================== 加载函数 ==================== */
 
 onMounted(async () => {
+  // 检查订单数据是否存在
+  if (!order) {
+    ElMessage.warning('订单数据不存在！');
+    setTimeout(() => router.push('/Order'), 1000);
+    return;
+  }
+  
   // 查询全部优惠卷并添加到下拉菜单选项中
-  Object.values(getResponseData(await simpleListApi(null, {module: 'coupons'}))).forEach(coupons => {
-    couponsOptions.value.push({label: coupons['title'], value: coupons['id']});
-  });
+  const couponsRes = await simpleListApi(null, {module: 'coupons'});
+  const couponsData = getResponseData(couponsRes);
+  if (couponsData) {
+    Object.values(couponsData).forEach(coupons => {
+      couponsOptions.value.push({label: coupons['title'], value: coupons['id']});
+    });
+  }
 });
 </script>
 
 <template>
   <my-nav :items="navItems"/>
-  <el-card v-if="couponsOptions.length > 0" class="order-update-card" header="修改订单记录">
+  <el-card v-if="order" class="order-update-card" header="修改订单记录">
     <my-form type="update"
              :items="items"
              :rules="rules"

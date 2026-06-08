@@ -35,7 +35,7 @@ const buttons = [
   {label: '订单详情', type: 'success', callback: orderDetail},
 ];
 // 表格数据 + 分页数据 + 订单编号 + 订单状态 + 付款账号
-let records = ref();
+let records = ref([]);
 let pageInfo = reactive({pageNum: 1, pageSize: 5, callback: page});
 let sn = ref();
 let status = ref();

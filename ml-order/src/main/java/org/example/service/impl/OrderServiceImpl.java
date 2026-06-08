@@ -131,6 +131,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order>  implement
             throw new ServiceException(ResultCode.USER_NOT_FOUND,"用户不存在");
         }
         order.setUsername(user.getUsername());// 添加用户名到订单对象
+        order.setCreated(LocalDateTime.now());// 设置创建时间
+        order.setUpdated(LocalDateTime.now());// 设置更新时间
         // 保存订单
         if (!save(order)){
             throw new ServiceException(ResultCode.MYSQL_ERROR,"订单保存失败");
