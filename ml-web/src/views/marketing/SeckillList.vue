@@ -29,13 +29,9 @@
             </div>
             <div class="activity-info">
               <h3 class="activity-title">{{ activity.title }}</h3>
-              <div class="activity-price">
-                <span class="seckill-price">&yen;{{ activity.price }}</span>
-                <span class="original-price">&yen;{{ activity.originalPrice }}</span>
-              </div>
               <div class="activity-meta">
-                <span class="stock" :class="{ 'low-stock': activity.stock <= 10 }">
-                  剩余 {{ activity.stock }} 件
+                <span class="stock" :class="{ 'low-stock': ((activity.seckillDetails?.[0]?.stock || activity.stock || 0) <= 10) }">
+                  剩余 {{ (activity.seckillDetails?.[0]?.stock || activity.stock || 0) }} 件
                 </span>
                 <span class="countdown" v-if="countdowns[activity.id]">
                   {{ countdowns[activity.id] }}

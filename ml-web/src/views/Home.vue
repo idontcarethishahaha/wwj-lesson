@@ -60,12 +60,8 @@
               </div>
               <div class="course-info">
                 <h4 class="course-title">{{ item.title }}</h4>
-                <div class="course-price seckill-price">
-                  ¥{{ item.price }}
-                  <span class="original-price">¥{{ item.originalPrice }}</span>
-                </div>
                 <div class="course-meta">
-                  <span class="seckill-stock">剩余 {{ item.stock }} 件</span>
+                  <span class="seckill-stock">剩余 {{ (item.seckillDetails?.[0]?.stock || item.stock || 0) }} 件</span>
                 </div>
               </div>
             </el-card>
